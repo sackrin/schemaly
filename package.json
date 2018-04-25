@@ -1,0 +1,51 @@
+{
+  "name": "fission.js",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "npm test -- -w",
+    "init": "mkdir dist",
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean && npm run init",
+    "build": "babel ./src -d ./dist --ignore test.js",
+    "pretest": "npm run build",
+    "test": "mocha --compilers js:babel-core/register ./src/**/*.test.js",
+    "test:single": "mocha --compilers js:babel-core/register",
+    "lint": "eslint src/**/*.{js} --ext .js"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": "git+https://github.com/sackrin/fission.js.git",
+  "author": "Hilary Osborne",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sackrin/fission.js/issues"
+  },
+  "homepage": "https://github.com/sackrin/fission.js#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "chai": "^4.1.2",
+    "eslint": "^4.17.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^6.0.0",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "mocha": "^5.1.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.10"
+  }
+}
