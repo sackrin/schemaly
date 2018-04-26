@@ -39,14 +39,58 @@ describe('Allow Policy', function () {
       .catch((msg) => { throw new Error('Was not supposed to fail') })
   })
 
-  it('can perform a grant request and return a pass', () => {
+  it('can perform a simple grant request and pass', () => {
+    const allowRule = new Allow(['user'], ['read'])
+    return allowRule.grant(['user'], ['read'])
+      .then((result) => {
+        assert.equal(result, true)
+      })
+      .catch((msg) => { throw new Error('Was not supposed to fail') })
+  })
+
+  it('can perform a simple grant request and fail for mismatch role', () => {
+    const allowRule = new Allow(['user'], ['read'])
+    return allowRule.grant(['admin'], ['read'])
+      .then((result) => {
+        assert.equal(result, false)
+      })
+      .catch((msg) => { throw new Error('Was not supposed to fail') })
+  })
+
+  it('can perform a simple grant request and fail for mismatch scope', () => {
+    const allowRule = new Allow(['user'], ['read'])
+    return allowRule.grant(['user'], ['write'])
+      .then((result) => {
+        assert.equal(result, false)
+      })
+      .catch((msg) => { throw new Error('Was not supposed to fail') })
+  })
+
+  it('can perform a grant request with valid and invalid scope/roles and pass', () => {
+    const allowRule = new Allow(['user'], ['read'])
+    return allowRule.grant(['user', 'admin'], ['read', 'write'])
+      .then((result) => {
+        assert.equal(result, true)
+      })
+      .catch((msg) => { throw new Error('Was not supposed to fail') })
+  })
+
+  it('can perform a grant with wildcard scope and role rules', () => {
+    const allowRule = new Allow(['*'], ['*'])
+    return allowRule.grant(['user'], ['read'])
+      .then((result) => {
+        assert.equal(result, true)
+      })
+      .catch((msg) => { throw new Error('Was not supposed to fail') })
+  })
+
+  it('can perform a grant request with promise and simple scope/rules', () => {
     const rolesPromise = () => (new Promise(function (resolve, reject) {
-      setTimeout(resolve, 100, ['user', 'admin'])
+      setTimeout(resolve, 100, ['user'])
     }))
     const scopePromise = () => (new Promise(function (resolve, reject) {
       setTimeout(resolve, 100, ['read', 'write'])
     }))
-
     const allowRule = new Allow(['user', 'admin'], ['read', 'write'])
     return allowRule.grant(['user', rolesPromise], ['read', scopePromise])
       .then((result) => {
