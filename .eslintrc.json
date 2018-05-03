@@ -1,9 +1,13 @@
 {
   "parser": "babel-eslint",
+  "rules": {
+    "object-curly-spacing": ["error", "always"],
+    "semi": ["error", "always"]
+  },
   "env": {
     "browser": true,
     "node": true,
     "mocha": true
   },
-  "extends": ["google"]
+  "extends": ["standard", "standard-react", "plugin:jest/recommended"]
 }

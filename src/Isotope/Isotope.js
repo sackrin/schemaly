@@ -1,3 +1,3 @@
-export default class Isotope {
+export class Isotope {
 
 }

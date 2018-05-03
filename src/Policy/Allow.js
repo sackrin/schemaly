@@ -5,7 +5,7 @@ export class Allow {
 
   scope = []
 
-  constructor(roles, scope) {
+  constructor (roles, scope) {
     this.roles = [...this.roles, ...roles];
     this.scope = [...this.scope, ...scope];
     this.grant = this.grant.bind(this);
@@ -13,15 +13,15 @@ export class Allow {
     this.getScope = this.getScope.bind(this);
   }
 
-  async getRoles() {
+  async getRoles () {
     return _.reduce(this.roles, async (collect, role) => (!_.isFunction(role) ? [...await collect, role] : [...collect, ...await role()]), Promise.all([]));
   }
 
-  async getScope() {
+  async getScope () {
     return _.reduce(this.scope, async (collect, scope) => (!_.isFunction(scope) ? [...await collect, scope] : [...collect, ...await scope()]), Promise.all([]));
   }
 
-  async grant(roles, scope) {
+  async grant (roles, scope) {
     // Retrieve the roles array for this policy
     const forRoles = await this.getRoles();
     // Retrieve and build the roles array from the provided roles
@@ -30,8 +30,8 @@ export class Allow {
     const roleCheck = _.difference(againstRoles, forRoles);
     // If none of the provided roles were found and this policy does not allow wildcare then return false
     if (roleCheck.length === againstRoles.length && forRoles.indexOf('*') === -1) {
- return false;
-}
+      return false;
+    }
 
     const forScopes = await this.getScope();
     const againstScopes = await _.reduce(scope, async (collect, role) => (!_.isFunction(role) ? [...await collect, role] : [...collect, ...await role()]), Promise.all([]));
@@ -39,8 +39,8 @@ export class Allow {
     const scopeCheck = _.difference(againstScopes, forScopes);
 
     if (scopeCheck.length === againstScopes.length && forScopes.indexOf('*') === -1) {
- return false;
-}
+      return false;
+    }
 
     return true;
   }
