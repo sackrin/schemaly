@@ -14,15 +14,11 @@ export class Deny {
   }
 
   async getRoles () {
-    return _.reduce(this.roles, async (collect, role) => {
-      return !_.isFunction(role) ? [...await collect, role] : [...collect, ...await role()];
-    }, Promise.all([]));
+    return _.reduce(this.roles, async (collect, role) => (!_.isFunction(role) ? [...await collect, role] : [...collect, ...await role()]), Promise.all([]));
   }
 
   async getScope () {
-    return _.reduce(this.scope, async (collect, scope) => {
-      return !_.isFunction(scope) ? [...await collect, scope] : [...collect, ...await scope()];
-    }, Promise.all([]));
+    return _.reduce(this.scope, async (collect, scope) => (!_.isFunction(scope) ? [...await collect, scope] : [...collect, ...await scope()]), Promise.all([]));
   }
 
   async grant (roles, scope) {

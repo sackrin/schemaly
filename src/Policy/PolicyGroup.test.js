@@ -19,9 +19,19 @@ describe('Policy Group', function () {
 
   it('perform a simple pass grant', () => {
     const policyGroup = new PolicyGroup(policies);
-    policyGroup.grant(isotope, ['user'], ['write'])
+    return policyGroup.grant(isotope, ['user'], ['write'])
       .then(result => {
         assert.equal(result, true);
-      });
+      })
+      .catch((msg) => { throw new Error('Was not supposed to fail'); });
+  });
+
+  it('perform a simple denied grant', () => {
+    const policyGroup = new PolicyGroup(policies);
+    return policyGroup.grant(isotope, ['guest'], ['write'])
+      .then(result => {
+        assert.equal(result, false);
+      })
+      .catch((msg) => { throw new Error('Was not supposed to pass'); });
   });
 });

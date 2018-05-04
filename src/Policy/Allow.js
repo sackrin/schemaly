@@ -21,7 +21,7 @@ export class Allow {
     return _.reduce(this.scope, async (collect, scope) => (!_.isFunction(scope) ? [...await collect, scope] : [...collect, ...await scope()]), Promise.all([]));
   }
 
-  async grant (roles, scope) {
+  async grant (isotope, roles, scope) {
     // Retrieve the roles array for this policy
     const forRoles = await this.getRoles();
     // Retrieve and build the roles array from the provided roles

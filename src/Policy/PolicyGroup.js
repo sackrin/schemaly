@@ -11,11 +11,12 @@ export class PolicyGroup {
   async grant (isotope, roles, scope) {
     if (this.policies.length === 0) { return true; }
 
-    _.find(this.policies, () => {
+    const builtScope = await buildScope(scope);
+    const builtRoles = await buildRoles(roles);
 
-    });
-
-    const forScopes = await buildScope(scope);
-    const forRoles = await buildRoles(roles);
+    return _.reduce(this.policies, async (flag, policy) => {
+      const currFlag = await flag;
+      return await policy.grant(isotope, builtScope, builtRoles) ? true : currFlag;
+    }, false);
   }
 }

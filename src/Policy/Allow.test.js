@@ -1,7 +1,10 @@
 import assert from 'assert';
 import { Allow } from './Allow';
+import { Isotope } from '../';
 
 describe('Allow Policy', function () {
+  const isotope = new Isotope();
+
   it('can have simple roles and scope added', () => {
     const allowRule = new Allow(['user', 'admin'], ['read', 'write']);
     assert.deepEqual(allowRule.roles, ['user', 'admin']);
@@ -41,7 +44,7 @@ describe('Allow Policy', function () {
 
   it('can perform a simple grant request and pass', () => {
     const allowRule = new Allow(['user'], ['read']);
-    return allowRule.grant(['user'], ['read'])
+    return allowRule.grant(isotope, ['user'], ['read'])
       .then((result) => {
         assert.equal(result, true);
       })
@@ -50,7 +53,7 @@ describe('Allow Policy', function () {
 
   it('can perform a simple grant request and fail for mismatch role', () => {
     const allowRule = new Allow(['user'], ['read']);
-    return allowRule.grant(['admin'], ['read'])
+    return allowRule.grant(isotope, ['admin'], ['read'])
       .then((result) => {
         assert.equal(result, false);
       })
@@ -59,7 +62,7 @@ describe('Allow Policy', function () {
 
   it('can perform a simple grant request and fail for mismatch scope', () => {
     const allowRule = new Allow(['user'], ['read']);
-    return allowRule.grant(['user'], ['write'])
+    return allowRule.grant(isotope, ['user'], ['write'])
       .then((result) => {
         assert.equal(result, false);
       })
@@ -68,7 +71,7 @@ describe('Allow Policy', function () {
 
   it('can perform a grant request with valid and invalid scope/roles and pass', () => {
     const allowRule = new Allow(['user'], ['read']);
-    return allowRule.grant(['user', 'admin'], ['read', 'write'])
+    return allowRule.grant(isotope, ['user', 'admin'], ['read', 'write'])
       .then((result) => {
         assert.equal(result, true);
       })
@@ -77,7 +80,7 @@ describe('Allow Policy', function () {
 
   it('can perform a grant with wildcard scope and role rules', () => {
     const allowRule = new Allow(['*'], ['*']);
-    return allowRule.grant(['user'], ['read'])
+    return allowRule.grant(isotope, ['user'], ['read'])
       .then((result) => {
         assert.equal(result, true);
       })
@@ -92,7 +95,7 @@ describe('Allow Policy', function () {
       setTimeout(resolve, 100, ['read', 'write']);
     }));
     const allowRule = new Allow(['user', 'admin'], ['read', 'write']);
-    return allowRule.grant(['user', rolesPromise], ['read', scopePromise])
+    return allowRule.grant(isotope, ['user', rolesPromise], ['read', scopePromise])
       .then((result) => {
         assert.equal(result, true);
       })

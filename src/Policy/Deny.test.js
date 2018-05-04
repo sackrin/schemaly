@@ -1,7 +1,10 @@
 import assert from 'assert';
 import { Deny } from './Deny';
+import { Isotope } from '../';
 
 describe('Deny Policy', function () {
+  const isotope = new Isotope();
+
   it('can have simple roles and scope added', () => {
     const denyRule = new Deny(['user', 'admin'], ['read', 'write']);
     assert.deepEqual(denyRule.roles, ['user', 'admin']);
@@ -41,7 +44,7 @@ describe('Deny Policy', function () {
 
   it('can perform a simple grant request and fail', () => {
     const denyRule = new Deny(['user'], ['read']);
-    return denyRule.grant(['user'], ['read'])
+    return denyRule.grant(isotope, ['user'], ['read'])
       .then((result) => {
         assert.equal(result, false);
       })
@@ -50,7 +53,7 @@ describe('Deny Policy', function () {
 
   it('can perform a simple grant request and pass for mismatch role', () => {
     const denyRule = new Deny(['user'], ['read']);
-    return denyRule.grant(['admin'], ['read'])
+    return denyRule.grant(isotope, ['admin'], ['read'])
       .then((result) => {
         assert.equal(result, true);
       })
@@ -59,7 +62,7 @@ describe('Deny Policy', function () {
 
   it('can perform a simple grant request and pass for mismatch scope', () => {
     const denyRule = new Deny(['user'], ['read']);
-    return denyRule.grant(['user'], ['write'])
+    return denyRule.grant(isotope, ['user'], ['write'])
       .then((result) => {
         assert.equal(result, true);
       })
@@ -68,16 +71,16 @@ describe('Deny Policy', function () {
 
   it('can perform a grant request with valid and invalid scope/roles and fail', () => {
     const denyRule = new Deny(['user'], ['read']);
-    return denyRule.grant(['user', 'admin'], ['read', 'write'])
+    return denyRule.grant(isotope, ['user', 'admin'], ['read', 'write'])
       .then((result) => {
         assert.equal(result, false);
       })
-      .catch((msg) => { throw new Error('Was not supposed to fail'); });
+      .catch((msg) => { throw new Error('Was not supposed to pass'); });
   });
 
   it('can perform a grant with wildcard scope and role rules', () => {
     const denyRule = new Deny(['*'], ['*']);
-    return denyRule.grant(['user'], ['read'])
+    return denyRule.grant(isotope, ['user'], ['read'])
       .then((result) => {
         assert.equal(result, false);
       })
@@ -92,7 +95,7 @@ describe('Deny Policy', function () {
       setTimeout(resolve, 100, ['read', 'write']);
     }));
     const denyRule = new Deny(['user', 'admin'], ['read', 'write']);
-    return denyRule.grant(['user', rolesPromise], ['read', scopePromise])
+    return denyRule.grant(isotope, ['user', rolesPromise], ['read', scopePromise])
       .then((result) => {
         assert.equal(result, false);
       })
