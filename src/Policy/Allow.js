@@ -6,20 +6,23 @@ export class Allow {
 
   scope = [];
 
-  constructor (roles, scope) {
-    this.roles = [...this.roles, ...roles];
-    this.scope = [...this.scope, ...scope];
+  options = {};
+
+  constructor (roles, scope, options = {}) {
+    this.roles = [ ...this.roles, ...roles ];
+    this.scope = [ ...this.scope, ...scope ];
+    this.options = { ...this.options, ...options };
     this.grant = this.grant.bind(this);
     this.getRoles = this.getRoles.bind(this);
     this.getScope = this.getScope.bind(this);
   }
 
-  async getRoles () {
-    return buildRoles(this.roles);
+  async getRoles (options = {}) {
+    return buildRoles(this.roles, { policy: this.options, ...options });
   }
 
-  async getScope () {
-    return buildScope(this.scope);
+  async getScope (options = {}) {
+    return buildScope(this.scope, { policy: this.options, ...options });
   }
 
   async grant (isotope, roles, scope) {
