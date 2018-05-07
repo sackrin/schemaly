@@ -68,7 +68,7 @@ describe('Deny Policy', function () {
       .then((result) => {
         assert.equal(result, false);
       })
-      .catch((msg) => { throw new Error('Was not supposed to pass'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 
   it('can perform a simple grant request and pass for mismatch role', () => {
@@ -77,7 +77,7 @@ describe('Deny Policy', function () {
       .then((result) => {
         assert.equal(result, true);
       })
-      .catch((msg) => { throw new Error('Was not supposed to fail'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 
   it('can perform a simple grant request and pass for mismatch scope', () => {
@@ -86,7 +86,7 @@ describe('Deny Policy', function () {
       .then((result) => {
         assert.equal(result, true);
       })
-      .catch((msg) => { throw new Error('Was not supposed to pass'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 
   it('can perform a grant request with valid and invalid scope/roles and fail', () => {
@@ -95,7 +95,7 @@ describe('Deny Policy', function () {
       .then((result) => {
         assert.equal(result, false);
       })
-      .catch((msg) => { throw new Error('Was not supposed to pass'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 
   it('can perform a grant with wildcard scope and role rules', () => {
@@ -104,7 +104,7 @@ describe('Deny Policy', function () {
       .then((result) => {
         assert.equal(result, false);
       })
-      .catch((msg) => { throw new Error('Was not supposed to pass'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 
   it('can perform a grant request with promise and simple scope/rules', () => {
@@ -119,6 +119,6 @@ describe('Deny Policy', function () {
       .then((result) => {
         assert.equal(result, false);
       })
-      .catch((msg) => { throw new Error('Was not supposed to pass'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 });

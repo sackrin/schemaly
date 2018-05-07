@@ -36,7 +36,7 @@ describe('Single Grant Policy Group', function () {
       .then(result => {
         assert.equal(result, true);
       })
-      .catch((msg) => { throw new Error('Was not supposed to fail'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 
   it('perform a simple pass grant', () => {
@@ -45,7 +45,7 @@ describe('Single Grant Policy Group', function () {
       .then(result => {
         assert.equal(result, true);
       })
-      .catch((msg) => { throw new Error('Was not supposed to fail'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 
   it('perform a mixed pass grant', () => {
@@ -54,7 +54,7 @@ describe('Single Grant Policy Group', function () {
       .then(result => {
         assert.equal(result, true);
       })
-      .catch((msg) => { throw new Error('Was not supposed to fail'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 
   it('perform a simple denied grant', () => {
@@ -63,7 +63,7 @@ describe('Single Grant Policy Group', function () {
       .then(result => {
         assert.equal(result, false);
       })
-      .catch((msg) => { throw new Error('Was not supposed to pass'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 
   it('perform a mixed denied grant', () => {
@@ -72,6 +72,6 @@ describe('Single Grant Policy Group', function () {
       .then(result => {
         assert.equal(result, false);
       })
-      .catch((msg) => { throw new Error('Was not supposed to fail'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 });
