@@ -1,6 +1,6 @@
 import assert from 'assert';
 import { Nucleus } from './Nucleus';
-import { PolicyGroup } from '../Policy';
+import { SingleGrantPolicyGroup } from '../Policy';
 
 describe('Nucleus', function () {
   it('can be created and with a type, label and options', () => {
@@ -11,7 +11,7 @@ describe('Nucleus', function () {
   });
 
   it('can be created with policies', () => {
-    const policyGroup = new PolicyGroup([]);
+    const policyGroup = new SingleGrantPolicyGroup([]);
     const nucleus = (new Nucleus({
       type: 'first_name',
       label: 'First Name',

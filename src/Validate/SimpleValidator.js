@@ -18,10 +18,10 @@ export class SimpleValidator {
       .then(builtRules => (builtRules.join('|')));
   }
 
-  async validate ({ value }) {
-    const usingRules = await this.getRules();
-    const validation = new Validator({ value: value }, { value: usingRules });
-
+  async validate ({ value, options = {} }) {
+    const usingRules = await this.getRules({ options: options });
+    const usingValue = !_.isFunction(value) ? value : await value({ ...this.options, ...options });
+    const validation = new Validator({ value: usingValue }, { value: usingRules });
     if (validation.fails()) {
       return { result: false, messages: [...validation.errors.get('value'), ..._.get(this.options, 'error_messages', [])] };
     } else {

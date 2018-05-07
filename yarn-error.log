@@ -65,7 +65,8 @@ npm manifest:
       "mocha": "^5.1.1"
     },
     "dependencies": {
-      "lodash": "^4.17.10"
+      "lodash": "^4.17.10",
+      "validatorjs": "^3.14.2"
     }
   }
 
@@ -2779,6 +2780,10 @@ Lockfile:
     dependencies:
       spdx-correct "^3.0.0"
       spdx-expression-parse "^3.0.0"
+  
+  validatorjs@^3.14.2:
+    version "3.14.2"
+    resolved "https://registry.yarnpkg.com/validatorjs/-/validatorjs-3.14.2.tgz#b5407743fac0196528277c7ab0bd18e0fabcc3fb"
   
   whatwg-fetch@>=0.10.0:
     version "2.0.4"

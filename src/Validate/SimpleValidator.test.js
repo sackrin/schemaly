@@ -44,4 +44,31 @@ describe('Simple Validator', function () {
         assert.deepEqual(messages, [ 'The value must be at least 5 characters.' ]);
       }).catch((msg) => { throw new Error(msg); });
   });
+
+  it('validates against a promise value and passes', () => {
+    const simplePromiseValue = () => (new Promise(function (resolve, reject) {
+      setTimeout(resolve, 100, 'Johnny');
+    }));
+    const validator = new SimpleValidator({ rules: [simpleStringRule] });
+    return validator
+      .validate({ value: simplePromiseValue })
+      .then(({ result, messages }) => {
+        assert.equal(result, true);
+        assert.deepEqual(messages, []);
+      }).catch((msg) => { throw new Error(msg); });
+  });
+
+  it('validates against a promise value and fails', () => {
+    const simplePromiseValue = () => (new Promise(function (resolve, reject) {
+      setTimeout(resolve, 100, 'John');
+    }));
+    const validator = new SimpleValidator({ rules: [simpleStringRule] });
+    return validator
+      .validate({ value: simplePromiseValue })
+      .then(({ result, messages }) => {
+        assert.equal(result, false);
+        assert.deepEqual(messages, [ 'The value must be at least 5 characters.' ]);
+      }).catch((msg) => { throw new Error(msg); });
+  });
+
 });

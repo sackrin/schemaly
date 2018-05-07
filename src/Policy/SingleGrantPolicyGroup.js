@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { buildRoles, buildScope } from './utils';
 
-export class PolicyGroup {
+export class SingleGrantPolicyGroup {
   policies = [];
 
   constructor (policies) {

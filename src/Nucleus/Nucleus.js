@@ -1,4 +1,4 @@
-import { PolicyGroup } from '../Policy';
+import { SingleGrantPolicyGroup } from '../Policy';
 
 export class Nucleus {
   config;
@@ -7,7 +7,7 @@ export class Nucleus {
 
   policies;
 
-  constructor ({ type, label, policies = new PolicyGroup([]), options = {} }) {
+  constructor ({ type, label, policies = new SingleGrantPolicyGroup([]), options = {} }) {
     this.config = { type, label };
     this.policies = policies;
     this.options = { ...options };

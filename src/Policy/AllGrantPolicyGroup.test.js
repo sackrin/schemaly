@@ -1,10 +1,10 @@
 import assert from 'assert';
-import { PolicyGroup } from './PolicyGroup';
+import { AllGrantPolicyGroup } from './AllGrantPolicyGroup';
 import { Allow } from './Allow';
 import { Deny } from './Deny';
 import { Isotope } from '../';
 
-describe('Policy Group', function () {
+describe('All Grant Policy Group', function () {
   const isotope = new Isotope();
 
   const simplePolicies = [
@@ -14,9 +14,9 @@ describe('Policy Group', function () {
 
   const complexPolicies = [
     new Deny([() => (new Promise(function (resolve, reject) {
-      setTimeout(resolve, 100, ['*']);
+      setTimeout(resolve, 100, ['member']);
     }))], [() => (new Promise(function (resolve, reject) {
-      setTimeout(resolve, 100, ['*']);
+      setTimeout(resolve, 100, ['read', 'write']);
     }))]),
     new Allow(['member', () => (new Promise(function (resolve, reject) {
       setTimeout(resolve, 100, ['user', 'admin']);
@@ -26,52 +26,52 @@ describe('Policy Group', function () {
   ];
 
   it('can be created and have policies added to it', () => {
-    const policyGroup = new PolicyGroup(simplePolicies);
+    const policyGroup = new AllGrantPolicyGroup(simplePolicies);
     assert.deepEqual(policyGroup.policies, simplePolicies);
   });
 
   it('perform a pass grant test with no policies', () => {
-    const policyGroup = new PolicyGroup([]);
+    const policyGroup = new AllGrantPolicyGroup([]);
     return policyGroup.grant(isotope, ['user'], ['write'])
       .then(result => {
         assert.equal(result, true);
       })
-      .catch((msg) => { throw new Error('Was not supposed to fail'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 
   it('perform a simple pass grant', () => {
-    const policyGroup = new PolicyGroup(simplePolicies);
+    const policyGroup = new AllGrantPolicyGroup(simplePolicies);
     return policyGroup.grant(isotope, ['user'], ['write'])
       .then(result => {
         assert.equal(result, true);
       })
-      .catch((msg) => { throw new Error('Was not supposed to fail'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 
   it('perform a mixed pass grant', () => {
-    const policyGroup = new PolicyGroup(complexPolicies);
+    const policyGroup = new AllGrantPolicyGroup(complexPolicies);
     return policyGroup.grant(isotope, ['user'], ['write'])
       .then(result => {
         assert.equal(result, true);
       })
-      .catch((msg) => { throw new Error('Was not supposed to fail'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 
   it('perform a simple denied grant', () => {
-    const policyGroup = new PolicyGroup(simplePolicies);
+    const policyGroup = new AllGrantPolicyGroup(simplePolicies);
     return policyGroup.grant(isotope, ['member'], ['write'])
       .then(result => {
         assert.equal(result, false);
       })
-      .catch((msg) => { throw new Error('Was not supposed to pass'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 
   it('perform a mixed denied grant', () => {
-    const policyGroup = new PolicyGroup(complexPolicies);
-    return policyGroup.grant(isotope, ['guest'], ['write'])
+    const policyGroup = new AllGrantPolicyGroup(complexPolicies);
+    return policyGroup.grant(isotope, ['member'], ['write'])
       .then(result => {
         assert.equal(result, false);
       })
-      .catch((msg) => { throw new Error('Was not supposed to fail'); });
+      .catch((msg) => { throw new Error(msg); });
   });
 });
