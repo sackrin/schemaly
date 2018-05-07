@@ -49,6 +49,7 @@
     "mocha": "^5.1.1"
   },
   "dependencies": {
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.10",
+    "validatorjs": "^3.14.2"
   }
 }

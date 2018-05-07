@@ -1,9 +1,11 @@
+import _ from 'lodash';
 import { buildRules } from './utils';
+import Validator from 'validatorjs';
 
 export class SimpleValidator {
-  config
+  config;
 
-  options
+  options;
 
   constructor ({ rules = ['required'], options = {} }) {
     this.config = { rules };
@@ -17,6 +19,13 @@ export class SimpleValidator {
   }
 
   async validate ({ value }) {
-    return { result: true, messages: [] };
+    const usingRules = await this.getRules();
+    const validation = new Validator({ value: value }, { value: usingRules });
+
+    if (validation.fails()) {
+      return { result: false, messages: [...validation.errors.get('value'), ..._.get(this.options, 'error_messages', [])] };
+    } else {
+      return { result: true, messages: [..._.get(this.options, 'success_messages', [])] };
+    }
   }
 }

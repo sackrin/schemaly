@@ -26,15 +26,22 @@ describe('Simple Validator', function () {
   });
 
   it('validates against a simple value and passes', () => {
-    const validator = new SimpleValidator({ rules: [simpleStringRule, simplePromiseRule] });
+    const validator = new SimpleValidator({ rules: [simpleStringRule] });
     return validator
       .validate({ value: 'Johnny' })
       .then(({ result, messages }) => {
         assert.equal(result, true);
+        assert.deepEqual(messages, []);
       }).catch((msg) => { throw new Error(msg); });
   });
-  //
-  // it('validates against a simple value and fails', () => {
-  //
-  // });
+
+  it('validates against a simple value and fails', () => {
+    const validator = new SimpleValidator({ rules: [simpleStringRule] });
+    return validator
+      .validate({ value: 'John' })
+      .then(({ result, messages }) => {
+        assert.equal(result, false);
+        assert.deepEqual(messages, [ 'The value must be at least 5 characters.' ]);
+      }).catch((msg) => { throw new Error(msg); });
+  });
 });
