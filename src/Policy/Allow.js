@@ -1,46 +1,49 @@
 import _ from 'lodash';
+import { Isotope } from '../Isotope';
 import { buildRoles, buildScope } from './utils';
 
+import type { BuiltRoles, BuiltScope } from './utils';
+
 export class Allow {
-  roles = [];
+  roles: Array<string | Function> = [];
 
-  scope = [];
+  scope: Array<string | Function> = [];
 
-  options = {};
+  options: Object = {};
 
-  constructor (roles, scope, options = {}) {
+  constructor ({ roles, scope, options = {} }: { roles: Array<string | Function>, scope: Array<string | Function>, options?: Object }) {
     this.roles = [ ...this.roles, ...roles ];
     this.scope = [ ...this.scope, ...scope ];
     this.options = { ...this.options, ...options };
-    this.grant = this.grant.bind(this);
-    this.getRoles = this.getRoles.bind(this);
-    this.getScope = this.getScope.bind(this);
+    (this:any).grant = this.grant.bind(this);
+    (this:any).getRoles = this.getRoles.bind(this);
+    (this:any).getScope = this.getScope.bind(this);
   }
 
-  async getRoles (options = {}) {
+  async getRoles ({ options = {} }: { options: Object }): Promise<BuiltRoles> {
     return buildRoles(this.roles, { policy: this.options, ...options });
   }
 
-  async getScope (options = {}) {
+  async getScope ({ options = {} }: { options: Object }): Promise<BuiltScope> {
     return buildScope(this.scope, { policy: this.options, ...options });
   }
 
-  async grant (isotope, roles, scope) {
+  async grant ({ isotope, roles, scope }: { isotope: Isotope, roles: Array<string | Function>, scope: Array<string | Function>}): Promise<boolean> {
     // Retrieve the roles array for this policy
-    const forRoles = await buildRoles(this.roles);
+    const forRoles: BuiltRoles = await buildRoles(this.roles);
     // Retrieve and build the roles array from the provided roles
-    const againstRoles = await buildRoles(roles);
+    const againstRoles: BuiltRoles = await buildRoles(roles);
     // Conduct a compare check of the two roles arrays
-    const roleCheck = _.difference(againstRoles, forRoles);
-    // If none of the provided roles were found and this policy does not allow wildcare then return false
+    const roleCheck: Array<string> = _.difference(againstRoles, forRoles);
+    // If none of the provided roles were found and this policy does not allow wildcare then grant
     if (roleCheck.length === againstRoles.length && forRoles.indexOf('*') === -1) return false;
     // Retrieve the scope for this policy
-    const forScopes = await buildScope(this.scope);
+    const forScopes: BuiltScope = await buildScope(this.scope);
     // Retrieve the scope passed to this policy
-    const againstScopes = await buildScope(scope);
+    const againstScopes: BuiltScope = await buildScope(scope);
     // Conduct a compare check of the two scope arrays
-    const scopeCheck = _.difference(againstScopes, forScopes);
-    // Return a grant pass if a match or wildcard located
-    return (!(scopeCheck.length === againstScopes.length && forScopes.indexOf('*') === -1));
+    const scopeCheck: Array<string> = _.difference(againstScopes, forScopes);
+    // Return a grant pass if mismatch or wildcard is not located
+    return (!scopeCheck.length === againstScopes.length && forScopes.indexOf('*') === -1);
   }
 }
