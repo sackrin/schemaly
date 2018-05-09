@@ -20,11 +20,11 @@ export class Deny {
     (this:any).getScope = this.getScope.bind(this);
   }
 
-  async getRoles ({ options = {} }: { options: Object }): Promise<BuiltRoles> {
+  async getRoles ({ options = {} }: { options?: Object }): Promise<BuiltRoles> {
     return buildRoles(this.roles, { policy: this.options, ...options });
   }
 
-  async getScope ({ options = {} }: { options: Object }): Promise<BuiltScope> {
+  async getScope ({ options = {} }: { options?: Object }): Promise<BuiltScope> {
     return buildScope(this.scope, { policy: this.options, ...options });
   }
 
