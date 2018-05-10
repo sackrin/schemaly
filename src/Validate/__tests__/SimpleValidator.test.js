@@ -8,7 +8,7 @@ describe('Simple Validator', function () {
   }));
 
   it('can create a simple rule validator', () => {
-    const validator = new SimpleValidator({ rules: [simpleStringRule], options: { test: true } });
+    const validator = new SimpleValidator({ rules: [simpleStringRule], test: true });
     assert.deepEqual(validator.config.rules, [simpleStringRule]);
     assert.deepEqual(validator.options.test, true);
   });

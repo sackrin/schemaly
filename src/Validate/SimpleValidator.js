@@ -9,18 +9,18 @@ export class SimpleValidator {
 
   options: Object;
 
-  constructor ({ rules = ['required'], options = {} }: { rules: Array<string | Function>, options?: Object }) {
+  constructor ({ rules = ['required'], ...options }: { rules: Array<string | Function> }) {
     this.config = { rules };
-    this.options = { ...options };
+    this.options = options;
     (this:any).getRules = this.getRules.bind(this);
   }
 
-  async getRules ({ options = {} }: { options?: Object } = {}): Promise<string> {
+  async getRules ({ ...options }: Object = {}): Promise<string> {
     return buildRules(this.config.rules, { validator: this.options, ...options })
       .then(builtRules => (builtRules.join('|')));
   }
 
-  async validate ({ value, options = {} }: { value:any, options?: Object }): Promise<ValidationResult> {
+  async validate ({ value, ...options }: { value:any }): Promise<ValidationResult> {
     const usingRules: string = await this.getRules({ options: options });
     const usingValue: any = !_.isFunction(value) ? value : await value({ ...this.options, ...options });
     const validation = new Validator({ value: usingValue }, { value: usingRules });

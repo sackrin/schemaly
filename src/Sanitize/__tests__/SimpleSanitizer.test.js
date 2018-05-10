@@ -28,12 +28,39 @@ describe('Simple Sanitizer', () => {
       });
   });
 
-  it('sanitize a string using a single trim sanitizer', () => {
+  it('sanitize a string using a single trim and upper_case filters', () => {
+    const rules = ['trim|upper_case'];
+    const sanitizer = new SimpleSanitizer({ rules: rules });
+    return sanitizer.apply({ value: ' johnny ' })
+      .then(sanitized => {
+        assert.equal(sanitized, 'JOHNNY');
+      });
+  });
+
+  it('sanitize a string using the trim filter', () => {
     const rules = ['trim'];
     const sanitizer = new SimpleSanitizer({ rules: rules });
-    return sanitizer.apply()
-      .then(builtRules => {
-        assert.equal(builtRules, 'trim|sanitize_string');
+    return sanitizer.apply({ value: ' johnny ' })
+      .then(sanitized => {
+        assert.equal(sanitized, 'johnny');
+      });
+  });
+
+  it('sanitize a string using the upper_case filter', () => {
+    const rules = ['upper_case'];
+    const sanitizer = new SimpleSanitizer({ rules: rules });
+    return sanitizer.apply({ value: 'johnny' })
+      .then(sanitized => {
+        assert.equal(sanitized, 'JOHNNY');
+      });
+  });
+
+  it('sanitize a string using the lower_case filter', () => {
+    const rules = ['lower_case'];
+    const sanitizer = new SimpleSanitizer({ rules: rules });
+    return sanitizer.apply({ value: 'JOHNNY' })
+      .then(sanitized => {
+        assert.equal(sanitized, 'johnny');
       });
   });
 });
