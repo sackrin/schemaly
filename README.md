@@ -1,1 +1,1 @@
-# fission.js
+# FissionJS Object Schema
