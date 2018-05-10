@@ -6,7 +6,7 @@ describe('Deny Policy', function () {
   const isotope = new Isotope();
 
   it('can have simple roles, scope and options added', () => {
-    const denyRule = new Deny({ roles: ['user', 'admin'], scope: ['read', 'write'], options: { test: true } });
+    const denyRule = new Deny({ roles: ['user', 'admin'], scope: ['read', 'write'], test: true });
     assert.deepEqual(denyRule.roles, ['user', 'admin']);
     assert.deepEqual(denyRule.scope, ['read', 'write']);
     assert.deepEqual(denyRule.options, { test: true });
@@ -50,7 +50,7 @@ describe('Deny Policy', function () {
     const scopePromise = (options) => (new Promise(function (resolve, reject) {
       setTimeout(resolve, 100, ['read', 'write', ...options.policy.inject]);
     }));
-    const denyRule = new Deny({ roles: [rolesPromise, 'handler'], scope: [scopePromise, 'blocked'], options: { inject: ['test'] } });
+    const denyRule = new Deny({ roles: [rolesPromise, 'handler'], scope: [scopePromise, 'blocked'], inject: ['test'] });
     return denyRule.getRoles()
       .then(roles => {
         assert.deepEqual(roles, ['user', 'admin', 'test', 'handler']);
@@ -64,7 +64,7 @@ describe('Deny Policy', function () {
 
   it('can perform a simple grant request and fail', () => {
     const denyRule = new Deny({ roles: ['user'], scope: ['read'] });
-    return denyRule.grant(isotope, ['user'], ['read'])
+    return denyRule.grant({ isotope, roles: ['user'], scope: ['read'] })
       .then((result) => {
         assert.equal(result, false);
       })
@@ -73,7 +73,7 @@ describe('Deny Policy', function () {
 
   it('can perform a simple grant request and pass for mismatch role', () => {
     const denyRule = new Deny({ roles: ['user'], scope: ['read'] });
-    return denyRule.grant(isotope, ['admin'], ['read'])
+    return denyRule.grant({ isotope, roles: ['admin'], scope: ['read'] })
       .then((result) => {
         assert.equal(result, true);
       })
@@ -82,7 +82,7 @@ describe('Deny Policy', function () {
 
   it('can perform a simple grant request and pass for mismatch scope', () => {
     const denyRule = new Deny({ roles: ['user'], scope: ['read'] });
-    return denyRule.grant(isotope, ['user'], ['write'])
+    return denyRule.grant({ isotope, roles: ['user'], scope: ['write'] })
       .then((result) => {
         assert.equal(result, true);
       })
@@ -90,7 +90,7 @@ describe('Deny Policy', function () {
   });
 
   it('can perform a grant request with valid and invalid scope/roles and fail', () => {
-    const denyRule = new Deny(['user'], ['read']);
+    const denyRule = new Deny({ roles: ['user'], scope: ['read'] });
     return denyRule.grant({ isotope, roles: ['user', 'admin'], scope: ['read', 'write'] })
       .then((result) => {
         assert.equal(result, false);
@@ -99,7 +99,7 @@ describe('Deny Policy', function () {
   });
 
   it('can perform a grant with wildcard scope and role rules', () => {
-    const denyRule = new Deny(['*'], ['*']);
+    const denyRule = new Deny({ roles: ['*'], scope: ['*'] });
     return denyRule.grant({ isotope, roles: ['user'], scope: ['read'] })
       .then((result) => {
         assert.equal(result, false);
@@ -115,7 +115,7 @@ describe('Deny Policy', function () {
       setTimeout(resolve, 100, ['read', 'write']);
     }));
     const denyRule = new Deny({ roles: ['user', 'admin'], scope: ['read', 'write'] });
-    return denyRule.grant(isotope, ['user', rolesPromise], ['read', scopePromise])
+    return denyRule.grant({ isotope, roles: ['user', rolesPromise], scope: ['read', scopePromise] })
       .then((result) => {
         assert.equal(result, false);
       })

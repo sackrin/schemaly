@@ -6,12 +6,12 @@ export class SimpleSanitizer {
 
   options: Object;
 
-  constructor ({ rules, options = {} }: { rules: Array<string | Function>, options?: Object }) {
+  constructor ({ rules, ...options }: { rules: Array<string | Function> }) {
     this.config = { rules };
     this.options = options;
   }
 
-  async getRules ({ options = {} }: { options: Object } = {}): Promise<string> {
+  async getRules ({ ...options }: Object = {}): Promise<string> {
     return buildRules(this.config.rules, { validator: this.options, ...options })
       .then((builtRules: BuiltRules): string => (builtRules.join('|')));
   }

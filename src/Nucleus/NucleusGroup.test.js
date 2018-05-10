@@ -8,7 +8,7 @@ describe('Nucleus Group', () => {
     const nucleusTwo = new Nucleus({ label: 'surname' });
     const nucleusThree = new Nucleus({ label: 'title' });
     const nucleusList = [nucleusOne, nucleusTwo, nucleusThree];
-    const nucleusGroup = new NucleusGroup(nucleusList);
+    const nucleusGroup = new NucleusGroup({ nuclei: nucleusList });
     assert.equal(nucleusGroup.nuclei, nucleusList);
   });
 });
