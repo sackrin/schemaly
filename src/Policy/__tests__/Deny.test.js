@@ -1,6 +1,6 @@
 import assert from 'assert';
-import { Deny } from './Deny';
-import { Isotope } from '../';
+import { Deny } from '../Deny';
+import { Isotope } from '../../index';
 
 describe('Deny Policy', function () {
   const isotope = new Isotope();

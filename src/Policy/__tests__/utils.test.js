@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { buildRoles, buildScope } from './utils';
+import { buildRoles, buildScope } from '../utils';
 
 describe('Policy Utils', function () {
   const rolesPromise = () => (new Promise(function (resolve, reject) {

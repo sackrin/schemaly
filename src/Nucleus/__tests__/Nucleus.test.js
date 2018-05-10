@@ -1,8 +1,8 @@
 import assert from 'assert';
-import { Nucleus } from './Nucleus';
-import { SingleGrantPolicyGroup } from '../Policy';
-import * as types from './types';
-import { NucleusGroup } from './NucleusGroup';
+import { Nucleus } from '../Nucleus';
+import { SingleGrantPolicyGroup } from '../../Policy/index';
+import * as types from '../types';
+import { NucleusGroup } from '../NucleusGroup';
 
 describe('Nucleus', function () {
   it('can be created and with config, parent and options', () => {

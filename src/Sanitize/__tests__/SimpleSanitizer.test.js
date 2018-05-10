@@ -1,7 +1,7 @@
 import assert from 'assert';
-import { SimpleSanitizer } from './SimpleSanitizer';
+import { SimpleSanitizer } from '../SimpleSanitizer';
 
-describe.only('Simple Sanitizer', () => {
+describe('Simple Sanitizer', () => {
   const simplePromiseRule = () => (new Promise(function (resolve, reject) {
     setTimeout(resolve, 100, ['sanitize_string']);
   }));

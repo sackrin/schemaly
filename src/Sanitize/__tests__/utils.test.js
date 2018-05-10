@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { buildRules } from './utils';
+import { buildRules } from '../utils';
 
 describe('Sanitize Utils', function () {
   const rulesPromise = () => (new Promise(function (resolve, reject) {

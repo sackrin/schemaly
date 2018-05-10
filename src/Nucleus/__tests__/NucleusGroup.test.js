@@ -1,6 +1,6 @@
 import assert from 'assert';
-import { Nucleus } from './Nucleus';
-import { NucleusGroup } from './NucleusGroup';
+import { Nucleus } from '../Nucleus';
+import { NucleusGroup } from '../NucleusGroup';
 
 describe('Nucleus Group', () => {
   it('can create a simple nucleus group', () => {
