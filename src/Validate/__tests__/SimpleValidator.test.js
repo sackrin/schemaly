@@ -70,5 +70,4 @@ describe('Simple Validator', function () {
         assert.deepEqual(messages, [ 'The value must be at least 5 characters.' ]);
       }).catch((msg) => { throw new Error(msg); });
   });
-
 });

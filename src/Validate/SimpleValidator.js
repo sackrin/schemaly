@@ -13,6 +13,7 @@ export class SimpleValidator {
     this.config = { rules };
     this.options = options;
     (this:any).getRules = this.getRules.bind(this);
+    (this:any).validate = this.validate.bind(this);
   }
 
   async getRules ({ ...options }: Object = {}): Promise<string> {
