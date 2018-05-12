@@ -12,6 +12,13 @@ describe('Deny Policy', function () {
     assert.deepEqual(denyRule.options, { test: true });
   });
 
+  it('can have simple non array roles and scope added', () => {
+    const allowRule = new Deny({ roles: 'user', scope: 'read', test: true });
+    assert.deepEqual(allowRule.roles, ['user']);
+    assert.deepEqual(allowRule.scope, ['read']);
+    assert.deepEqual(allowRule.options, { test: true });
+  });
+
   it('can have promise roles and scope added', () => {
     const rolesPromise = new Promise(function (resolve, reject) {
       setTimeout(resolve, 100, ['user', 'admin']);

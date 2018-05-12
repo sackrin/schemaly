@@ -11,9 +11,9 @@ export class Allow {
 
   options: Object;
 
-  constructor ({ roles, scope, ...options }: { roles: Array<string | Function>, scope: Array<string | Function> }) {
-    this.roles = roles;
-    this.scope = scope;
+  constructor ({ roles, scope, ...options }: { roles: any, scope: any }) {
+    this.roles = _.isArray(roles) ? roles : [ roles ];
+    this.scope = _.isArray(scope) ? scope : [ scope ];
     this.options = options;
     (this:any).grant = this.grant.bind(this);
     (this:any).getRoles = this.getRoles.bind(this);
