@@ -9,13 +9,13 @@ describe('Simple Validator', function () {
 
   it('can create a simple rule validator', () => {
     const validator = new SimpleValidator({ rules: [simpleStringRule], test: true });
-    assert.deepEqual(validator.config.rules, [simpleStringRule]);
+    assert.deepEqual(validator.rules, [simpleStringRule]);
     assert.deepEqual(validator.options.test, true);
   });
 
   it('can create a mixed rule validator', () => {
     const validator = new SimpleValidator({ rules: [simpleStringRule, simplePromiseRule] });
-    assert.deepEqual(validator.config.rules, [simpleStringRule, simplePromiseRule]);
+    assert.deepEqual(validator.rules, [simpleStringRule, simplePromiseRule]);
   });
 
   it('get rules produces a usable validator string', () => {

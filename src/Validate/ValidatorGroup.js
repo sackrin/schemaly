@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import type { ValidationResult } from './SimpleValidator';
 
 export class ValidatorGroup {
   options: Object;
@@ -10,19 +11,14 @@ export class ValidatorGroup {
     this.options = options;
   }
 
-  async validate ({ value, ...options }: { value: any }) {
+  async validate ({ value, ...options }: { value: any }) : Promise<ValidationResult> {
     // If no validators then return a pass grant
     if (this.validators.length === 0) { return { result: true, messages: [] }; }
-
-    return _.reduce(this.validators, async (result: any, validator: any): Promise<Object> => {
-      const builtResult = await result;
-      // const validated = await validator.validate({ value });
-      console.log('------');
-      const blah = await validator.validate({ value: 'BLAH' });
-      // console.log(blah);
-      console.log('------');
-      // return { result: (!validated.result ? false : builtResult.result), messages: [ ...builtResult.messages, ...validated.messages ] };
-      return { result: true, messages: [] };
+    // Loop through and ensure all validators pass for given value
+    return _.reduce(this.validators, async (flag: any, validator: any) => {
+      const currFlag: Promise<Object> = await flag;
+      const validationCheck = await validator.validate({ value, ...options });
+      return { result: !validationCheck.result ? false : currFlag.result, messages: [ ...currFlag.messages, ...validationCheck.messages ] };
     }, { result: true, messages: [] });
   }
 }

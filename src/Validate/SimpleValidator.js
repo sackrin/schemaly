@@ -5,19 +5,19 @@ import Validator from 'validatorjs';
 export type ValidationResult = { result: boolean, messages: Array<string> };
 
 export class SimpleValidator {
-  config: { rules: Array<string | Function> };
+  rules: Array<string | Function>;
 
   options: Object;
 
-  constructor ({ rules = ['required'], ...options }: { rules: Array<string | Function> }) {
-    this.config = { rules };
+  constructor ({ rules, ...options }: { rules: Array<string | Function> }) {
+    this.rules = rules;
     this.options = options;
     (this:any).getRules = this.getRules.bind(this);
     (this:any).validate = this.validate.bind(this);
   }
 
   async getRules ({ ...options }: Object = {}): Promise<string> {
-    return buildRules(this.config.rules, { validator: this.options, ...options })
+    return buildRules(this.rules, { validator: this.options, ...options })
       .then(builtRules => (builtRules.join('|')));
   }
 
