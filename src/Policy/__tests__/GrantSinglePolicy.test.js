@@ -1,10 +1,10 @@
 import assert from 'assert';
-import { SingleGrantPolicyGroup } from '../SingleGrantPolicyGroup';
+import { GrantSinglePolicy } from '../GrantSinglePolicy';
 import { Allow } from '../Allow';
 import { Deny } from '../Deny';
 import { Isotope } from '../../index';
 
-describe('Single Grant Policy Group', function () {
+describe('Grant Single Policy', function () {
   const isotope = new Isotope();
 
   const simplePolicies = [
@@ -24,12 +24,12 @@ describe('Single Grant Policy Group', function () {
   ];
 
   it('can be created and have policies added to it', () => {
-    const policyGroup = new SingleGrantPolicyGroup({ policies: simplePolicies });
-    assert.deepEqual(policyGroup.policies, simplePolicies);
+    const policyGroup = new GrantSinglePolicy({ collect: simplePolicies });
+    assert.deepEqual(policyGroup.collect, simplePolicies);
   });
 
   it('perform a pass grant test with no policies', () => {
-    const policyGroup = new SingleGrantPolicyGroup({ policies: [] });
+    const policyGroup = new GrantSinglePolicy({ collect: [] });
     return policyGroup.grant({ isotope, roles: ['user'], scope: ['write'] })
       .then(result => {
         assert.equal(result, true);
@@ -38,7 +38,7 @@ describe('Single Grant Policy Group', function () {
   });
 
   it('perform a simple pass grant', () => {
-    const policyGroup = new SingleGrantPolicyGroup({ policies: simplePolicies });
+    const policyGroup = new GrantSinglePolicy({ collect: simplePolicies });
     return policyGroup.grant({ isotope, roles: ['user'], scope: ['write'] })
       .then(result => {
         assert.equal(result, true);
@@ -47,7 +47,7 @@ describe('Single Grant Policy Group', function () {
   });
 
   it('perform a mixed pass grant', () => {
-    const policyGroup = new SingleGrantPolicyGroup({ policies: complexPolicies });
+    const policyGroup = new GrantSinglePolicy({ collect: complexPolicies });
     return policyGroup.grant({ isotope, roles: ['user'], scope: ['write'] })
       .then(result => {
         assert.equal(result, true);
@@ -56,7 +56,7 @@ describe('Single Grant Policy Group', function () {
   });
 
   it('perform a simple denied grant', () => {
-    const policyGroup = new SingleGrantPolicyGroup({ policies: simplePolicies });
+    const policyGroup = new GrantSinglePolicy({ collect: simplePolicies });
     return policyGroup.grant({ isotope, roles: ['member'], scope: ['write'] })
       .then(result => {
         assert.equal(result, false);
@@ -65,7 +65,7 @@ describe('Single Grant Policy Group', function () {
   });
 
   it('perform a mixed denied grant', () => {
-    const policyGroup = new SingleGrantPolicyGroup({ policies: complexPolicies });
+    const policyGroup = new GrantSinglePolicy({ collect: complexPolicies });
     return policyGroup.grant({ isotope, roles: ['member'], scope: ['write'] })
       .then(result => {
         assert.equal(result, false);

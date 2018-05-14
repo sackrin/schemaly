@@ -1,4 +1,4 @@
 {
-  "presets": ["es2015", "stage-0", "flow"],
+  "presets": ["env", "stage-1", "flow"],
   "plugins": ["transform-class-properties", "transform-decorators-legacy"]
 }

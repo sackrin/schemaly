@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { ValidatorGroup } from '../ValidatorGroup';
+import { Validators } from '../Validators';
 import { SimpleValidator } from '../SimpleValidator';
 
 describe('Validator Group', () => {
@@ -17,14 +17,14 @@ describe('Validator Group', () => {
   }));
 
   it('can create a simple validator group', () => {
-    const validatorGroup = new ValidatorGroup({ validators: simpleValidators, test: true });
-    assert.deepEqual(validatorGroup.validators, simpleValidators);
-    assert.equal(validatorGroup.options.test, true);
+    const validators = new Validators({ collect: simpleValidators, test: true });
+    assert.deepEqual(validators.collect, simpleValidators);
+    assert.equal(validators.options.test, true);
   });
 
   it('can perform validation on a simple value and pass', () => {
-    const validatorGroup = new ValidatorGroup({ validators: simpleValidators });
-    return validatorGroup.validate({ value: 'johnny' })
+    const validators = new Validators({ collect: simpleValidators });
+    return validators.validate({ value: 'johnny' })
       .then(({ result, messages }) => {
         assert.equal(result, true);
         assert.deepEqual(messages, []);
@@ -32,8 +32,8 @@ describe('Validator Group', () => {
   });
 
   it('can perform validation on a simple value and fail', () => {
-    const validatorGroup = new ValidatorGroup({ validators: simpleValidators });
-    return validatorGroup.validate({ value: 'john' })
+    const validators = new Validators({ collect: simpleValidators });
+    return validators.validate({ value: 'john' })
       .then(({ result, messages }) => {
         assert.equal(result, false);
         assert.deepEqual(messages, [ 'The value must be at least 5 characters.' ]);
@@ -41,8 +41,8 @@ describe('Validator Group', () => {
   });
 
   it('can perform validation on a promise value and pass', () => {
-    const validatorGroup = new ValidatorGroup({ validators: simpleValidators });
-    return validatorGroup.validate({ value: johnnyByPromise })
+    const validators = new Validators({ collect: simpleValidators });
+    return validators.validate({ value: johnnyByPromise })
       .then(({ result, messages }) => {
         assert.equal(result, true);
         assert.deepEqual(messages, []);
@@ -50,8 +50,8 @@ describe('Validator Group', () => {
   });
 
   it('can perform validation on a promise value and fail', () => {
-    const validatorGroup = new ValidatorGroup({ validators: simpleValidators });
-    return validatorGroup.validate({ value: johnByPromise })
+    const validators = new Validators({ collect: simpleValidators });
+    return validators.validate({ value: johnByPromise })
       .then(({ result, messages }) => {
         assert.equal(result, false);
         assert.deepEqual(messages, [ 'The value must be at least 5 characters.' ]);

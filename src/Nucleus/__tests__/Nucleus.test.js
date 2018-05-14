@@ -1,6 +1,6 @@
 import assert from 'assert';
 import { Nucleus } from '../Nucleus';
-import { SingleGrantPolicyGroup } from '../../Policy/index';
+import { GrantSinglePolicy } from '../../Policy/index';
 import * as types from '../types';
 import { NucleusGroup } from '../NucleusGroup';
 
@@ -16,7 +16,7 @@ describe('Nucleus', function () {
   });
 
   it('can be created with policies', () => {
-    const policyGroup = new SingleGrantPolicyGroup([]);
+    const policyGroup = new GrantSinglePolicy([]);
     const nucleus = (new Nucleus({
       type: types.STRING,
       machine: 'first_name',
