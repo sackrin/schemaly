@@ -6,6 +6,10 @@ describe('Simple Sanitizer', () => {
     setTimeout(resolve, 100, ['sanitize_string']);
   }));
 
+  const mockPromiseValue = () => (new Promise(function (resolve, reject) {
+    setTimeout(resolve, 100, '  johnny ');
+  }));
+
   it('can create a simple rules santizer', () => {
     const rules = ['trim|sanitize_string'];
     const sanitizer = new SimpleSanitizer({ rules: rules, test: true });
@@ -32,6 +36,15 @@ describe('Simple Sanitizer', () => {
     const rules = ['trim|upper_case'];
     const sanitizer = new SimpleSanitizer({ rules: rules });
     return sanitizer.apply({ value: ' johnny ' })
+      .then(sanitized => {
+        assert.equal(sanitized, 'JOHNNY');
+      });
+  });
+
+  it('sanitize a promise value using a single trim and upper_case filters', () => {
+    const rules = ['trim|upper_case'];
+    const sanitizer = new SimpleSanitizer({ rules: rules });
+    return sanitizer.apply({ value: mockPromiseValue })
       .then(sanitized => {
         assert.equal(sanitized, 'JOHNNY');
       });
