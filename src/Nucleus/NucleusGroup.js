@@ -5,7 +5,11 @@ export class NucleusGroup {
 
   parent: Nucleus;
 
-  constructor ({ nuclei = [] }: { nuclei: Array<Nucleus> }) {
+  options: Object;
+
+  constructor ({ nuclei, parent, ...options }: { nuclei: Array<Nucleus>, parent?: Nucleus }) {
+    if (parent) this.parent = parent;
     this.nuclei = nuclei;
+    this.options = options;
   }
 }
