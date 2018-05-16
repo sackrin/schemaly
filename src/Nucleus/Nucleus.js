@@ -26,7 +26,7 @@ export class Nucleus {
     if (policies) this.policies = policies;
     if (sanitizers) this.sanitizers = sanitizers;
     if (validators) this.validators = validators;
-    if (options) this.options = { ...options };
+    this.options = { ...options };
   }
 
   addNuclei ({ nuclei }: { nuclei: NucleusGroup}) {

@@ -76,4 +76,13 @@ describe('Simple Sanitizer', () => {
         assert.equal(sanitized, 'johnny');
       });
   });
+
+  it('sanitize a string using an invalid sanitizer filter', () => {
+    const rules = ['invalidSanitizer'];
+    const sanitizer = new SimpleSanitizer({ rules: rules });
+    return sanitizer.apply({ value: 'johnny' })
+      .then(sanitized => {
+        assert.equal(sanitized, 'johnny');
+      });
+  });
 });

@@ -20,18 +20,29 @@ describe('Sanitizers', () => {
 
   it('can sanitize a simple value', () => {
     const sanitizers = new Sanitizers({ filters: mockSanitizers });
-    sanitizers.filter({ value: ' johnny ' })
+    return sanitizers.filter({ value: ' johnny ' })
       .then(filteredValue => {
         assert.equal(filteredValue, 'JOHNNY');
-      });
+      })
+      .catch((msg) => { throw new Error(msg); });
+  });
+
+  it('can sanitize a simple value with no sanitizes', () => {
+    const sanitizers = new Sanitizers({ filters: [] });
+    return sanitizers.filter({ value: '  johnny  ' })
+      .then(filteredValue => {
+        assert.equal(filteredValue, '  johnny  ');
+      })
+      .catch((msg) => { throw new Error(msg); });
   });
 
   it('can sanitize a promise value', () => {
     const sanitizers = new Sanitizers({ filters: mockSanitizers });
-    sanitizers.filter({ value: mockPromiseValue })
+    return sanitizers.filter({ value: mockPromiseValue })
       .then(filteredValue => {
         assert.equal(filteredValue, 'JOHNNY');
-      });
+      })
+      .catch((msg) => { throw new Error(msg); });
   });
 
 });
