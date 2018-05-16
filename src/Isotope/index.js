@@ -1,1 +1,1 @@
-export { Isotope } from './Isotope'
+export { Isotope } from './Isotope';

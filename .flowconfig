@@ -7,3 +7,4 @@
 
 [options]
 all=true
+esproposal.export_star_as=enable

@@ -3,7 +3,7 @@ import { Deny } from '../Deny';
 import { Isotope } from '../../index';
 
 describe('Deny Policy', function () {
-  const isotope = new Isotope();
+  const isotope = new Isotope({});
 
   it('can have simple roles, scope and options added', () => {
     const denyRule = new Deny({ roles: ['user', 'admin'], scope: ['read', 'write'], test: true });

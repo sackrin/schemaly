@@ -3,7 +3,7 @@ import { Allow } from '../Allow';
 import { Isotope } from '../../index';
 
 describe('Allow Policy', function () {
-  const isotope = new Isotope();
+  const isotope = new Isotope({});
 
   it('can have simple roles and scope added', () => {
     const allowRule = new Allow({ roles: ['user', 'admin'], scope: ['read', 'write'], test: true });

@@ -1,7 +1,7 @@
 import { Nucleus } from './Nucleus';
 
 export class NucleusGroup {
-  nuclei: NucleusGroup | any;
+  nuclei: Array<Nucleus>;
 
   parent: Nucleus;
 
