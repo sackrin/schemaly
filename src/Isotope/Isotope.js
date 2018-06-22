@@ -40,6 +40,7 @@ export class Isotope {
   }
 
   async validate ({ ...options }: Object = {}): Promise<ValidationResult> {
-    return this.nucleus.validate(this.value);
+    const { validate } = this.nucleus;
+    return validate(this.value);
   }
 }
