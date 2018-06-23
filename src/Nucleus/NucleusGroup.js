@@ -1,5 +1,10 @@
 import { Nucleus } from './Nucleus';
 
+export type NucleusGroupArgs = {
+  nuclei: Array<Nucleus>,
+  parent?: Nucleus
+};
+
 export class NucleusGroup {
   nuclei: Array<Nucleus>;
 
@@ -7,9 +12,11 @@ export class NucleusGroup {
 
   options: Object;
 
-  constructor ({ nuclei, parent, ...options }: { nuclei: Array<Nucleus>, parent?: Nucleus }) {
+  constructor ({ nuclei, parent, ...options }: NucleusGroupArgs) {
     if (parent) this.parent = parent;
     this.nuclei = nuclei;
     this.options = options;
   }
 }
+
+export default (args: NucleusGroupArgs): NucleusGroup => (new NucleusGroup(args));

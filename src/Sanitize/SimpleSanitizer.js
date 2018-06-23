@@ -8,22 +8,26 @@ export const uppercaseFilter = (value: any): string => (value.toString().toUpper
 
 export const lowercaseFilter = (value: any): string => (value.toString().toLowerCase());
 
+export type SimpleSanitizerArgs = {
+  rules: Array<string | Function>
+};
+
 export class SimpleSanitizer {
   config: { rules: Array<string | Function> };
 
   options: Object;
 
-  constructor ({ rules, ...options }: { rules: Array<string | Function> }) {
+  constructor ({ rules, ...options }: SimpleSanitizerArgs) {
     this.config = { rules };
     this.options = options;
   }
 
-  async getRules ({ ...options }: Object = {}): Promise<string> {
+  getRules = async ({ ...options }: Object = {}): Promise<string> => {
     return buildRules(this.config.rules, { validator: this.options, ...options })
       .then((builtRules: BuiltRules): string => (builtRules.join('|')));
   }
 
-  async apply ({ value, ...options }: { value: any }): Promise<any> {
+  apply = async ({ value, ...options }: { value: any }): Promise<any> => {
     const builtRules = await this.getRules(options);
     const builtValue = _.isFunction(value) ? await value(options) : value;
     return _.reduce(builtRules.split('|'), (filtered, filter) => {
@@ -36,3 +40,5 @@ export class SimpleSanitizer {
     }, builtValue);
   }
 }
+
+export default (args: SimpleSanitizerArgs): SimpleSanitizer => (new SimpleSanitizer(args));

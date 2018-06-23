@@ -1,19 +1,19 @@
 import assert from 'assert';
-import { Allow } from '../Allow';
+import Allow from '../Allow';
 import { Isotope } from '../../index';
 
 describe('Allow Policy', function () {
-  const isotope = new Isotope({});
+  const isotope = Isotope({});
 
   it('can have simple roles and scope added', () => {
-    const allowRule = new Allow({ roles: ['user', 'admin'], scope: ['read', 'write'], test: true });
+    const allowRule = Allow({ roles: ['user', 'admin'], scope: ['read', 'write'], test: true });
     assert.deepEqual(allowRule.roles, ['user', 'admin']);
     assert.deepEqual(allowRule.scope, ['read', 'write']);
     assert.deepEqual(allowRule.options, { test: true });
   });
 
   it('can have simple non array roles and scope added', () => {
-    const allowRule = new Allow({ roles: 'user', scope: 'read', test: true });
+    const allowRule = Allow({ roles: 'user', scope: 'read', test: true });
     assert.deepEqual(allowRule.roles, ['user']);
     assert.deepEqual(allowRule.scope, ['read']);
     assert.deepEqual(allowRule.options, { test: true });
@@ -26,7 +26,7 @@ describe('Allow Policy', function () {
     const scopePromise = new Promise(function (resolve, reject) {
       setTimeout(resolve, 100, ['read', 'write']);
     });
-    const allowRule = new Allow({ roles: [rolesPromise], scope: [scopePromise] });
+    const allowRule = Allow({ roles: [rolesPromise], scope: [scopePromise] });
     assert.deepEqual(allowRule.roles, [rolesPromise]);
     assert.deepEqual(allowRule.scope, [scopePromise]);
   });
@@ -38,7 +38,7 @@ describe('Allow Policy', function () {
     const scopePromise = () => (new Promise(function (resolve, reject) {
       setTimeout(resolve, 100, ['read', 'write']);
     }));
-    const allowRule = new Allow({ roles: [rolesPromise, 'handler'], scope: [scopePromise, 'blocked'] });
+    const allowRule = Allow({ roles: [rolesPromise, 'handler'], scope: [scopePromise, 'blocked'] });
     return allowRule.getRoles()
       .then(roles => {
         assert.deepEqual(roles, ['user', 'admin', 'handler']);
@@ -57,7 +57,7 @@ describe('Allow Policy', function () {
     const scopePromise = (options) => (new Promise(function (resolve, reject) {
       setTimeout(resolve, 100, ['read', 'write', ...options.policy.inject]);
     }));
-    const allowRule = new Allow({ roles: [rolesPromise, 'handler'], scope: [scopePromise, 'blocked'], inject: ['test'] });
+    const allowRule = Allow({ roles: [rolesPromise, 'handler'], scope: [scopePromise, 'blocked'], inject: ['test'] });
     return allowRule.getRoles()
       .then(roles => {
         assert.deepEqual(roles, ['user', 'admin', 'test', 'handler']);
@@ -70,7 +70,7 @@ describe('Allow Policy', function () {
   });
 
   it('can perform a simple grant request and pass', () => {
-    const allowRule = new Allow({ roles: ['user'], scope: ['read'] });
+    const allowRule = Allow({ roles: ['user'], scope: ['read'] });
     return allowRule.grant({ isotope, roles: ['user'], scope: ['read'] })
       .then((result) => {
         assert.equal(result, true);
@@ -79,7 +79,7 @@ describe('Allow Policy', function () {
   });
 
   it('can perform a simple grant request and fail for mismatch role', () => {
-    const allowRule = new Allow({ roles: ['user'], scope: ['read'] });
+    const allowRule = Allow({ roles: ['user'], scope: ['read'] });
     return allowRule.grant({ isotope, roles: ['admin'], scope: ['read'] })
       .then((result) => {
         assert.equal(result, false);
@@ -88,7 +88,7 @@ describe('Allow Policy', function () {
   });
 
   it('can perform a simple grant request and fail for mismatch scope', () => {
-    const allowRule = new Allow({ roles: ['user'], scope: ['read'] });
+    const allowRule = Allow({ roles: ['user'], scope: ['read'] });
     return allowRule.grant({ isotope, roles: ['user'], scope: ['write'] })
       .then((result) => {
         assert.equal(result, false);
@@ -97,7 +97,7 @@ describe('Allow Policy', function () {
   });
 
   it('can perform a grant request with valid and invalid scope/roles and pass', () => {
-    const allowRule = new Allow({ roles: ['user'], scope: ['read'] });
+    const allowRule = Allow({ roles: ['user'], scope: ['read'] });
     return allowRule.grant({ isotope, roles: ['user', 'admin'], scope: ['read', 'write'] })
       .then((result) => {
         assert.equal(result, true);
@@ -106,7 +106,7 @@ describe('Allow Policy', function () {
   });
 
   it('can perform a grant with wildcard scope and role rules', () => {
-    const allowRule = new Allow({ roles: ['*'], scope: ['*'] });
+    const allowRule = Allow({ roles: ['*'], scope: ['*'] });
     return allowRule.grant({ isotope, roles: ['user'], scope: ['read'] })
       .then((result) => {
         assert.equal(result, true);
@@ -121,7 +121,7 @@ describe('Allow Policy', function () {
     const scopePromise = () => (new Promise(function (resolve, reject) {
       setTimeout(resolve, 100, ['read', 'write']);
     }));
-    const allowRule = new Allow({ roles: ['user', 'admin'], scope: ['read', 'write'] });
+    const allowRule = Allow({ roles: ['user', 'admin'], scope: ['read', 'write'] });
     return allowRule.grant({ isotope, roles: ['user', rolesPromise], scope: ['read', scopePromise] })
       .then((result) => {
         assert.equal(result, true);

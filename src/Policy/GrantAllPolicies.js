@@ -4,17 +4,27 @@ import { AllowPolicy, DenyPolicy } from './index';
 import { Isotope } from '../Isotope';
 import type { BuiltRoles, BuiltScope } from './utils';
 
+export type GrantAllPoliciesArgs = {
+  policies: Array<AllowPolicy | DenyPolicy>
+};
+
+export type GrantAllPoliciesGrantArgs = {
+  isotope: Isotope,
+  roles: Array<string | Function>,
+  scope: Array<string | Function>
+};
+
 export class GrantAllPolicies {
   policies: Array<AllowPolicy | DenyPolicy> = [];
 
   options: Object = {};
 
-  constructor ({ policies, ...options }: { policies: Array<AllowPolicy | DenyPolicy> }) {
+  constructor ({ policies, ...options }: GrantAllPoliciesArgs) {
     this.policies = policies;
     this.options = options;
   }
 
-  async grant ({ isotope, roles, scope, ...options }: { isotope: Isotope, roles: Array<string | Function>, scope: Array<string | Function>}): Promise<boolean> {
+  grant = async ({ isotope, roles, scope, ...options }: GrantAllPoliciesGrantArgs): Promise<boolean> => {
     // If no policies then return a pass grant
     if (this.policies.length === 0) { return true; }
     // Retrieve the built passed scope and roles
@@ -29,3 +39,5 @@ export class GrantAllPolicies {
     }, true);
   }
 }
+
+export default (args: GrantAllPoliciesArgs): GrantAllPolicies => (new GrantAllPolicies(args));

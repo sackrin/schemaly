@@ -1,16 +1,20 @@
 import _ from 'lodash';
 
+export type SanitizersArgs = {
+  filters: Array<any>
+};
+
 export class Sanitizers {
   filters: Array<any>;
 
   options: Object;
 
-  constructor ({ filters, ...options }: { filters: Array<any> }) {
+  constructor ({ filters, ...options }: SanitizersArgs) {
     this.filters = filters;
     this.options = options;
   }
 
-  async filter ({ value, ...options }: { value: any }): Promise<any> {
+  filter = async ({ value, ...options }: { value: any }): Promise<any> => {
     // Check if the passed value is a promise
     const filterValue = !_.isFunction(value) ? value : await value(options);
     // If no collect then return a pass grant
@@ -21,3 +25,5 @@ export class Sanitizers {
     }, filterValue);
   }
 }
+
+export default (args: SanitizersArgs): Sanitizers => (new Sanitizers(args));

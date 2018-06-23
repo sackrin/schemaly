@@ -1,3 +1,3 @@
 export * as context from './context';
-export { Nucleus } from './Nucleus';
-export { NucleusGroup } from './NucleusGroup';
+export { default as Nucleus } from './Nucleus';
+export { default as NucleusGroup } from './NucleusGroup';

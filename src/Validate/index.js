@@ -1,3 +1,3 @@
 export * from './utils';
-export { SimpleValidator } from './SimpleValidator';
-export { Validators } from './Validators';
+export { default as SimpleValidator } from './SimpleValidator';
+export { default as Validators } from './Validators';

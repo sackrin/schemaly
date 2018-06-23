@@ -1,5 +1,5 @@
 export * from './utils';
-export { Deny as DenyPolicy } from './Deny';
-export { Allow as AllowPolicy } from './Allow';
-export { GrantSinglePolicy } from './GrantSinglePolicy';
-export { GrantAllPolicies } from './GrantAllPolicies';
+export { default as DenyPolicy } from './Deny';
+export { default as AllowPolicy } from './Allow';
+export { default as GrantSinglePolicy } from './GrantSinglePolicy';
+export { default as GrantAllPolicies } from './GrantAllPolicies';

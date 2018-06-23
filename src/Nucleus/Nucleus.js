@@ -1,6 +1,17 @@
 import { NucleusGroup } from './NucleusGroup';
 import type { NucleusContext } from './context';
 
+export type NucleusArgs = {
+  type: NucleusContext,
+  machine: string,
+  label: string,
+  parent?: Object,
+  policies?: Object,
+  sanitizers?: Object,
+  validators?: Object,
+  options?: Object
+};
+
 export class Nucleus {
   config: {
     type: NucleusContext,
@@ -29,20 +40,15 @@ export class Nucleus {
     this.options = { ...options };
   }
 
-  addNuclei ({ nuclei }: { nuclei: NucleusGroup}) {
+  addNuclei = ({ nuclei }: { nuclei: NucleusGroup}) => {
     if (!this.config.type.children && !this.config.type.repeater) { throw new Error('CANNOT_HAVE_CHILDREN'); }
     nuclei.parent = this;
     this.nuclei = nuclei;
-  }
+  };
+
+  validate = ({ value, ...options }: { value: any, options?: Object }) => {
+    return this.validators.validate({ value, ...options });
+  };
 }
 
-export type NucleusArgs = {
-  type: NucleusContext,
-  machine: string,
-  label: string,
-  parent?: Object,
-  policies?: Object,
-  sanitizers?: Object,
-  validators?: Object,
-  options?: Object
-};
+export default (args: NucleusArgs): Nucleus => (new Nucleus(args));

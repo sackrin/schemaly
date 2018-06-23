@@ -1,16 +1,16 @@
 import assert from 'assert';
-import { Atom } from '../Atom';
-import { Nucleus, NucleusGroup, context } from '../../Nucleus/index';
+import Atom from '../Atom';
+import { Nucleus, NucleusGroup, context } from '../../Nucleus';
 
 describe('Atom', () => {
   const mockNucleusGroup = new NucleusGroup({ nuclei: [
-    new Nucleus({ type: context.STRING, label: 'title' }),
-    new Nucleus({ type: context.STRING, label: 'first_name' }),
-    new Nucleus({ type: context.STRING, label: 'surname' })
+    Nucleus({ type: context.STRING, label: 'title' }),
+    Nucleus({ type: context.STRING, label: 'first_name' }),
+    Nucleus({ type: context.STRING, label: 'surname' })
   ] });
 
   it('can create an atom instance', () => {
-    const atom = new Atom({
+    const atom = Atom({
       machine: 'person',
       label: 'Person Schema',
       nuclei: mockNucleusGroup,

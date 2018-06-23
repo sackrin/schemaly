@@ -1,3 +1,3 @@
 export * from './utils';
-export { Sanitizers } from './Sanitizers';
-export { SimpleSanitizer } from './SimpleSanitizer';
+export { default as Sanitizers } from './Sanitizers';
+export { default as SimpleSanitizer } from './SimpleSanitizer';

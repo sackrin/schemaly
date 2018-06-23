@@ -4,6 +4,17 @@ import { Isotope } from '../Isotope';
 
 import type { BuiltRoles, BuiltScope } from './utils';
 
+export type DenyArgs = {
+  roles: any,
+  scope: any
+};
+
+export type DenyGrantArgs = {
+  isotope: Isotope,
+  roles: Array<string | Function>,
+  scope: Array<string | Function>
+};
+
 export class Deny {
   roles: Array<string | Function>;
 
@@ -11,7 +22,7 @@ export class Deny {
 
   options: Object;
 
-  constructor ({ roles, scope, ...options }: { roles: any, scope: any }) {
+  constructor ({ roles, scope, ...options }: DenyArgs) {
     this.roles = _.isArray(roles) ? roles : [ roles ];
     this.scope = _.isArray(scope) ? scope : [ scope ];
     this.options = options;
@@ -20,15 +31,15 @@ export class Deny {
     (this:any).getScope = this.getScope.bind(this);
   }
 
-  async getRoles ({ ...options }: { options: Object }): Promise<BuiltRoles> {
+  getRoles = async ({ ...options }: { options: Object }): Promise<BuiltRoles> => {
     return buildRoles(this.roles, { policy: this.options, ...options });
-  }
+  };
 
-  async getScope ({ ...options }: { options: Object }): Promise<BuiltScope> {
+  getScope = async ({ ...options }: { options: Object }): Promise<BuiltScope> => {
     return buildScope(this.scope, { policy: this.options, ...options });
-  }
+  };
 
-  async grant ({ isotope, roles, scope, ...options }: { isotope: Isotope, roles: Array<string | Function>, scope: Array<string | Function>}): Promise<boolean> {
+  grant = async ({ isotope, roles, scope, ...options }: DenyGrantArgs): Promise<boolean> => {
     // Retrieve the roles array for this policy
     const forRoles: BuiltRoles = await buildRoles(this.roles, options);
     // Retrieve and build the roles array from the provided roles
@@ -45,5 +56,7 @@ export class Deny {
     const scopeCheck: Array<string> = _.difference(againstScopes, forScopes);
     // Return a grant pass if mismatch or wildcard is not located
     return (scopeCheck.length === againstScopes.length && forScopes.indexOf('*') === -1);
-  }
+  };
 }
+
+export default (args: DenyGrantArgs): Deny => (new Deny(args));
