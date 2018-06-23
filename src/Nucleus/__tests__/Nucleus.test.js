@@ -3,11 +3,9 @@ import { expect } from 'chai';
 import Nucleus from '../Nucleus';
 import * as context from '../context';
 import NucleusGroup from '../NucleusGroup';
-import { Sanitizers } from '../../Sanitize/Sanitizers';
-import { Validators } from '../../Validate/Validators';
+import { Sanitizers, SimpleSanitizer } from '../../Sanitize';
+import { Validators, SimpleValidator } from '../../Validate';
 import { GrantSinglePolicy, DenyPolicy, AllowPolicy } from '../../Policy';
-import { SimpleSanitizer } from '../../Sanitize';
-import { SimpleValidator } from '../../Validate';
 
 describe('Nucleus', function () {
   const fakeArgs = {

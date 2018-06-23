@@ -26,7 +26,7 @@ export class SimpleValidator {
   validate = async ({ value, ...options }: { value:any }): Promise<ValidationResult> => {
     const usingRules: string = await this.getRules({ options: options });
     const usingValue: any = !_.isFunction(value) ? value : await value({ ...this.options, ...options });
-    const validation = Validator({ value: usingValue }, { value: usingRules });
+    const validation = new Validator({ value: usingValue }, { value: usingRules });
     if (validation.fails()) {
       return { result: false, messages: [...validation.errors.get('value'), ..._.get(this.options, 'error_messages', [])] };
     } else {

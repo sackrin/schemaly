@@ -6,8 +6,8 @@ import { Nucleus, context } from '../../Nucleus';
 import Isotope from '../Isotope';
 import { Reactor } from '../../Reactor';
 
-describe.skip('Isotope', () => {
-  ///
+describe('Isotope', () => {
+  //
   const mockReactor = Reactor({});
 
   const mockPolicies = GrantSinglePolicy({
@@ -35,7 +35,7 @@ describe.skip('Isotope', () => {
     ({ isotope, value }) => (value.toString().toUpperCase())
   ];
 
-  ///
+  //
   const mockSimpleNucleus = Nucleus({
     type: context.STRING,
     machine: 'first_name',
@@ -46,25 +46,25 @@ describe.skip('Isotope', () => {
     test: true
   });
 
-  const mockParams = {
-    reactor: Reactor({}),
-    nucleus: Nucleus({
-      type: context.STRING,
-      machine: 'first_name',
-      label: 'First Name',
-      policies: GrantSinglePolicy({
-        policies: [
-          DenyPolicy({ roles: ['member'], scope: ['read', 'write'] }),
-          AllowPolicy({ roles: ['user', 'admin'], scope: ['read', 'write'] })
-        ]
-      }),
-      sanitizers: mockSanitisers,
-      validators: mockValidators,
-      test: true
-    }),
-    value: 'johnny',
-    testing: true
-  };
+  // const mockParams = {
+  //   reactor: Reactor({}),
+  //   nucleus: Nucleus({
+  //     type: context.STRING,
+  //     machine: 'first_name',
+  //     label: 'First Name',
+  //     policies: GrantSinglePolicy({
+  //       policies: [
+  //         DenyPolicy({ roles: ['member'], scope: ['read', 'write'] }),
+  //         AllowPolicy({ roles: ['user', 'admin'], scope: ['read', 'write'] })
+  //       ]
+  //     }),
+  //     sanitizers: mockSanitisers,
+  //     validators: mockValidators,
+  //     test: true
+  //   }),
+  //   value: 'johnny',
+  //   testing: true
+  // };
 
   it('can create an isotope instance from a nucleus', () => {
     const isotope = Isotope({

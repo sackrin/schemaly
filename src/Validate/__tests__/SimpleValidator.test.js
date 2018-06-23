@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { SimpleValidator } from '../SimpleValidator';
+import { SimpleValidator } from '../';
 
 describe('Simple Validator', function () {
   const simpleStringRule = 'required|min:5';
