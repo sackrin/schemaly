@@ -24,7 +24,13 @@ describe('Nucleus', function () {
     validators: Validators({ validators: [
       SimpleValidator({ rules: ['required'] }),
       SimpleValidator({ rules: ['min:5'] })
-    ] })
+    ] }),
+    setters: [
+      ({ value, isotope }) => (value.toString().toUpperCase())
+    ],
+    getters: [
+      ({ value, isotope }) => (value.toString().toUpperCase())
+    ]
   };
 
   it('can be created and with config, parent and options', () => {
@@ -60,5 +66,57 @@ describe('Nucleus', function () {
     const nucleusGroup = NucleusGroup({ nuclei: [nucleusOne, nucleusTwo, nucleusThree] });
     const nucleus = Nucleus({ ...fakeArgs, machine: 'email_address' });
     expect(() => nucleus.addNuclei({ nuclei: nucleusGroup })).to.throw('CANNOT_HAVE_CHILDREN');
+  });
+
+  it('can validate a value against provided validators and expect a pass', () => {
+    const fakeNucleus = Nucleus(fakeArgs);
+    return fakeNucleus.validate({ value: 'Jennifer' })
+      .then(check => {
+        expect(check.result).to.equal(true);
+        expect(check.messages).to.deep.equal([]);
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can validate a value against provided validators and expect a fail', () => {
+    const fakeNucleus = Nucleus(fakeArgs);
+    return fakeNucleus.validate({ value: 'Tom' })
+      .then(check => {
+        expect(check.result).to.equal(false);
+        expect(check.messages).to.deep.equal([ 'The value must be at least 5 characters.' ]);
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can sanitize a value against provided sanitizes', () => {
+    const fakeNucleus = Nucleus(fakeArgs);
+    return fakeNucleus.sanitize({ value: ' Jennifer ' })
+      .then(value => {
+        expect(value).to.equal('JENNIFER');
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can transform a value using getters', () => {
+    const fakeNucleus = Nucleus(fakeArgs);
+    return fakeNucleus.getter({ value: 'example', isotope: {} })
+      .then(value => {
+        expect(value).to.equal('EXAMPLE');
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can transform a value using setters', () => {
+    const fakeNucleus = Nucleus(fakeArgs);
+    return fakeNucleus.setter({ value: 'example', isotope: {} })
+      .then(value => {
+        expect(value).to.equal('EXAMPLE');
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
   });
 });

@@ -1,4 +1,5 @@
 import { Atom } from '../Atom';
+import { Isotopes } from '../Isotope';
 
 export type ReactorArgs = {
   atom: Atom,
@@ -21,6 +22,11 @@ export class Reactor {
     this.scope = scope;
     this.options = options;
   }
+
+  with = async ({ values, ...options }: { values: Object }) => {
+    const { atom, roles, scope } = this;
+    return Isotopes({ nuclei: atom.nuclei, scope, roles, options });
+  };
 }
 
 export default (args: ReactorArgs): Reactor => (new Reactor(args));

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { Nucleus } from '../Nucleus';
 import { Reactor } from '../Reactor';
 import type { ValidationResult } from '../Validate/SimpleValidator';
@@ -18,36 +17,35 @@ export class Isotope {
 
   value: any;
 
-  setters: Array<Function>;
-
-  getters: Array<Function>;
-
   options: Object;
 
-  constructor ({ reactor, nucleus, value, setters, getters, ...options }: IsotopeArgs) {
+  constructor ({ reactor, nucleus, value, ...options }: IsotopeArgs) {
     this.reactor = reactor;
     this.nucleus = nucleus;
     this.value = value;
     this.options = options;
-    if (getters) this.getters = getters;
-    if (setters) this.setters = setters;
   }
 
   getValue = async ({ ...options }: Object = {}) => {
+    // Retrieve the nucleus getter method
+    const { getter } = this.nucleus;
     // Return the built value
-    return _.reduce(this.getters, async (value, getter) => (getter({ isotope: this, value, options: { ...this.options, ...options } })), this.value);
-  }
+    return getter({ value: this.value, isotope: this, ...options });
+  };
 
   setValue = async ({ value, ...options }: { value: any }) => {
+    // Retrieve the nucleus getter method
+    const { setter } = this.nucleus;
     // Assign the built value
-    this.value = await _.reduce(this.setters, async (value, setter) => (setter({ isotope: this, value, options: { ...this.options, ...options } })), value);
+    this.value = await setter({ value, isotope: this, ...options });
     // Return the built value
     return this.value;
-  }
+  };
 
   validate = async ({ ...options }: Object = {}): Promise<ValidationResult> => {
-    return this.nucleus.validate({ value: this.value, ...options });
-  }
+    const { value, nucleus: { validate } } = this;
+    return validate({ value, ...options });
+  };
 }
 
 export default (args: IsotopeArgs): Isotope => (new Isotope(args));
