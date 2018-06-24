@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { NucleusGroup } from './NucleusGroup';
 import type { NucleusContext } from './context';
+import { Isotope } from '../Isotope';
 
 export type NucleusArgs = {
   type: NucleusContext,
@@ -49,28 +50,39 @@ export class Nucleus {
     this.options = { ...options };
   }
 
+  get machine () { return this.config.machine; }
+
+  get type () { return this.config.type; }
+
+  get label () { return this.config.label; }
+
   addNuclei = ({ nuclei }: { nuclei: NucleusGroup}) => {
     if (!this.config.type.children && !this.config.type.repeater) { throw new Error('CANNOT_HAVE_CHILDREN'); }
     nuclei.parent = this;
     this.nuclei = nuclei;
   };
 
-  validate = ({ value, ...options }: { value: any, options?: Object }) => {
+  grant = async ({ isotope, scope, roles, ...options }: { isotope: Isotope, scope: Array<string | Function>, roles: Array<string | Function> }) => {
+    const { policies: { grant } } = this;
+    return grant({ isotope, scope, roles, ...options });
+  };
+
+  validate = async ({ value, isotope, ...options }: { value: any, isotope: Isotope, options?: Object }) => {
     const { validators: { validate } } = this;
-    return validate({ value, ...options });
+    return validate({ value, isotope, ...options });
   };
 
-  sanitize = ({ value, ...options }: { value: any, options?: Object }) => {
+  sanitize = async ({ value, isotope, ...options }: { value: any, isotope: Isotope, options?: Object }) => {
     const { sanitizers: { filter } } = this;
-    return filter({ value, ...options });
+    return filter({ value, isotope, ...options });
   };
 
-  getter = async ({ value, isotope, ...options }: Object = {}) => {
+  getter = async ({ value, isotope, ...options }: { value:any, isotope: Isotope, options?: Object } = {}) => {
     // Return the built value
     return _.reduce(this.getters, async (value, getter) => (getter({ isotope, value, options })), value);
-  }
+  };
 
-  setter = async ({ value, isotope, ...options }: { value: any }) => {
+  setter = async ({ value, isotope, ...options }: { value: any, isotope: Isotope, options?: Object }) => {
     // Assign the built value
     return _.reduce(this.setters, async (value, setter) => (setter({ isotope, value, options })), value);
   };

@@ -6,6 +6,7 @@ import NucleusGroup from '../NucleusGroup';
 import { Sanitizers, SimpleSanitizer } from '../../Sanitize';
 import { Validators, SimpleValidator } from '../../Validate';
 import { GrantSinglePolicy, DenyPolicy, AllowPolicy } from '../../Policy';
+import { Isotope } from '../../Isotope';
 
 describe('Nucleus', function () {
   const fakeArgs = {
@@ -33,6 +34,8 @@ describe('Nucleus', function () {
     ]
   };
 
+  const fakeIsotope = Isotope({});
+
   it('can be created and with config, parent and options', () => {
     const nucleus = Nucleus({
       ...fakeArgs,
@@ -46,6 +49,13 @@ describe('Nucleus', function () {
     assert.equal(nucleus.policies, fakeArgs.policies);
     assert.equal(nucleus.sanitizers, fakeArgs.sanitizers);
     assert.equal(nucleus.validators, fakeArgs.validators);
+  });
+
+  it('can use getters to access common properties', () => {
+    const fakeNucleus = Nucleus({ ...fakeArgs });
+    expect(fakeNucleus.machine).to.equal('first_name');
+    expect(fakeNucleus.type).to.equal(context.STRING);
+    expect(fakeNucleus.label).to.equal('First Name');
   });
 
   it('collection nucleus can have a group of nuclei added', () => {
@@ -70,7 +80,7 @@ describe('Nucleus', function () {
 
   it('can validate a value against provided validators and expect a pass', () => {
     const fakeNucleus = Nucleus(fakeArgs);
-    return fakeNucleus.validate({ value: 'Jennifer' })
+    return fakeNucleus.validate({ value: 'Jennifer', isotope: fakeIsotope })
       .then(check => {
         expect(check.result).to.equal(true);
         expect(check.messages).to.deep.equal([]);
@@ -81,7 +91,7 @@ describe('Nucleus', function () {
 
   it('can validate a value against provided validators and expect a fail', () => {
     const fakeNucleus = Nucleus(fakeArgs);
-    return fakeNucleus.validate({ value: 'Tom' })
+    return fakeNucleus.validate({ value: 'Tom', isotope: fakeIsotope })
       .then(check => {
         expect(check.result).to.equal(false);
         expect(check.messages).to.deep.equal([ 'The value must be at least 5 characters.' ]);
@@ -92,7 +102,7 @@ describe('Nucleus', function () {
 
   it('can sanitize a value against provided sanitizes', () => {
     const fakeNucleus = Nucleus(fakeArgs);
-    return fakeNucleus.sanitize({ value: ' Jennifer ' })
+    return fakeNucleus.sanitize({ value: ' Jennifer ', isotope: fakeIsotope })
       .then(value => {
         expect(value).to.equal('JENNIFER');
       }).catch((msg) => {
@@ -115,6 +125,26 @@ describe('Nucleus', function () {
     return fakeNucleus.setter({ value: 'example', isotope: {} })
       .then(value => {
         expect(value).to.equal('EXAMPLE');
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can perform a successful grant check against provided policies', () => {
+    const fakeNucleus = Nucleus(fakeArgs);
+    return fakeNucleus.grant({ isotope: fakeIsotope, scope: [ 'read' ], roles: [ 'user' ] })
+      .then(result => {
+        expect(result).to.equal(true);
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can perform an unsuccessful grant check against provided policies', () => {
+    const fakeNucleus = Nucleus(fakeArgs);
+    return fakeNucleus.grant({ isotope: fakeIsotope, scope: [ 'read' ], roles: [ 'member' ] })
+      .then(result => {
+        expect(result).to.equal(false);
       }).catch((msg) => {
         throw new Error(msg);
       });

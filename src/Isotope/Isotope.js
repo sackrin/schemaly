@@ -44,8 +44,14 @@ export class Isotope {
 
   validate = async ({ ...options }: Object = {}): Promise<ValidationResult> => {
     const { value, nucleus: { validate } } = this;
-    return validate({ value, ...options });
+    return validate({ value, isotope: this, ...options });
   };
+
+  sanitize = async ({ ...options }: Object = {}) => {
+    const { value, nucleus: { sanitize } } = this;
+    this.value = await sanitize({ value, isotope: this, ...options });
+    return this.value;
+  }
 }
 
 export default (args: IsotopeArgs): Isotope => (new Isotope(args));

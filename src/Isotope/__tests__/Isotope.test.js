@@ -8,7 +8,6 @@ import Isotope from '../Isotope';
 import { Reactor } from '../../Reactor';
 
 describe('Isotope', () => {
-
   const mockParams = {
     reactor: Reactor({}),
     nucleus: Nucleus({
@@ -78,7 +77,9 @@ describe('Isotope', () => {
       .then(({ result, messages }) => {
         assert.equal(result, true);
         assert.deepEqual(messages, []);
-      }).catch((msg) => { throw new Error(msg); });
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
   });
 
   it('can validate against a simple value and pass', () => {
@@ -90,7 +91,9 @@ describe('Isotope', () => {
       .then(({ result, messages }) => {
         assert.equal(result, true);
         assert.deepEqual(messages, []);
-      }).catch((msg) => { throw new Error(msg); });
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
   });
 
   it('can validate against a simple value and fail', () => {
@@ -102,6 +105,21 @@ describe('Isotope', () => {
       .then(({ result, messages }) => {
         assert.equal(result, false);
         assert.deepEqual(messages, [ 'The value must be at least 5 characters.' ]);
-      }).catch((msg) => { throw new Error(msg); });
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can apply sanitizers to its value and produce a new value', () => {
+    const fakeIsotope = Isotope({
+      ...mockParams,
+      value: ' Johnny '
+    });
+    return fakeIsotope.sanitize()
+      .then(() => {
+        assert.equal(fakeIsotope.value, 'JOHNNY');
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
   });
 });
