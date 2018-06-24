@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { NucleusGroup } from '../Nucleus';
+import { NucleusGroup, context } from '../Nucleus';
 import { Reactor } from '../Reactor';
 import { Isotope } from './';
 
@@ -33,12 +33,18 @@ export class Isotopes {
   }
 
   hydrate = async ({ values }: { values: Object }) => {
-    const { reactor, nuclei, isotopes } = this;
-    nuclei.all().forEach(nucleus => {
-      const { machine, type } = nucleus;
+    const { reactor, nuclei, isotopes, scope, roles } = this;
+    await nuclei.all().forEach(async nucleus => {
+      const { machine, grant, type } = nucleus;
       const value = _.get(values, machine, undefined);
       const isotope = Isotope({ reactor, nucleus, value });
-      console.log(isotope);
+      if (!await grant({ isotope, scope, roles })) { return; }
+      if (type === context.CONTAINER) {
+        isotope.isotopes = new Isotopes({ reactor, nuclei: nucleus.nuclei, scope, roles });
+        isotope.isotopes.hydrate();
+      } else if (type === context.COLLECTION) {
+
+      }
       isotopes.push(isotope);
     });
     return this;

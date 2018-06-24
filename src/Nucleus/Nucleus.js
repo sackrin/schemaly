@@ -63,8 +63,9 @@ export class Nucleus {
   };
 
   grant = async ({ isotope, scope, roles, ...options }: { isotope: Isotope, scope: Array<string | Function>, roles: Array<string | Function> }) => {
-    const { policies: { grant } } = this;
-    return grant({ isotope, scope, roles, ...options });
+    const { policies } = this;
+    if (!policies) return true;
+    return policies.grant({ isotope, scope, roles, ...options });
   };
 
   validate = async ({ value, isotope, ...options }: { value: any, isotope: Isotope, options?: Object }) => {
