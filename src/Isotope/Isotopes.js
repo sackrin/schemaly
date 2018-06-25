@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { NucleusGroup, context } from '../Nucleus';
+import { NucleusGroup } from '../Nucleus';
 import { Reactor } from '../Reactor';
 import { Isotope } from './';
 
@@ -16,7 +16,7 @@ export class Isotopes {
 
   nuclei: NucleusGroup;
 
-  isotopes: Array<Isotope> = [];
+  isotopes: Array<Isotope | Array<Isotope>> = [];
 
   roles: Array<string | Function> = [];
 
@@ -32,21 +32,35 @@ export class Isotopes {
     this.options = options;
   }
 
+  find = (criteria: Object) => {
+    const { isotopes } = this;
+    return _.find(isotopes, criteria);
+  };
+
   hydrate = async ({ values }: { values: Object }) => {
     const { reactor, nuclei, isotopes, scope, roles } = this;
-    await nuclei.all().forEach(async nucleus => {
+    await Promise.all(nuclei.all().map(async nucleus => {
       const { machine, grant, type } = nucleus;
       const value = _.get(values, machine, undefined);
       const isotope = Isotope({ reactor, nucleus, value });
       if (!await grant({ isotope, scope, roles })) { return; }
-      if (type === context.CONTAINER) {
+      if ((type.children || type.repeater) && !nucleus.nuclei) {
+        throw new Error('Nucleus indicates has children but no children found');
+      }
+      if (type.children && !type.repeater) {
         isotope.isotopes = new Isotopes({ reactor, nuclei: nucleus.nuclei, scope, roles });
-        isotope.isotopes.hydrate();
-      } else if (type === context.COLLECTION) {
-
+        await isotope.isotopes.hydrate({ values: await isotope.getValue() });
+      } else if (type.children && type.repeater) {
+        isotope.isotopes = [];
+        const items = await isotope.getValue();
+        await Promise.all(items.map(async item => {
+          const group = new Isotopes({ reactor, nuclei: nucleus.nuclei, scope, roles });
+          await group.hydrate({ values: item });
+          isotope.isotopes.push(group);
+        }));
       }
       isotopes.push(isotope);
-    });
+    }));
     return this;
   };
 }

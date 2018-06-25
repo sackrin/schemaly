@@ -8,6 +8,7 @@ export type NucleusArgs = {
   machine: string,
   label: string,
   parent?: Object,
+  nuclei?: Object,
   setters?: Array<Function>,
   getters?: Array<Function>,
   policies?: Object,
@@ -39,7 +40,7 @@ export class Nucleus {
 
   getters: Array<Function>;
 
-  constructor ({ type, machine, label, parent, getters, setters, policies, sanitizers, validators, ...options }: NucleusArgs) {
+  constructor ({ type, machine, label, parent, nuclei, getters, setters, policies, sanitizers, validators, ...options }: NucleusArgs) {
     this.config = { type, machine, label };
     if (parent) this.parent = parent;
     if (policies) this.policies = policies;
@@ -47,6 +48,7 @@ export class Nucleus {
     if (validators) this.validators = validators;
     if (getters) this.getters = getters;
     if (setters) this.setters = setters;
+    if (nuclei) this.addNuclei({ nuclei: nuclei });
     this.options = { ...options };
   }
 
@@ -57,7 +59,9 @@ export class Nucleus {
   get label () { return this.config.label; }
 
   addNuclei = ({ nuclei }: { nuclei: NucleusGroup}) => {
-    if (!this.config.type.children && !this.config.type.repeater) { throw new Error('CANNOT_HAVE_CHILDREN'); }
+    if (!this.config.type.children && !this.config.type.repeater) {
+      throw new Error('CANNOT_HAVE_CHILDREN');
+    }
     nuclei.parent = this;
     this.nuclei = nuclei;
   };

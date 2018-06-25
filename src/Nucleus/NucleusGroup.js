@@ -18,7 +18,7 @@ export class NucleusGroup {
     this.options = options;
   }
 
-  all = () => (this.nuclei);
+  all = (): Array<Nucleus> => (this.nuclei);
 }
 
-export default (args: NucleusGroupArgs): NucleusGroup => (new NucleusGroup(args));
+export default (nuclei: Array<Nucleus>, options: Object = {}): NucleusGroup => (new NucleusGroup({ nuclei, ...options }));

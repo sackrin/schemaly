@@ -62,7 +62,7 @@ describe('Nucleus', function () {
     const nucleusOne = Nucleus({ ...fakeArgs, label: 'first_name' });
     const nucleusTwo = Nucleus({ ...fakeArgs, label: 'surname' });
     const nucleusThree = Nucleus({ ...fakeArgs, label: 'title' });
-    const nucleusGroup = NucleusGroup({ nuclei: [nucleusOne, nucleusTwo, nucleusThree] });
+    const nucleusGroup = NucleusGroup([nucleusOne, nucleusTwo, nucleusThree]);
     const nucleus = Nucleus({ ...fakeArgs, type: context.COLLECTION, machine: 'people' });
     nucleus.addNuclei({ nuclei: nucleusGroup });
     assert.equal(nucleus.nuclei, nucleusGroup);
@@ -73,7 +73,7 @@ describe('Nucleus', function () {
     const nucleusOne = Nucleus({ ...fakeArgs, label: 'first_name' });
     const nucleusTwo = Nucleus({ ...fakeArgs, label: 'surname' });
     const nucleusThree = Nucleus({ ...fakeArgs, label: 'title' });
-    const nucleusGroup = NucleusGroup({ nuclei: [nucleusOne, nucleusTwo, nucleusThree] });
+    const nucleusGroup = NucleusGroup([nucleusOne, nucleusTwo, nucleusThree]);
     const nucleus = Nucleus({ ...fakeArgs, machine: 'email_address' });
     expect(() => nucleus.addNuclei({ nuclei: nucleusGroup })).to.throw('CANNOT_HAVE_CHILDREN');
   });

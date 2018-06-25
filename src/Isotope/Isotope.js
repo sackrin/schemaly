@@ -1,11 +1,13 @@
 import { Nucleus } from '../Nucleus';
 import { Reactor } from '../Reactor';
 import type { ValidationResult } from '../Validate/SimpleValidator';
+import { Isotopes } from './index';
 
 export type IsotopeArgs = {
   reactor: Reactor,
   nucleus: Nucleus,
   value: any,
+  isotopes?: Isotopes,
   setters?: Array<Function>,
   getters?: Array<Function>
 };
@@ -17,12 +19,21 @@ export class Isotope {
 
   value: any;
 
+  isotopes: Isotopes | Array<Isotopes>;
+
   options: Object;
 
-  constructor ({ reactor, nucleus, value, ...options }: IsotopeArgs) {
+  get machine () { return this.nucleus.machine; }
+
+  get type () { return this.nucleus.type; }
+
+  get label () { return this.nucleus.label; }
+
+  constructor ({ reactor, nucleus, value, isotopes, ...options }: IsotopeArgs) {
     this.reactor = reactor;
     this.nucleus = nucleus;
     this.value = value;
+    if (isotopes) this.isotopes = isotopes;
     this.options = options;
   }
 
