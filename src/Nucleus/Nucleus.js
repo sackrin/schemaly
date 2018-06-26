@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { NucleusGroup } from './NucleusGroup';
+import { Nuclei } from './Nuclei';
 import type { NucleusContext } from './context';
 import { Isotope } from '../Isotope';
 
@@ -26,7 +26,7 @@ export class Nucleus {
 
   parent: Object;
 
-  nuclei: NucleusGroup;
+  nuclei: Nuclei;
 
   options: Object;
 
@@ -58,7 +58,7 @@ export class Nucleus {
 
   get label () { return this.config.label; }
 
-  addNuclei = ({ nuclei }: { nuclei: NucleusGroup}) => {
+  addNuclei = ({ nuclei }: { nuclei: Nuclei}) => {
     if (!this.config.type.children && !this.config.type.repeater) {
       throw new Error('CANNOT_HAVE_CHILDREN');
     }

@@ -27,4 +27,4 @@ export class Validators {
   };
 }
 
-export default (args: ValidatorsArgs): Validators => (new Validators(args));
+export default (validators: Array<any>, options: Object = {}): Validators => (new Validators({ validators, ...options }));

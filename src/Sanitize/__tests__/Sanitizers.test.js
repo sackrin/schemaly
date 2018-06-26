@@ -13,13 +13,13 @@ describe('Sanitizers', () => {
   }));
 
   it('can create a basic sanitizer group', () => {
-    const sanitizers = Sanitizers({ filters: mockSanitizers, test: true });
+    const sanitizers = Sanitizers(mockSanitizers, { test: true });
     assert.deepEqual(sanitizers.filters, mockSanitizers);
     assert.deepEqual(sanitizers.options.test, true);
   });
 
   it('can sanitize a simple value', () => {
-    const sanitizers = Sanitizers({ filters: mockSanitizers });
+    const sanitizers = Sanitizers(mockSanitizers);
     return sanitizers.filter({ value: ' johnny ' })
       .then(filteredValue => {
         assert.equal(filteredValue, 'JOHNNY');
@@ -28,7 +28,7 @@ describe('Sanitizers', () => {
   });
 
   it('can sanitize a simple value with no sanitizes', () => {
-    const sanitizers = Sanitizers({ filters: [] });
+    const sanitizers = Sanitizers([]);
     return sanitizers.filter({ value: '  johnny  ' })
       .then(filteredValue => {
         assert.equal(filteredValue, '  johnny  ');
@@ -37,7 +37,7 @@ describe('Sanitizers', () => {
   });
 
   it('can sanitize a promise value', () => {
-    const sanitizers = Sanitizers({ filters: mockSanitizers });
+    const sanitizers = Sanitizers(mockSanitizers);
     return sanitizers.filter({ value: mockPromiseValue })
       .then(filteredValue => {
         assert.equal(filteredValue, 'JOHNNY');

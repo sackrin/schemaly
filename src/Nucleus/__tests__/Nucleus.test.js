@@ -2,7 +2,7 @@ import assert from 'assert';
 import { expect } from 'chai';
 import Nucleus from '../Nucleus';
 import * as context from '../context';
-import NucleusGroup from '../NucleusGroup';
+import Nuclei from '../Nuclei';
 import { Sanitizers, SimpleSanitizer } from '../../Sanitize';
 import { Validators, SimpleValidator } from '../../Validate';
 import { GrantSinglePolicy, DenyPolicy, AllowPolicy } from '../../Policy';
@@ -14,18 +14,18 @@ describe('Nucleus', function () {
     type: context.STRING,
     machine: 'first_name',
     label: 'First Name',
-    policies: GrantSinglePolicy({ policies: [
+    policies: GrantSinglePolicy([
       DenyPolicy({ roles: ['member'], scope: ['read', 'write'] }),
       AllowPolicy({ roles: ['user', 'admin'], scope: ['read', 'write'] })
-    ] }),
-    sanitizers: Sanitizers({ filters: [
+    ]),
+    sanitizers: Sanitizers([
       SimpleSanitizer({ rules: ['trim'] }),
       SimpleSanitizer({ rules: ['upper_case'] })
-    ] }),
-    validators: Validators({ validators: [
+    ]),
+    validators: Validators([
       SimpleValidator({ rules: ['required'] }),
       SimpleValidator({ rules: ['min:5'] })
-    ] }),
+    ]),
     setters: [
       ({ value, isotope }) => (value.toString().toUpperCase())
     ],
@@ -62,10 +62,10 @@ describe('Nucleus', function () {
     const nucleusOne = Nucleus({ ...fakeArgs, label: 'first_name' });
     const nucleusTwo = Nucleus({ ...fakeArgs, label: 'surname' });
     const nucleusThree = Nucleus({ ...fakeArgs, label: 'title' });
-    const nucleusGroup = NucleusGroup([nucleusOne, nucleusTwo, nucleusThree]);
+    const fakeNuclei = Nuclei([nucleusOne, nucleusTwo, nucleusThree]);
     const nucleus = Nucleus({ ...fakeArgs, type: context.COLLECTION, machine: 'people' });
-    nucleus.addNuclei({ nuclei: nucleusGroup });
-    assert.equal(nucleus.nuclei, nucleusGroup);
+    nucleus.addNuclei({ nuclei: fakeNuclei });
+    assert.equal(nucleus.nuclei, fakeNuclei);
     assert.equal(nucleus.nuclei.parent, nucleus);
   });
 
@@ -73,9 +73,9 @@ describe('Nucleus', function () {
     const nucleusOne = Nucleus({ ...fakeArgs, label: 'first_name' });
     const nucleusTwo = Nucleus({ ...fakeArgs, label: 'surname' });
     const nucleusThree = Nucleus({ ...fakeArgs, label: 'title' });
-    const nucleusGroup = NucleusGroup([nucleusOne, nucleusTwo, nucleusThree]);
+    const fakeNuclei = Nuclei([nucleusOne, nucleusTwo, nucleusThree]);
     const nucleus = Nucleus({ ...fakeArgs, machine: 'email_address' });
-    expect(() => nucleus.addNuclei({ nuclei: nucleusGroup })).to.throw('CANNOT_HAVE_CHILDREN');
+    expect(() => nucleus.addNuclei({ nuclei: fakeNuclei })).to.throw('CANNOT_HAVE_CHILDREN');
   });
 
   it('can validate a value against provided validators and expect a pass', () => {

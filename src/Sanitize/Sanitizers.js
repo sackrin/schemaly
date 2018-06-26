@@ -26,4 +26,4 @@ export class Sanitizers {
   }
 }
 
-export default (args: SanitizersArgs): Sanitizers => (new Sanitizers(args));
+export default (filters: Array<any>, options: Object = {}): Sanitizers => (new Sanitizers({ filters, ...options }));

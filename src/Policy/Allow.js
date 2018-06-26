@@ -26,9 +26,6 @@ export class Allow {
     this.roles = _.isArray(roles) ? roles : [ roles ];
     this.scope = _.isArray(scope) ? scope : [ scope ];
     this.options = options;
-    (this:any).grant = this.grant.bind(this);
-    (this:any).getRoles = this.getRoles.bind(this);
-    (this:any).getScope = this.getScope.bind(this);
   }
 
   getRoles = async ({ ...options }: { options: Object }): Promise<BuiltRoles> => {

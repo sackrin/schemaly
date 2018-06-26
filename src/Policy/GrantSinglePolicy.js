@@ -35,9 +35,14 @@ export class GrantSinglePolicy {
     // This is why best practice is to add a deny *, * policy to all policy groups
     return _.reduce(this.policies, async (flag: any, policy: any): Promise<boolean> => {
       const currFlag: Promise<boolean> = await flag;
-      return await policy.grant({ isotope, roles: builtRoles, scope: builtScope, ...options }) ? true : currFlag;
+      return await policy.grant({
+        isotope,
+        roles: builtRoles,
+        scope: builtScope,
+        ...options
+      }) ? true : currFlag;
     }, false);
   }
 }
 
-export default (args: GrantSinglePolicyArgs): GrantSinglePolicy => (new GrantSinglePolicy(args));
+export default (policies: Array<AllowPolicy | DenyPolicy>, options: Object = {}): GrantSinglePolicy => (new GrantSinglePolicy({ policies, ...options }));

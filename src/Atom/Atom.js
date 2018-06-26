@@ -1,21 +1,29 @@
-import { NucleusGroup } from '../Nucleus/NucleusGroup';
+import { Nuclei } from '../Nucleus/Nuclei';
 
 export type AtomArgs = {
   machine: string,
-  nuclei: NucleusGroup,
+  nuclei: Nuclei,
+  roles: Array<string | Function>,
+  scope: Array<string | Function>,
   label?: string
 };
 
 export class Atom {
   config: Object;
 
-  nuclei: NucleusGroup;
+  nuclei: Nuclei;
+
+  roles: Array<string | Function>;
+
+  scope: Array<string | Function>;
 
   options: Object;
 
-  constructor ({ machine, label, nuclei, ...options }: AtomArgs) {
+  constructor ({ machine, roles, scope, label, nuclei, ...options }: AtomArgs) {
     this.config = { machine, label };
     this.nuclei = nuclei;
+    this.roles = roles;
+    this.scope = scope;
     this.options = options;
   }
 }

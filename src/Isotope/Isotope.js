@@ -1,7 +1,8 @@
+import _ from 'lodash';
 import { Nucleus } from '../Nucleus';
 import { Reactor } from '../Reactor';
 import type { ValidationResult } from '../Validate/SimpleValidator';
-import { Isotopes } from './index';
+import { Isotopes } from './';
 
 export type IsotopeArgs = {
   reactor: Reactor,
@@ -51,6 +52,30 @@ export class Isotope {
     this.value = await setter({ value, isotope: this, ...options });
     // Return the built value
     return this.value;
+  };
+
+  find = (criteria: Object) => {
+    const { isotopes } = this;
+    if (_.isArray(isotopes)) {
+      return isotopes.reduce((found, item: Isotopes) => {
+        const search = item.find(criteria);
+        return !found && search ? search : found;
+      }, undefined);
+    } else {
+      return isotopes.find(criteria);
+    }
+  };
+
+  filter = (criteria: Object) => {
+    const { isotopes } = this;
+    if (_.isArray(isotopes)) {
+      return isotopes.reduce((lst, item: Isotopes) => {
+        const filtered = item.filter(criteria);
+        return filtered.length > 0 ? [ ...lst, ...filtered ] : lst;
+      }, []);
+    } else {
+      return isotopes.filter(criteria);
+    }
   };
 
   validate = async ({ ...options }: Object = {}): Promise<ValidationResult> => {

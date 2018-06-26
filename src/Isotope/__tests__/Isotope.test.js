@@ -14,20 +14,18 @@ describe('Isotope', () => {
       type: context.STRING,
       machine: 'first_name',
       label: 'First Name',
-      policies: GrantSinglePolicy({
-        policies: [
-          DenyPolicy({ roles: ['member'], scope: ['read', 'write'] }),
-          AllowPolicy({ roles: ['user', 'admin'], scope: ['read', 'write'] })
-        ]
-      }),
-      sanitizers: Sanitizers({ filters: [
+      policies: GrantSinglePolicy([
+        DenyPolicy({ roles: ['member'], scope: ['read', 'write'] }),
+        AllowPolicy({ roles: ['user', 'admin'], scope: ['read', 'write'] })
+      ]),
+      sanitizers: Sanitizers([
         SimpleSanitizer({ rules: ['trim'] }),
         SimpleSanitizer({ rules: ['upper_case'] })
-      ] }),
-      validators: Validators({ validators: [
+      ]),
+      validators: Validators([
         SimpleValidator({ rules: ['required'] }),
         SimpleValidator({ rules: ['min:5'] })
-      ] }),
+      ]),
       setters: [
         ({ isotope, value }) => (value.toString().toUpperCase())
       ],
@@ -122,4 +120,8 @@ describe('Isotope', () => {
         throw new Error(msg);
       });
   });
+
+  it('can use the find method to find the first child isotope matching the criteria');
+
+  it('can use the filter method to find all of the children isotopes matching the criteria');
 });

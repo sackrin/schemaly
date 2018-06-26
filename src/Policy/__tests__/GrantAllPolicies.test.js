@@ -24,12 +24,12 @@ describe('Grant All Policies', function () {
   ];
 
   it('can be created and have policies added to it', () => {
-    const policyGroup = GrantAllPolicies({ policies: simplePolicies });
+    const policyGroup = GrantAllPolicies(simplePolicies);
     assert.deepEqual(policyGroup.policies, simplePolicies);
   });
 
   it('perform a pass grant test with no policies', () => {
-    const policyGroup = GrantAllPolicies({ policies: [] });
+    const policyGroup = GrantAllPolicies([]);
     return policyGroup.grant({ isotope, roles: ['user'], scope: ['write'] })
       .then(result => {
         assert.equal(result, true);
@@ -38,7 +38,7 @@ describe('Grant All Policies', function () {
   });
 
   it('perform a simple pass grant', () => {
-    const policyGroup = GrantAllPolicies({ policies: simplePolicies });
+    const policyGroup = GrantAllPolicies(simplePolicies);
     return policyGroup.grant({ isotope, roles: ['user'], scope: ['write'] })
       .then(result => {
         assert.equal(result, true);
@@ -47,7 +47,7 @@ describe('Grant All Policies', function () {
   });
 
   it('perform a mixed pass grant', () => {
-    const policyGroup = GrantAllPolicies({ policies: complexPolicies });
+    const policyGroup = GrantAllPolicies(complexPolicies);
     return policyGroup.grant({ isotope, roles: ['user'], scope: ['write'] })
       .then(result => {
         assert.equal(result, true);
@@ -56,7 +56,7 @@ describe('Grant All Policies', function () {
   });
 
   it('perform a simple denied grant', () => {
-    const policyGroup = GrantAllPolicies({ policies: simplePolicies });
+    const policyGroup = GrantAllPolicies(simplePolicies);
     return policyGroup.grant({ isotope, roles: ['member'], scope: ['write'] })
       .then(result => {
         assert.equal(result, false);
@@ -65,7 +65,7 @@ describe('Grant All Policies', function () {
   });
 
   it('perform a mixed denied grant', () => {
-    const policyGroup = GrantAllPolicies({ policies: complexPolicies });
+    const policyGroup = GrantAllPolicies(complexPolicies);
     return policyGroup.grant({ isotope, roles: ['member'], scope: ['write'] })
       .then(result => {
         assert.equal(result, false);
