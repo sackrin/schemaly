@@ -13,6 +13,16 @@ export type IsotopeArgs = {
   getters?: Array<Function>
 };
 
+export const validateIsotopes = async (isotopes) => ();
+
+export const doSingleValidation = async (isotopes) => (isotopes ? isotopes.validate() : undefined);
+
+export const isSingleValid = (validated) => (validated.result);
+
+export const doMultiValidation = async (isotopes) => (Promise.all(_.map(isotopes, async (subgroup) => (subgroup.validate()))));
+
+export const isMultiValid = (validated) => (validated.reduce((curr, child) => (child.result !== true ? false : curr), true));
+
 export class Isotope {
   reactor: Reactor;
 
@@ -79,8 +89,14 @@ export class Isotope {
   };
 
   validate = async ({ ...options }: Object = {}): Promise<ValidationResult> => {
-    const { value, nucleus: { validate } } = this;
-    return validate({ value, isotope: this, ...options });
+    const { value, nucleus, isotopes } = this;
+    const validation = await nucleus.validate({ value, isotope: this, ...options });
+    const childValidation = await validateIsotopes(isotopes);
+    return isotopes ? {
+      ...validation,
+      result: (validation.result && childValid),
+      isotopes: _.isArray(isotopes) ? await doMultiValidation(isotopes) : await doSingleValidation(isotopes)
+    } : validation;
   };
 
   sanitize = async ({ ...options }: Object = {}) => {

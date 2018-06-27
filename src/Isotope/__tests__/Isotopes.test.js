@@ -3,11 +3,10 @@ import { Nucleus, Nuclei, context } from '../../Nucleus';
 import { Isotopes } from '../';
 import { Reactor } from '../../Reactor';
 import { Atom } from '../../Atom';
-import GrantSinglePolicy from '../../Policy/GrantSinglePolicy';
-import Deny from '../../Policy/Deny';
-import Allow from '../../Policy/Allow';
+import { GrantSinglePolicy, DenyPolicy, AllowPolicy } from '../../Policy';
+import { Validators, SimpleValidator } from '../../Validate';
 
-describe('Isotopes', () => {
+describe.only('Isotopes', () => {
   const fakeArgs = {
     reactor: Reactor({
       atom: Atom({}),
@@ -112,16 +111,16 @@ describe('Isotopes', () => {
           machine: 'first_name',
           label: 'First Name',
           policies: GrantSinglePolicy([
-            Deny({ roles: ['*'], scope: ['r', 'w'] }),
-            Allow({ roles: ['user'], scope: ['r', 'w'] })
+            DenyPolicy({ roles: ['*'], scope: ['r', 'w'] }),
+            AllowPolicy({ roles: ['user'], scope: ['r', 'w'] })
           ])
         }),
         Nucleus({ type: context.STRING,
           machine: 'last_name',
           label: 'Last Name',
           policies: GrantSinglePolicy([
-            Deny({ roles: ['*'], scope: ['r', 'w'] }),
-            Allow({ roles: ['owner'], scope: ['r', 'w'] })
+            DenyPolicy({ roles: ['*'], scope: ['r', 'w'] }),
+            AllowPolicy({ roles: ['owner'], scope: ['r', 'w'] })
           ])
         }),
         Nucleus({
@@ -132,8 +131,8 @@ describe('Isotopes', () => {
             Nucleus({ type: context.STRING, machine: 'name', label: 'Company Name' })
           ]),
           policies: GrantSinglePolicy([
-            Deny({ roles: ['*'], scope: ['r', 'w'] }),
-            Allow({ roles: ['owner'], scope: ['r', 'w'] })
+            DenyPolicy({ roles: ['*'], scope: ['r', 'w'] }),
+            AllowPolicy({ roles: ['owner'], scope: ['r', 'w'] })
           ])
         }),
         Nucleus({
@@ -146,8 +145,8 @@ describe('Isotopes', () => {
               machine: 'label',
               label: 'Label',
               policies: GrantSinglePolicy([
-                Deny({ roles: ['*'], scope: ['r', 'w'] }),
-                Allow({ roles: ['user'], scope: ['r', 'w'] })
+                DenyPolicy({ roles: ['*'], scope: ['r', 'w'] }),
+                AllowPolicy({ roles: ['user'], scope: ['r', 'w'] })
               ])
             }),
             Nucleus({
@@ -155,14 +154,14 @@ describe('Isotopes', () => {
               machine: 'address',
               label: 'Address',
               policies: GrantSinglePolicy([
-                Deny({ roles: ['*'], scope: ['r', 'w'] }),
-                Allow({ roles: ['owner'], scope: ['r', 'w'] })
+                DenyPolicy({ roles: ['*'], scope: ['r', 'w'] }),
+                AllowPolicy({ roles: ['owner'], scope: ['r', 'w'] })
               ])
             })
           ]),
           policies: GrantSinglePolicy([
-            Deny({ roles: ['*'], scope: ['r', 'w'] }),
-            Allow({ roles: ['user'], scope: ['r', 'w'] })
+            DenyPolicy({ roles: ['*'], scope: ['r', 'w'] }),
+            AllowPolicy({ roles: ['user'], scope: ['r', 'w'] })
           ])
         })
       ])
@@ -180,4 +179,78 @@ describe('Isotopes', () => {
         throw new Error(msg);
       });
   });
+
+  it('can perform validation against hydrated isotopes and pass', () => {
+    const fakeIsotopes = Isotopes({
+      ...fakeArgs,
+      nuclei: Nuclei([
+        Nucleus({
+          type: context.STRING,
+          machine: 'first_name',
+          label: 'First Name',
+          validators: Validators([
+            SimpleValidator({ rules: ['required', 'min:5'] })
+          ])
+        }),
+        Nucleus({
+          type: context.STRING,
+          machine: 'last_name',
+          label: 'Last Name',
+          validators: Validators([
+            SimpleValidator({ rules: ['required', 'min:5'] })
+          ])
+        }),
+        Nucleus({
+          type: context.CONTAINER,
+          machine: 'company',
+          label: 'Company',
+          nuclei: Nuclei([
+            Nucleus({
+              type: context.STRING,
+              machine: 'name',
+              label: 'Company Name',
+              validators: Validators([
+                SimpleValidator({ rules: ['required', 'min:5'] })
+              ])
+            })
+          ])
+        }),
+        Nucleus({
+          type: context.COLLECTION,
+          machine: 'emails',
+          label: 'Emails',
+          nuclei: Nuclei([
+            Nucleus({
+              type: context.STRING,
+              machine: 'label',
+              label: 'Label',
+              validators: Validators([
+                SimpleValidator({ rules: ['required', 'min:5'] })
+              ])
+            }),
+            Nucleus({
+              type: context.STRING,
+              machine: 'address',
+              label: 'Address',
+              validators: Validators([
+                SimpleValidator({ rules: ['required', 'min:5'] })
+              ])
+            })
+          ])
+        })
+      ])
+    });
+    return fakeIsotopes
+      .hydrate({ values: fakeValues })
+      .then(() => (fakeIsotopes.validate({ result: true, report: {} })))
+      .then(report => {
+        console.log(report);
+        // expect(report.result).to.equal(true);
+        // expect(report.messages).to.equal([]);
+      });
+  });
+
+  it('can generate an value object');
+
+  it('can generate a correct value object with policies');
 });

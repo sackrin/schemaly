@@ -68,6 +68,21 @@ export class Isotopes {
     }));
     return this;
   };
+
+  validate = async (options:Object = {}) => {
+    const { isotopes } = this;
+    let validations = {};
+    let valid = true;
+    await Promise.all(isotopes.map(async (isotope: Isotope) => {
+      const validated = await isotope.validate({ ...options });
+      if (validated.result === false) { valid = false; }
+      validations[`${isotope.machine}`] = validated;
+    }));
+    return {
+      result: valid,
+      isotopes: validations
+    };
+  };
 }
 
 export default (args: IsotopesArgs) => new Isotopes(args);

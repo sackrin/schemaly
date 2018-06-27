@@ -12,28 +12,33 @@ describe('Reactor', () => {
       scope: ['read', 'write'],
       roles: ['user', 'admin'],
       nuclei: Nuclei([
-        Nucleus({ type: context.STRING, label: 'title' }),
-        Nucleus({ type: context.STRING, label: 'first_name' }),
-        Nucleus({ type: context.STRING, label: 'surname' })
+        Nucleus({
+          type: context.STRING,
+          label: 'Title',
+          machine: 'title'
+        }),
+        Nucleus({
+          type: context.STRING,
+          label: 'First Name',
+          machine: 'first_name'
+        }),
+        Nucleus({
+          type: context.STRING,
+          label: 'Surname',
+          machine: 'surname'
+        })
       ])
     }),
     roles: ['user', 'admin'],
     scope: ['read']
   };
 
-  const fakeValues = {
-    firstName: 'Johnny',
-    lastName: 'Worth',
-    emails: [
-      {
-        primary: false,
-        address: 'johnny.worth@example.com'
-      },
-      {
-        primary: false,
-        address: 'johnny.worth@example.com'
-      }
-    ]
+  const fakeWithArgs = {
+    values: {
+      title: 'Mr',
+      first_name: 'Johnny',
+      surname: 'Worth',
+    }
   };
 
   it('can create a reactor instance with an atom', () => {
@@ -46,31 +51,13 @@ describe('Reactor', () => {
 
   it('can react with values to produce a hydrated set of isotopes', () => {
     const fakeReactor = Reactor({ ...fakeArgs });
-    return fakeReactor.with({ ...fakeValues })
+    return fakeReactor.with({ ...fakeWithArgs })
       .then(isotopes => {
-        // console.log(isotopes);
+        expect(isotopes.find({ machine: 'title' })).to.not.be.undefined;
+        expect(isotopes.find({ machine: 'first_name' })).to.not.be.undefined;
+        expect(isotopes.find({ machine: 'surname' })).to.not.be.undefined;
       }).catch((msg) => {
         throw new Error(msg);
-      });
-  });
-
-  it('can throw an exception if roles are provided that are not in the provided Atom', () => {
-    const fakeReactor = Reactor({ ...fakeArgs, roles: ['user', 'guest'] });
-    return fakeReactor.with({ ...fakeValues })
-      .then(() => {
-        throw new Error('should not have reached here');
-      }).catch((error) => {
-        expect(error.message).to.equal('REACTOR_INVALID_ROLES');
-      });
-  });
-
-  it('can throw an exception if scope are provided that are not in the provided Atom', () => {
-    const fakeReactor = Reactor({ ...fakeArgs, scope: ['update'] });
-    return fakeReactor.with({ ...fakeValues })
-      .then(() => {
-        throw new Error('should not have reached here');
-      }).catch((error) => {
-        expect(error.message).to.equal('REACTOR_INVALID_SCOPE');
       });
   });
 });

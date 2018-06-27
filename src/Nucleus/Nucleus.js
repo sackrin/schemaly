@@ -73,8 +73,8 @@ export class Nucleus {
   };
 
   validate = async ({ value, isotope, ...options }: { value: any, isotope: Isotope, options?: Object }) => {
-    const { validators: { validate } } = this;
-    return validate({ value, isotope, ...options });
+    const { validators } = this;
+    return validators ? validators.validate({ value, isotope, ...options }) : { result: true, messages: [] };
   };
 
   sanitize = async ({ value, isotope, ...options }: { value: any, isotope: Isotope, options?: Object }) => {
