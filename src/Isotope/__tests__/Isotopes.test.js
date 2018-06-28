@@ -6,7 +6,7 @@ import { Atom } from '../../Atom';
 import { GrantSinglePolicy, DenyPolicy, AllowPolicy } from '../../Policy';
 import { Validators, SimpleValidator } from '../../Validate';
 
-describe.only('Isotopes', () => {
+describe('Isotopes', () => {
   const fakeArgs = {
     reactor: Reactor({
       atom: Atom({}),

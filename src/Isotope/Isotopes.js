@@ -6,8 +6,7 @@ import { Isotope } from './';
 export type IsotopesArgs = {
   reactor: Reactor,
   nuclei: Nuclei,
-  roles: Array<string | Function>,
-  scope: Array<string | Function>,
+  values: Array<any>,
   options?: Object
 };
 
@@ -16,19 +15,16 @@ export class Isotopes {
 
   nuclei: Nuclei;
 
+  values: Array<any>;
+
   isotopes: Array<Isotope> = [];
-
-  roles: Array<string | Function> = [];
-
-  scope: Array<string | Function> = [];
 
   options: Object;
 
-  constructor ({ reactor, grouped, nuclei, scope, roles, ...options }: IsotopesArgs) {
+  constructor ({ reactor, nuclei, values, ...options }: IsotopesArgs) {
     this.reactor = reactor;
     this.nuclei = nuclei;
-    this.scope = scope;
-    this.roles = roles;
+    this.values = values;
     this.options = options;
   }
 
@@ -42,29 +38,14 @@ export class Isotopes {
     return _.filter(isotopes, criteria);
   };
 
-  hydrate = async ({ values }: { values: Object }) => {
-    const { reactor, nuclei, isotopes, scope, roles } = this;
+  hydrate = async (options: Object = {}) => {
+    const { reactor, nuclei, isotopes, values } = this;
     await Promise.all(nuclei.all().map(async nucleus => {
-      const { machine, grant, type } = nucleus;
-      const value = _.get(values, machine, undefined);
+      const value = _.get(values, nucleus.machine, undefined);
       const isotope = Isotope({ reactor, nucleus, value });
-      if (!await grant({ isotope, scope, roles })) { return; }
-      if ((type.children || type.repeater) && !nucleus.nuclei) {
-        throw new Error('NUCLEUS_EXPECTS_CHILDREN');
+      if (await isotope.grant()) {
+        isotopes.push(await isotope.hydrate());
       }
-      if (type.children && !type.repeater) {
-        isotope.isotopes = new Isotopes({ reactor, nucleus, nuclei: nucleus.nuclei, scope, roles });
-        await isotope.isotopes.hydrate({ values: await isotope.getValue() });
-      } else if (type.children && type.repeater) {
-        const items = await isotope.getValue();
-        isotope.isotopes = [];
-        await Promise.all(items.map(async item => {
-          const group = new Isotopes({ reactor, nuclei: nucleus.nuclei, scope, roles });
-          await group.hydrate({ values: item });
-          isotope.isotopes.push(group);
-        }));
-      }
-      isotopes.push(isotope);
     }));
     return this;
   };
