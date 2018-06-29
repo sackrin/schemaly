@@ -29,8 +29,8 @@ describe('Simple Validator', function () {
     const validator = SimpleValidator({ rules: [simpleStringRule] });
     return validator
       .validate({ value: 'Johnny' })
-      .then(({ result, messages }) => {
-        assert.equal(result, true);
+      .then(({ valid, messages }) => {
+        assert.equal(valid, true);
         assert.deepEqual(messages, []);
       }).catch((msg) => { throw new Error(msg); });
   });
@@ -39,8 +39,8 @@ describe('Simple Validator', function () {
     const validator = SimpleValidator({ rules: [simpleStringRule] });
     return validator
       .validate({ value: 'John' })
-      .then(({ result, messages }) => {
-        assert.equal(result, false);
+      .then(({ valid, messages }) => {
+        assert.equal(valid, false);
         assert.deepEqual(messages, [ 'The value must be at least 5 characters.' ]);
       }).catch((msg) => { throw new Error(msg); });
   });
@@ -52,8 +52,8 @@ describe('Simple Validator', function () {
     const validator = SimpleValidator({ rules: [simpleStringRule] });
     return validator
       .validate({ value: simplePromiseValue })
-      .then(({ result, messages }) => {
-        assert.equal(result, true);
+      .then(({ valid, messages }) => {
+        assert.equal(valid, true);
         assert.deepEqual(messages, []);
       }).catch((msg) => { throw new Error(msg); });
   });
@@ -65,8 +65,8 @@ describe('Simple Validator', function () {
     const validator = SimpleValidator({ rules: [simpleStringRule] });
     return validator
       .validate({ value: simplePromiseValue })
-      .then(({ result, messages }) => {
-        assert.equal(result, false);
+      .then(({ valid, messages }) => {
+        assert.equal(valid, false);
         assert.deepEqual(messages, [ 'The value must be at least 5 characters.' ]);
       }).catch((msg) => { throw new Error(msg); });
   });

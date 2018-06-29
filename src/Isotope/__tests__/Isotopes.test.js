@@ -13,34 +13,29 @@ describe('Isotopes', () => {
       roles: ['user', 'admin'],
       scope: ['r', 'w']
     }),
-    roles: ['user', 'admin'],
-    scope: ['r']
-  };
-
-  const fakeValues = {
-    first_name: 'Thomas',
-    last_name: 'Tank Engine',
-    company: {
-      name: 'Acme Company',
-      address: '1 Engine Road'
-    },
-    emails: [
-      {
-        label: 'Home Email',
-        address: 'example@home.com'
+    values: {
+      first_name: 'Thomas',
+      last_name: 'Tank Engine',
+      company: {
+        name: 'Acme Company',
+        address: '1 Engine Road'
       },
-      {
-        label: 'Work Email',
-        address: 'example@work.com'
-      }
-    ]
+      emails: [
+        {
+          label: 'Home Email',
+          address: 'example@home.com'
+        },
+        {
+          label: 'Work Email',
+          address: 'example@work.com'
+        }
+      ]
+    }
   };
 
   it('can create an Isotopes group with standard arguments', () => {
     const fakeIsotopes = Isotopes({ ...fakeArgs, test: true });
     expect(fakeIsotopes.reactor).to.deep.equal(fakeArgs.reactor);
-    expect(fakeIsotopes.roles).to.deep.equal(fakeArgs.roles);
-    expect(fakeIsotopes.scope).to.deep.equal(fakeArgs.scope);
     expect(fakeIsotopes.options).to.deep.equal({ test: true });
   });
 
@@ -69,7 +64,7 @@ describe('Isotopes', () => {
         })
       ])
     });
-    return fakeIsotopes.hydrate({ values: fakeValues })
+    return fakeIsotopes.hydrate()
       .then(() => {
         expect(fakeIsotopes.find({ machine: 'first_name' })).to.not.be.undefined;
         expect(fakeIsotopes.find({ machine: 'last_name' })).to.not.be.undefined;
@@ -94,7 +89,7 @@ describe('Isotopes', () => {
         })
       ])
     });
-    return fakeIsotopes.hydrate({ values: fakeValues })
+    return fakeIsotopes.hydrate()
       .then(() => {
         throw new Error('should not have reached here');
       }).catch(error => {
@@ -166,7 +161,7 @@ describe('Isotopes', () => {
         })
       ])
     });
-    return fakeIsotopes.hydrate({ values: fakeValues })
+    return fakeIsotopes.hydrate()
       .then(() => {
         expect(fakeIsotopes.find({ machine: 'first_name' })).to.not.be.undefined;
         expect(fakeIsotopes.find({ machine: 'last_name' })).to.be.undefined;
@@ -180,7 +175,7 @@ describe('Isotopes', () => {
       });
   });
 
-  it('can perform validation against hydrated isotopes and pass', () => {
+  it('can perform validation against hydrated isotopes and PASS', () => {
     const fakeIsotopes = Isotopes({
       ...fakeArgs,
       nuclei: Nuclei([
@@ -241,16 +236,96 @@ describe('Isotopes', () => {
       ])
     });
     return fakeIsotopes
-      .hydrate({ values: fakeValues })
-      .then(() => (fakeIsotopes.validate({ result: true, report: {} })))
-      .then(report => {
-        console.log(report);
-        // expect(report.result).to.equal(true);
-        // expect(report.messages).to.equal([]);
+      .hydrate()
+      .then(fakeIsotopes.validate)
+      .then(result => {
+        expect(result.first_name.valid).to.equal(true);
+        expect(result.last_name.valid).to.equal(true);
+        expect(result.company.valid).to.equal(true);
+        expect(result.company.children[0].name.valid).to.equal(true);
+        expect(result.emails.valid).to.equal(true);
+        expect(result.emails.children[0].label.valid).to.equal(true);
+        expect(result.emails.children[0].address.valid).to.equal(true);
+        expect(result.emails.children[1].label.valid).to.equal(true);
+        expect(result.emails.children[1].address.valid).to.equal(true);
       });
   });
 
-  it('can generate an value object');
+  it('can perform validation against hydrated isotopes and FAIL', () => {
+    const fakeIsotopes = Isotopes({
+      ...fakeArgs,
+      nuclei: Nuclei([
+        Nucleus({
+          type: context.STRING,
+          machine: 'first_name',
+          label: 'First Name',
+          validators: Validators([
+            SimpleValidator({ rules: ['required', 'min:5'] })
+          ])
+        }),
+        Nucleus({
+          type: context.STRING,
+          machine: 'last_name',
+          label: 'Last Name',
+          validators: Validators([
+            SimpleValidator({ rules: ['required', 'min:5'] })
+          ])
+        }),
+        Nucleus({
+          type: context.CONTAINER,
+          machine: 'company',
+          label: 'Company',
+          nuclei: Nuclei([
+            Nucleus({
+              type: context.STRING,
+              machine: 'name',
+              label: 'Company Name',
+              validators: Validators([
+                SimpleValidator({ rules: ['required', 'min:25'] })
+              ])
+            })
+          ])
+        }),
+        Nucleus({
+          type: context.COLLECTION,
+          machine: 'emails',
+          label: 'Emails',
+          nuclei: Nuclei([
+            Nucleus({
+              type: context.STRING,
+              machine: 'label',
+              label: 'Label',
+              validators: Validators([
+                SimpleValidator({ rules: ['required', 'min:5'] })
+              ])
+            }),
+            Nucleus({
+              type: context.STRING,
+              machine: 'address',
+              label: 'Address',
+              validators: Validators([
+                SimpleValidator({ rules: ['required', 'min:25'] })
+              ])
+            })
+          ])
+        })
+      ])
+    });
+    return fakeIsotopes
+      .hydrate()
+      .then(fakeIsotopes.validate)
+      .then(result => {
+        expect(result.first_name.valid).to.equal(true);
+        expect(result.last_name.valid).to.equal(true);
+        expect(result.company.valid).to.equal(false);
+        expect(result.company.children[0].name.valid).to.equal(false);
+        expect(result.emails.valid).to.equal(false);
+        expect(result.emails.children[0].label.valid).to.equal(true);
+        expect(result.emails.children[0].address.valid).to.equal(false);
+        expect(result.emails.children[1].label.valid).to.equal(true);
+        expect(result.emails.children[1].address.valid).to.equal(false);
+      });
+  });
 
-  it('can generate a correct value object with policies');
+  it('can generate a value object with policies');
 });

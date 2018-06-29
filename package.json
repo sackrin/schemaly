@@ -1,5 +1,5 @@
 {
-  "name": "fission.js",
+  "name": "fissionjs",
   "version": "0.0.1",
   "description": "",
   "main": "./dist/index.js",

@@ -5,7 +5,7 @@ export type SanitizersArgs = {
 };
 
 export class Sanitizers {
-  filters: Array<any>;
+  filters: Array<any> = [];
 
   options: Object;
 
@@ -20,7 +20,7 @@ export class Sanitizers {
     // If no collect then return a pass grant
     if (this.filters.length === 0) { return filterValue; }
     // Loop through and ensure all collect pass for given value
-    return _.reduce(this.filters, async (value: any, filter: any) => {
+    return this.filters.reduce(async (value: any, filter: any) => {
       return filter.apply({ value: await value, ...options });
     }, filterValue);
   }

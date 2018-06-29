@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { buildRules } from './utils';
 import Validator from 'validatorjs';
 
-export type ValidationResult = { result: boolean, messages: Array<string> };
+export type ValidationResult = { valid: boolean, messages: Array<string> };
 
 export type SimpleValidatorArgs = {
   rules: Array<string | Function>
@@ -28,9 +28,9 @@ export class SimpleValidator {
     const usingValue: any = !_.isFunction(value) ? value : await value({ ...this.options, ...options });
     const validation = new Validator({ value: usingValue }, { value: usingRules });
     if (validation.fails()) {
-      return { result: false, messages: [...validation.errors.get('value'), ..._.get(this.options, 'error_messages', [])] };
+      return { valid: false, messages: [...validation.errors.get('value'), ..._.get(this.options, 'error_messages', [])], children: [] };
     } else {
-      return { result: true, messages: [..._.get(this.options, 'success_messages', [])] };
+      return { valid: true, messages: [..._.get(this.options, 'success_messages', [])], children: [] };
     }
   };
 }

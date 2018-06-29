@@ -7,7 +7,7 @@ import { Nucleus, context, Nuclei } from '../../Nucleus';
 import Isotope from '../Isotope';
 import { Reactor } from '../../Reactor';
 
-describe.only('Isotope', () => {
+describe('Isotope', () => {
   const mockSingleParams = {
     reactor: Reactor({
       scope: ['read'],
@@ -68,7 +68,7 @@ describe.only('Isotope', () => {
           ]),
           validators: Validators([
             SimpleValidator({ rules: ['required'] }),
-            SimpleValidator({ rules: ['min:5'] })
+            SimpleValidator({ rules: ['min:3'] })
           ])
         }),
         Nucleus({
@@ -85,7 +85,7 @@ describe.only('Isotope', () => {
           ]),
           validators: Validators([
             SimpleValidator({ rules: ['required'] }),
-            SimpleValidator({ rules: ['min:5'] })
+            SimpleValidator({ rules: ['min:3'] })
           ])
         }),
         Nucleus({
@@ -217,7 +217,7 @@ describe.only('Isotope', () => {
     return fakeIsotope
       .hydrate()
       .then(() => {
-        expect(fakeIsotope.value).to.equal('JOHNNY');
+        expect(fakeIsotope.value).to.equal('johnny');
       });
   });
 
@@ -236,7 +236,7 @@ describe.only('Isotope', () => {
       });
   });
 
-  it('can hydrate an isotope against a collection set', () => {
+  it('can hydrate an isotope against a repeater set', () => {
     const fakeIsotope = Isotope({
       ...mockCollectParams
     });
@@ -251,60 +251,263 @@ describe.only('Isotope', () => {
       });
   });
 
-  it.only('can validate against a simple value and pass', () => {
+  it('can use the find method on a container', () => {
     const fakeIsotope = Isotope({
-      ...mockSingleParams
+      ...mockGroupParams
     });
-    return fakeIsotope.validate()
-      .then(({ result, messages }) => {
-        assert.equal(result, true);
-        assert.deepEqual(messages, []);
-      }).catch((msg) => {
-        throw new Error(msg);
-      });
-  });
-
-  it('can validate against a simple value and pass', () => {
-    const fakeIsotope = Isotope({
-      ...mockSingleParams
-    });
-    return fakeIsotope.validate()
-      .then(({ result, messages }) => {
-        assert.equal(result, true);
-        assert.deepEqual(messages, []);
-      }).catch((msg) => {
-        throw new Error(msg);
-      });
-  });
-
-  it('can validate against a simple value and fail', () => {
-    const fakeIsotope = Isotope({
-      ...mockSingleParams,
-      value: 'John'
-    });
-    return fakeIsotope.validate()
-      .then(({ result, messages }) => {
-        assert.equal(result, false);
-        assert.deepEqual(messages, [ 'The value must be at least 5 characters.' ]);
-      }).catch((msg) => {
-        throw new Error(msg);
-      });
-  });
-
-  it('can apply sanitizers to its value and produce a new value', () => {
-    const fakeIsotope = Isotope({
-      ...mockSingleParams,
-      value: ' Johnny '
-    });
-    return fakeIsotope.sanitize()
+    return fakeIsotope
+      .hydrate()
       .then(() => {
-        assert.equal(fakeIsotope.value, 'JOHNNY');
+        expect(fakeIsotope.find({ machine: 'first_name' })).to.not.be.undefined;
+        expect(fakeIsotope.find({ machine: 'first_name' }).value).to.equal('Toby');
+        expect(fakeIsotope.find({ machine: 'surname' })).to.not.be.undefined;
+        expect(fakeIsotope.find({ machine: 'surname' }).value).to.equal('Smith');
+        expect(fakeIsotope.find({ machine: 'secret' })).to.be.undefined;
+        expect(fakeIsotope.find({ machine: 'notexists' })).to.be.undefined;
       }).catch((msg) => {
         throw new Error(msg);
       });
   });
 
-  it('can use the find method to find the first child isotope matching the criteria');
+  it('can use the find method on a repeater', () => {
+    const fakeIsotope = Isotope({
+      ...mockCollectParams
+    });
+    return fakeIsotope
+      .hydrate()
+      .then(() => {
+        expect(fakeIsotope.find({ machine: 'label' })).to.not.be.undefined;
+        expect(fakeIsotope.find({ machine: 'label' }).value).to.equal('Home Address');
+        expect(fakeIsotope.find({ machine: 'address' })).to.not.be.undefined;
+        expect(fakeIsotope.find({ machine: 'address' }).value).to.equal('test1@example.com');
+        expect(fakeIsotope.find({ machine: 'secret' })).to.be.undefined;
+        expect(fakeIsotope.find({ machine: 'notexists' })).to.be.undefined;
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
 
-  it('can use the filter method to find all of the children isotopes matching the criteria');
+  it('can use the filter method on a container', () => {
+    const fakeIsotope = Isotope({
+      ...mockGroupParams
+    });
+    return fakeIsotope
+      .hydrate()
+      .then(() => {
+        expect(fakeIsotope.filter({ machine: 'first_name' })).to.have.length(1);
+        expect(fakeIsotope.filter({ machine: 'first_name' })[0].value).to.equal('Toby');
+        expect(fakeIsotope.filter({ machine: 'surname' })).to.have.length(1);
+        expect(fakeIsotope.filter({ machine: 'surname' })[0].value).to.equal('Smith');
+        expect(fakeIsotope.filter({ machine: 'secret' })).to.have.length(0);
+        expect(fakeIsotope.filter({ machine: 'notexists' })).to.have.length(0);
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can use the filter method on a collection', () => {
+    const fakeIsotope = Isotope({
+      ...mockCollectParams
+    });
+    return fakeIsotope
+      .hydrate()
+      .then(() => {
+        expect(fakeIsotope.filter({ machine: 'label' })).to.have.length(2);
+        expect(fakeIsotope.filter({ machine: 'label' })[0].value).to.equal('Home Address');
+        expect(fakeIsotope.filter({ machine: 'address' })).to.have.length(2);
+        expect(fakeIsotope.filter({ machine: 'address' })[0].value).to.equal('test1@example.com');
+        expect(fakeIsotope.filter({ machine: 'secret' })).to.have.length(0);
+        expect(fakeIsotope.filter({ machine: 'notexists' })).to.have.length(0);
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can sanitize a simple isotope', () => {
+    const fakeIsotope = Isotope({
+      ...mockSingleParams,
+      value: '  johNSton '
+    });
+    return fakeIsotope
+      .hydrate()
+      .then(fakeIsotope.sanitize)
+      .then(() => {
+        assert.equal(fakeIsotope.value, 'JOHNSTON');
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can sanitize a container isotope', () => {
+    const fakeIsotope = Isotope({
+      ...mockGroupParams,
+      value: {
+        first_name: '  JessIca ',
+        surname: ' Smitherson '
+      }
+    });
+    return fakeIsotope
+      .hydrate()
+      .then(fakeIsotope.sanitize)
+      .then(() => {
+        expect(fakeIsotope.find({ machine: 'first_name' }).value).to.equal('JESSICA');
+        expect(fakeIsotope.find({ machine: 'surname' }).value).to.equal('SMITHERSON');
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can sanitize a repeater isotope', () => {
+    const fakeIsotope = Isotope({
+      ...mockCollectParams,
+      value: [
+        {
+          label: 'Home Address',
+          address: 'bill@example.com  '
+        },
+        {
+          label: ' Work Address   ',
+          address: '  john@example.com',
+        }
+      ]
+    });
+    return fakeIsotope
+      .hydrate()
+      .then(fakeIsotope.sanitize)
+      .then(() => {
+        expect(fakeIsotope.filter({ machine: 'label' })[0].value).to.equal('HOME ADDRESS');
+        expect(fakeIsotope.filter({ machine: 'address' })[0].value).to.equal('BILL@EXAMPLE.COM');
+        expect(fakeIsotope.filter({ machine: 'label' })[1].value).to.equal('WORK ADDRESS');
+        expect(fakeIsotope.filter({ machine: 'address' })[1].value).to.equal('JOHN@EXAMPLE.COM');
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can validate against a simple and PASS', () => {
+    const fakeIsotope = Isotope({
+      ...mockSingleParams
+    });
+    return fakeIsotope
+      .hydrate()
+      .then(fakeIsotope.validate)
+      .then(({ valid, messages, children }) => {
+        assert.equal(valid, true);
+        assert.deepEqual(messages, []);
+        assert.deepEqual(children, []);
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can validate against a simple and FAIL', () => {
+    const fakeIsotope = Isotope({
+      ...mockSingleParams,
+      value: 'bill'
+    });
+    return fakeIsotope
+      .hydrate()
+      .then(fakeIsotope.validate)
+      .then(({ valid, messages, children }) => {
+        assert.equal(valid, false);
+        assert.deepEqual(messages, [ 'The value must be at least 5 characters.' ]);
+        assert.deepEqual(children, []);
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can validate against a container and PASS', () => {
+    const fakeIsotope = Isotope({
+      ...mockGroupParams
+    });
+    return fakeIsotope
+      .hydrate()
+      .then(fakeIsotope.validate)
+      .then(({ valid, messages, children }) => {
+        expect(valid).to.equal(true);
+        expect(messages).to.have.length(0);
+        expect(children).to.have.length(1);
+        expect(children[0].first_name.valid).to.equal(true);
+        expect(children[0].surname.valid).to.equal(true);
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can validate against a container and FAIL', () => {
+    const fakeIsotope = Isotope({
+      ...mockGroupParams,
+      value: {
+        first_name: 'Yi',
+        surname: 'Gi',
+        secret: 'notseethis'
+      }
+    });
+    return fakeIsotope
+      .hydrate()
+      .then(fakeIsotope.validate)
+      .then(({ valid, messages, children }) => {
+        expect(valid).to.equal(false);
+        expect(messages).to.have.length(0);
+        expect(children).to.have.length(1);
+        expect(children[0].first_name.valid).to.equal(false);
+        expect(children[0].first_name.messages).to.have.length(1);
+        expect(children[0].surname.valid).to.equal(false);
+        expect(children[0].surname.messages).to.have.length(1);
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can validate against a repeater and PASS', () => {
+    const fakeIsotope = Isotope({
+      ...mockCollectParams
+    });
+    return fakeIsotope
+      .hydrate()
+      .then(fakeIsotope.validate)
+      .then(({ valid, messages, children }) => {
+        expect(valid).to.equal(true);
+        expect(messages).to.have.length(0);
+        expect(children).to.have.length(2);
+        expect(children[0].address.valid).to.equal(true);
+        expect(children[0].label.valid).to.equal(true);
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can validate against a repeater value and FAIL', () => {
+    const fakeIsotope = Isotope({
+      ...mockCollectParams,
+      value: [
+        {
+          label: 'Fail',
+          address: 'Fail',
+          secret: 'notseethis'
+        },
+        {
+          label: 'Fail',
+          address: 'Fail',
+          secret: 'notseethis'
+        }
+      ]
+    });
+    return fakeIsotope
+      .hydrate()
+      .then(fakeIsotope.validate)
+      .then(({ valid, messages, children }) => {
+        expect(valid).to.equal(false);
+        expect(messages).to.have.length(0);
+        expect(children).to.have.length(2);
+        expect(children[0].address.valid).to.equal(false);
+        expect(children[0].address.messages).to.have.length(1);
+        expect(children[0].label.valid).to.equal(false);
+        expect(children[0].label.messages).to.have.length(1);
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
 });

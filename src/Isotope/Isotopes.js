@@ -15,7 +15,7 @@ export class Isotopes {
 
   nuclei: Nuclei;
 
-  values: Array<any>;
+  values: Object;
 
   isotopes: Array<Isotope> = [];
 
@@ -53,16 +53,17 @@ export class Isotopes {
   validate = async (options:Object = {}) => {
     const { isotopes } = this;
     let validations = {};
-    let valid = true;
     await Promise.all(isotopes.map(async (isotope: Isotope) => {
-      const validated = await isotope.validate({ ...options });
-      if (validated.result === false) { valid = false; }
-      validations[`${isotope.machine}`] = validated;
+      validations[`${isotope.machine}`] = await isotope.validate({ ...options });
     }));
-    return {
-      result: valid,
-      isotopes: validations
-    };
+    return validations;
+  };
+
+  sanitize = async () => {
+    const { isotopes, options } = this;
+    await Promise.all(isotopes.map(async (isotope: Isotope) => {
+      await isotope.sanitize(options);
+    }));
   };
 }
 

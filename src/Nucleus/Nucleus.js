@@ -74,21 +74,19 @@ export class Nucleus {
 
   validate = async ({ value, isotope, ...options }: { value: any, isotope: Isotope, options?: Object }) => {
     const { validators } = this;
-    return validators ? validators.validate({ value, isotope, ...options }) : { result: true, messages: [] };
+    return validators ? validators.validate({ value, isotope, ...options }) : { valid: true, messages: [], children: [] };
   };
 
-  sanitize = async ({ value, isotope, ...options }: { value: any, isotope: Isotope, options?: Object }) => {
-    const { sanitizers: { filter } } = this;
-    return filter({ value, isotope, ...options });
+  sanitize = async ({ isotope, ...options }: { isotope: Isotope, options?: Object }) => {
+    const { sanitizers } = this;
+    return sanitizers.filter({ value: isotope.value, isotope, ...options });
   };
 
   getter = async ({ value, isotope, ...options }: { value:any, isotope: Isotope, options?: Object } = {}) => {
-    // Return the built value
     return _.reduce(this.getters, async (value, getter) => (getter({ isotope, value, options })), value);
   };
 
   setter = async ({ value, isotope, ...options }: { value: any, isotope: Isotope, options?: Object }) => {
-    // Assign the built value
     return _.reduce(this.setters, async (value, setter) => (setter({ isotope, value, options })), value);
   };
 }

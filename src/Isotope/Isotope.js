@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { Nucleus } from '../Nucleus';
 import { Reactor } from '../Reactor';
 import type { ValidationResult } from '../Validate/SimpleValidator';
@@ -12,16 +11,6 @@ export type IsotopeArgs = {
   setters?: Array<Function>,
   getters?: Array<Function>
 };
-
-// export const validateIsotopes = async (isotopes) => ({});
-//
-// export const doSingleValidation = async (isotopes) => (isotopes ? isotopes.validate() : undefined);
-//
-// export const isSingleValid = (validated) => (validated.result);
-//
-// export const doMultiValidation = async (isotopes) => (Promise.all(_.map(isotopes, async (subgroup) => (subgroup.validate()))));
-//
-// export const isMultiValid = (validated) => (validated.reduce((curr, child) => (child.result !== true ? false : curr), true));
 
 export class Isotope {
   reactor: Reactor;
@@ -84,18 +73,17 @@ export class Isotope {
   };
 
   hydrate = async (options: Object = {}) => {
-    const { reactor, nucleus } = this;
+    const { reactor, nucleus, value } = this;
     const { type, nuclei } = nucleus;
     if ((type.children || type.repeater) && !nuclei) {
       throw new Error('NUCLEUS_EXPECTS_CHILDREN');
     }
     const hydrated = [];
-    const value = await this.getValue();
     if (type.children && !type.repeater) {
       hydrated.push(await Isotopes({ reactor, nuclei, values: value }).hydrate(options));
     } else if (type.children && type.repeater) {
-      await Promise.all(value.map(async value => {
-        hydrated.push(await Isotopes({ reactor, nuclei, values: value }).hydrate(options));
+      await Promise.all(value.map(async _value => {
+        hydrated.push(await Isotopes({ reactor, nuclei, values: _value }).hydrate(options));
       }));
     }
     this.children = hydrated;
@@ -103,28 +91,25 @@ export class Isotope {
   };
 
   validate = async ({ ...options }: Object = {}): Promise<ValidationResult> => {
-    console.log('derp');
-    // const { value, nucleus, isotopes, type } = this;
-    //
-    // if (type.children && type.repeater) {
-    //
-    // } else if (type.children && type.repeater) {
-    //
-    // }
-    //
-    // const validation = await nucleus.validate({ value, isotope: this, ...options });
-    // const childValidation = await validateIsotopes(isotopes);
-    // return isotopes ? {
-    //   ...validation,
-    //   result: (validation.result && childValid),
-    //   isotopes: _.isArray(isotopes) ? await doMultiValidation(isotopes) : await doSingleValidation(isotopes)
-    // } : validation;
+    const { value, machine, label, type, nucleus, children } = this;
+    const validated = await nucleus.validate({ value, isotope: this, ...options });
+    const result = { ...validated, machine, type, label };
+    if (type.children) {
+      result.children = await Promise.all(children.map(async (isotopes) => (isotopes.validate())));
+      result.valid = result.children.reduce((curr, groupResult) => (
+        Object.values(groupResult).reduce((isValid, childResult) => (childResult.valid !== true ? false : isValid), curr)
+      ), result.valid);
+    }
+    return result;
   };
 
-  sanitize = async ({ ...options }: Object = {}) => {
-    const { value, nucleus: { sanitize } } = this;
-    this.value = await sanitize({ value, isotope: this, ...options });
-    return this.value;
+  sanitize = async () => {
+    const { nucleus, type, children, options } = this;
+    if (type.children || type.repeater) {
+      return Promise.all(children.map(async (isotopes) => (isotopes.sanitize(options))));
+    } else {
+      this.value = await nucleus.sanitize({ isotope: this, ...options });
+    }
   }
 }
 

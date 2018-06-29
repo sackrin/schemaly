@@ -34,7 +34,9 @@ describe('Nucleus', function () {
     ]
   };
 
-  const fakeIsotope = Isotope({});
+  const fakeIsotope = Isotope({
+    value: ' Jennifer '
+  });
 
   it('can be created and with config, parent and options', () => {
     const nucleus = Nucleus({
@@ -82,7 +84,7 @@ describe('Nucleus', function () {
     const fakeNucleus = Nucleus(fakeArgs);
     return fakeNucleus.validate({ value: 'Jennifer', isotope: fakeIsotope })
       .then(check => {
-        expect(check.result).to.equal(true);
+        expect(check.valid).to.equal(true);
         expect(check.messages).to.deep.equal([]);
       }).catch((msg) => {
         throw new Error(msg);
@@ -93,7 +95,7 @@ describe('Nucleus', function () {
     const fakeNucleus = Nucleus(fakeArgs);
     return fakeNucleus.validate({ value: 'Tom', isotope: fakeIsotope })
       .then(check => {
-        expect(check.result).to.equal(false);
+        expect(check.valid).to.equal(false);
         expect(check.messages).to.deep.equal([ 'The value must be at least 5 characters.' ]);
       }).catch((msg) => {
         throw new Error(msg);
@@ -102,7 +104,7 @@ describe('Nucleus', function () {
 
   it('can sanitize a value against provided sanitizes', () => {
     const fakeNucleus = Nucleus(fakeArgs);
-    return fakeNucleus.sanitize({ value: ' Jennifer ', isotope: fakeIsotope })
+    return fakeNucleus.sanitize({ isotope: fakeIsotope })
       .then(value => {
         expect(value).to.equal('JENNIFER');
       }).catch((msg) => {

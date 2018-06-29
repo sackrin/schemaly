@@ -17,13 +17,21 @@ export class Validators {
 
   validate = async ({ value, ...options }: { value: any }) : Promise<ValidationResult> => {
     // If no validators then return a pass grant
-    if (this.validators.length === 0) { return { result: true, messages: [] }; }
+    if (this.validators.length === 0) { return { valid: true, messages: [], children: [] }; }
     // Loop through and ensure all validators pass for given value
     return _.reduce(this.validators, async (flag: any, validator: any) => {
       const currFlag: any = await flag;
       const validationCheck = await validator.validate({ value, ...options });
-      return { result: !validationCheck.result ? false : currFlag.result, messages: [ ...currFlag.messages, ...validationCheck.messages ] };
-    }, { result: true, messages: [] });
+      return {
+        valid: !validationCheck.valid ? false : currFlag.valid,
+        messages: [ ...currFlag.messages, ...validationCheck.messages ],
+        children: [ ...currFlag.children, ...validationCheck.children ]
+      };
+    }, {
+      valid: true,
+      messages: [],
+      children: []
+    });
   };
 }
 
