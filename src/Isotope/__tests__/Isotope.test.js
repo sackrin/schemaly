@@ -7,7 +7,7 @@ import { Nucleus, context, Nuclei } from '../../Nucleus';
 import Isotope from '../Isotope';
 import { Reactor } from '../../Reactor';
 
-describe.only('Isotope', () => {
+describe('Isotope', () => {
   const mockSingleParams = {
     reactor: Reactor({
       scope: ['read'],
@@ -524,7 +524,7 @@ describe.only('Isotope', () => {
       });
   });
 
-  it.only('can generate a container values object', () => {
+  it('can generate a container values object', () => {
     const fakeIsotope = Isotope({
       ...mockGroupParams
     });
@@ -532,11 +532,33 @@ describe.only('Isotope', () => {
       .hydrate()
       .then(fakeIsotope.dump)
       .then(dumped => {
-        console.log(dumped);
         expect(dumped).to.deep.equal({
           first_name: 'Toby',
           surname: 'Smith'
         });
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can generate a collection values object', () => {
+    const fakeIsotope = Isotope({
+      ...mockCollectParams
+    });
+    return fakeIsotope
+      .hydrate()
+      .then(fakeIsotope.dump)
+      .then(dumped => {
+        expect(dumped).to.deep.equal([
+          {
+            label: 'Home Address',
+            address: 'test1@example.com'
+          },
+          {
+            label: 'Home Address',
+            address: 'test1@example.com'
+          }
+        ]);
       }).catch((msg) => {
         throw new Error(msg);
       });

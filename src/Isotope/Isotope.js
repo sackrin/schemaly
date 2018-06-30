@@ -117,7 +117,7 @@ export class Isotope {
     if (type.children && !type.repeater) {
       return children.length > 0 ? children[0].dump() : {};
     } else if (type.children && type.repeater) {
-
+      return Promise.all(children.map(async (isotopes) => (isotopes.dump())));
     } else {
       return this.getValue();
     }

@@ -68,8 +68,9 @@ export class Isotopes {
 
   dump = async () => {
     const { isotopes } = this;
-    return isotopes.reduce(async (dumped: Object, isotope: Isotope) => {
-      dumped[isotope.machine] = await isotope.getValue();
+    return isotopes.reduce(async (curr: Object, isotope: Isotope) => {
+      const dumped = { ...await curr };
+      dumped[isotope.machine] = await isotope.dump();
       return dumped;
     }, {});
   }

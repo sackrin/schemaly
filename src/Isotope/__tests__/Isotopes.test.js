@@ -5,6 +5,7 @@ import { Reactor } from '../../Reactor';
 import { Atom } from '../../Atom';
 import { GrantSinglePolicy, DenyPolicy, AllowPolicy } from '../../Policy';
 import { Validators, SimpleValidator } from '../../Validate';
+import { Sanitizers, SimpleSanitizer } from '../../Sanitize';
 
 describe('Isotopes', () => {
   const fakeArgs = {
@@ -172,6 +173,96 @@ describe('Isotopes', () => {
         expect(fakeIsotopes.isotopes).to.have.length(2);
       }).catch((msg) => {
         throw new Error(msg);
+      });
+  });
+
+  it('can perform sanitization against hydrated isotopes', () => {
+    const fakeIsotopes = Isotopes({
+      ...fakeArgs,
+      nuclei: Nuclei([
+        Nucleus({
+          type: context.STRING,
+          machine: 'first_name',
+          label: 'First Name',
+          sanitizers: Sanitizers([
+            SimpleSanitizer({ rules: ['trim'] }),
+            SimpleSanitizer({ rules: ['upper_case'] })
+          ])
+        }),
+        Nucleus({
+          type: context.STRING,
+          machine: 'last_name',
+          label: 'Last Name',
+          sanitizers: Sanitizers([
+            SimpleSanitizer({ rules: ['trim'] }),
+            SimpleSanitizer({ rules: ['upper_case'] })
+          ])
+        }),
+        Nucleus({
+          type: context.CONTAINER,
+          machine: 'company',
+          label: 'Company',
+          nuclei: Nuclei([
+            Nucleus({
+              type: context.STRING,
+              machine: 'name',
+              label: 'Company Name',
+              sanitizers: Sanitizers([
+                SimpleSanitizer({ rules: ['trim'] }),
+                SimpleSanitizer({ rules: ['upper_case'] })
+              ])
+            })
+          ])
+        }),
+        Nucleus({
+          type: context.COLLECTION,
+          machine: 'emails',
+          label: 'Emails',
+          nuclei: Nuclei([
+            Nucleus({
+              type: context.STRING,
+              machine: 'label',
+              label: 'Label',
+              sanitizers: Sanitizers([
+                SimpleSanitizer({ rules: ['trim'] }),
+                SimpleSanitizer({ rules: ['upper_case'] })
+              ])
+            }),
+            Nucleus({
+              type: context.STRING,
+              machine: 'address',
+              label: 'Address',
+              sanitizers: Sanitizers([
+                SimpleSanitizer({ rules: ['trim'] }),
+                SimpleSanitizer({ rules: ['upper_case'] })
+              ])
+            })
+          ])
+        })
+      ])
+    });
+    return fakeIsotopes
+      .hydrate()
+      .then(fakeIsotopes.sanitize)
+      .then(fakeIsotopes.dump)
+      .then(dumped => {
+        expect(dumped).to.deep.equal({
+          first_name: 'THOMAS',
+          last_name: 'TANK ENGINE',
+          company: {
+            name: 'ACME COMPANY'
+          },
+          emails: [
+            {
+              label: 'HOME EMAIL',
+              address: 'EXAMPLE@HOME.COM'
+            },
+            {
+              label: 'WORK EMAIL',
+              address: 'EXAMPLE@WORK.COM'
+            }
+          ]
+        });
       });
   });
 
@@ -372,5 +463,27 @@ describe('Isotopes', () => {
         })
       ])
     });
+    return fakeIsotopes
+      .hydrate()
+      .then(fakeIsotopes.dump)
+      .then(dumped => {
+        expect(dumped).to.deep.equal({
+          first_name: 'Thomas',
+          last_name: 'Tank Engine',
+          company: {
+            name: 'Acme Company'
+          },
+          emails: [
+            {
+              label: 'Home Email',
+              address: 'example@home.com'
+            },
+            {
+              label: 'Work Email',
+              address: 'example@work.com'
+            }
+          ]
+        });
+      });
   });
 });
