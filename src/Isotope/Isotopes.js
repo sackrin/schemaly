@@ -6,7 +6,7 @@ import { Isotope } from './';
 export type IsotopesArgs = {
   reactor: Reactor,
   nuclei: Nuclei,
-  values: Array<any>,
+  values: Object,
   options?: Object
 };
 

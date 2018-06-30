@@ -23,14 +23,12 @@ export class Reactor {
     this.options = options;
   }
 
-  with = async ({ values, ...options }: { values: Object }) => {
-    const { atom, roles, scope } = this;
+  with = async (values: Object) => {
+    const { atom } = this;
     return Isotopes({
       reactor: this,
       nuclei: atom.nuclei,
-      scope,
-      roles,
-      ...options
+      values
     }).hydrate({ values });
   };
 }
