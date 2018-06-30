@@ -7,7 +7,7 @@ import { Nucleus, context, Nuclei } from '../../Nucleus';
 import Isotope from '../Isotope';
 import { Reactor } from '../../Reactor';
 
-describe('Isotope', () => {
+describe.only('Isotope', () => {
   const mockSingleParams = {
     reactor: Reactor({
       scope: ['read'],
@@ -505,6 +505,38 @@ describe('Isotope', () => {
         expect(children[0].address.messages).to.have.length(1);
         expect(children[0].label.valid).to.equal(false);
         expect(children[0].label.messages).to.have.length(1);
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it('can generate a simple values object', () => {
+    const fakeIsotope = Isotope({
+      ...mockSingleParams
+    });
+    return fakeIsotope
+      .hydrate()
+      .then(fakeIsotope.dump)
+      .then(dumped => {
+        expect(dumped).to.equal('JOHNNY');
+      }).catch((msg) => {
+        throw new Error(msg);
+      });
+  });
+
+  it.only('can generate a container values object', () => {
+    const fakeIsotope = Isotope({
+      ...mockGroupParams
+    });
+    return fakeIsotope
+      .hydrate()
+      .then(fakeIsotope.dump)
+      .then(dumped => {
+        console.log(dumped);
+        expect(dumped).to.deep.equal({
+          first_name: 'Toby',
+          surname: 'Smith'
+        });
       }).catch((msg) => {
         throw new Error(msg);
       });

@@ -65,6 +65,14 @@ export class Isotopes {
       await isotope.sanitize(options);
     }));
   };
+
+  dump = async () => {
+    const { isotopes } = this;
+    return isotopes.reduce(async (dumped: Object, isotope: Isotope) => {
+      dumped[isotope.machine] = await isotope.getValue();
+      return dumped;
+    }, {});
+  }
 }
 
 export default (args: IsotopesArgs) => new Isotopes(args);

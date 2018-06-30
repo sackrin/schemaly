@@ -90,6 +90,15 @@ export class Isotope {
     return this;
   };
 
+  sanitize = async () => {
+    const { nucleus, type, children, options } = this;
+    if (type.children || type.repeater) {
+      return Promise.all(children.map(async (isotopes) => (isotopes.sanitize(options))));
+    } else {
+      this.value = await nucleus.sanitize({ isotope: this, ...options });
+    }
+  };
+
   validate = async ({ ...options }: Object = {}): Promise<ValidationResult> => {
     const { value, machine, label, type, nucleus, children } = this;
     const validated = await nucleus.validate({ value, isotope: this, ...options });
@@ -103,14 +112,16 @@ export class Isotope {
     return result;
   };
 
-  sanitize = async () => {
-    const { nucleus, type, children, options } = this;
-    if (type.children || type.repeater) {
-      return Promise.all(children.map(async (isotopes) => (isotopes.sanitize(options))));
+  dump = async () => {
+    const { type, children } = this;
+    if (type.children && !type.repeater) {
+      return children.length > 0 ? children[0].dump() : {};
+    } else if (type.children && type.repeater) {
+
     } else {
-      this.value = await nucleus.sanitize({ isotope: this, ...options });
+      return this.getValue();
     }
-  }
+  };
 }
 
 export default (args: IsotopeArgs): Isotope => (new Isotope(args));

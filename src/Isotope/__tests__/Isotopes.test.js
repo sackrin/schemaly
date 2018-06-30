@@ -327,5 +327,50 @@ describe('Isotopes', () => {
       });
   });
 
-  it('can generate a value object with policies');
+  it('can generate a value object with policies', () => {
+    const fakeIsotopes = Isotopes({
+      ...fakeArgs,
+      nuclei: Nuclei([
+        Nucleus({
+          type: context.STRING,
+          machine: 'first_name',
+          label: 'First Name'
+        }),
+        Nucleus({
+          type: context.STRING,
+          machine: 'last_name',
+          label: 'Last Name'
+        }),
+        Nucleus({
+          type: context.CONTAINER,
+          machine: 'company',
+          label: 'Company',
+          nuclei: Nuclei([
+            Nucleus({
+              type: context.STRING,
+              machine: 'name',
+              label: 'Company Name'
+            })
+          ])
+        }),
+        Nucleus({
+          type: context.COLLECTION,
+          machine: 'emails',
+          label: 'Emails',
+          nuclei: Nuclei([
+            Nucleus({
+              type: context.STRING,
+              machine: 'label',
+              label: 'Label'
+            }),
+            Nucleus({
+              type: context.STRING,
+              machine: 'address',
+              label: 'Address'
+            })
+          ])
+        })
+      ])
+    });
+  });
 });
