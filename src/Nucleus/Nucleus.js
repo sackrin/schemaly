@@ -79,7 +79,7 @@ export class Nucleus {
 
   sanitize = async ({ isotope, ...options }: { isotope: Isotope, options?: Object }) => {
     const { sanitizers } = this;
-    return sanitizers.filter({ value: isotope.value, isotope, ...options });
+    return sanitizers ? sanitizers.filter({ value: isotope.value, isotope, ...options }) : isotope.value;
   };
 
   getter = async ({ value, isotope, ...options }: { value:any, isotope: Isotope, options?: Object } = {}) => {

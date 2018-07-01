@@ -42,7 +42,7 @@ export class GrantAllPolicies {
         ...options
       }) ? currFlag : false;
     }, true);
-  }
+  };
 }
 
 export default (policies: Array<AllowPolicy | DenyPolicy>, options: Object = {}): GrantAllPolicies => (new GrantAllPolicies({ policies, ...options }));

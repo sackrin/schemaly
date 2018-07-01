@@ -14,6 +14,8 @@ export class Reactor {
 
   scope: Array<string | Function>;
 
+  isotopes: Isotopes;
+
   options: Object;
 
   constructor ({ atom, roles, scope, ...options }: ReactorArgs) {
@@ -25,11 +27,28 @@ export class Reactor {
 
   with = async (values: Object) => {
     const { atom } = this;
-    return Isotopes({
+    this.isotopes = Isotopes({
       reactor: this,
       nuclei: atom.nuclei,
       values
-    }).hydrate({ values });
+    });
+    return this.isotopes.hydrate({ values });
+  };
+
+  sanitize = async () => {
+    return this.isotopes.sanitize();
+  };
+
+  validate = async () => {
+    const validated = await this.isotopes.validate();
+    return {
+      valid: Object.values(validated).reduce((curr, result) => (result.valid === false ? false : result.valid), true),
+      results: validated
+    };
+  };
+
+  dump = async () => {
+    return this.isotopes.dump();
   };
 }
 

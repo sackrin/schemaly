@@ -1,6 +1,7 @@
 import assert from 'assert';
 import Deny from '../Deny';
 import { Isotope } from '../../index';
+import { expect } from 'chai';
 
 describe('Deny Policy', function () {
   const isotope = Isotope({});

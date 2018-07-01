@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { buildRoles, buildScope } from './utils';
 import { Isotope } from '../Isotope';
-
 import type { BuiltRoles, BuiltScope } from './utils';
 
 export type DenyArgs = {
@@ -12,7 +11,8 @@ export type DenyArgs = {
 export type DenyGrantArgs = {
   isotope: Isotope,
   roles: Array<string | Function>,
-  scope: Array<string | Function>
+  scope: Array<string | Function>,
+  options?: Object
 };
 
 export class Deny {

@@ -12,15 +12,16 @@ export type AllowArgs = {
 export type AllowGrantArgs = {
   isotope: Isotope,
   roles: Array<string | Function>,
-  scope: Array<string | Function>
+  scope: Array<string | Function>,
+  options?: Object
 };
 
 export class Allow {
-  roles: Array<string | Function>;
+  roles: Array<string | Function> = [];
 
-  scope: Array<string | Function>;
+  scope: Array<string | Function> = [];
 
-  options: Object;
+  options: Object = {};
 
   constructor ({ roles, scope, ...options }: AllowArgs) {
     this.roles = _.isArray(roles) ? roles : [ roles ];
@@ -53,7 +54,7 @@ export class Allow {
     const scopeCheck: Array<string> = _.difference(againstScopes, forScopes);
     // Return a grant pass if mismatch or wildcard is not located
     return (!(scopeCheck.length === againstScopes.length && forScopes.indexOf('*') === -1));
-  }
+  };
 }
 
 export default (args: AllowArgs): Allow => (new Allow(args));

@@ -1,4 +1,5 @@
 import assert from 'assert';
+import { expect } from 'chai';
 import GrantAllPolicies from '../GrantAllPolicies';
 import Allow from '../Allow';
 import Deny from '../Deny';
