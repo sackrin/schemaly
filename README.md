@@ -1,9 +1,5 @@
-# FissionJS Object Schema
+# FissionJS
 
 ```javascript
-
-reactor(atom)
-.then()
-
-
+npm install fissionjs
 ```

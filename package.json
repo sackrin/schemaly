@@ -1,7 +1,7 @@
 {
   "name": "fissionjs",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.8.0",
+  "description": "A simple to use and extendable policy driven JS object schema library",
   "main": "./lib/index.js",
   "scripts": {
     "start": "npm run dev",
@@ -17,13 +17,13 @@
   "files": [
     "lib"
   ],
-  "repository": "git+https://github.com/sackrin/fission.js.git",
+  "repository": "git+https://github.com/sackrin/fissionjs.git",
   "author": "Hilary Osborne",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sackrin/fission.js/issues"
+    "url": "https://github.com/sackrin/fissionjs/issues"
   },
-  "homepage": "https://github.com/sackrin/fission.js#readme",
+  "homepage": "https://github.com/sackrin/fissionjs#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
