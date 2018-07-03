@@ -1,14 +1,12 @@
 {
   "name": "fissionjs",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "A simple to use and extendable policy driven JS object schema library",
   "main": "./lib/index.js",
   "scripts": {
     "start": "npm run dev",
     "dev": "npm test -- -w",
-    "init": "mkdir lib",
     "clean": "rm -rf lib",
-    "prebuild": "npm run clean && npm run init",
     "build": "babel ./src -d ./lib --ignore test.js",
     "pretest": "npm run build",
     "test": "mocha --colors --compilers js:babel-core/register --require babel-polyfill --recursive \"./src/**/*.test.js\"",
@@ -34,20 +32,15 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-1": "^6.24.1",
     "chai": "^4.1.2",
-    "deepmerge": "^2.1.1",
     "eslint": "^4.17.0",
     "eslint-config-standard": "^11.0.0-beta.0",
-    "eslint-config-standard-react": "^5.0.0",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jest": "^21.7.0",
     "eslint-plugin-node": "^6.0.0",
     "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-react": "^7.6.1",
     "eslint-plugin-standard": "^3.0.1",
-    "mocha": "^5.1.1",
-    "nyc": "^11.8.0",
-    "sinon": "^6.0.0"
+    "mocha": "^5.1.1"
   },
   "dependencies": {
     "lodash": "^4.17.10",
