@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { buildRules } from './utils';
+import { getMixedResult } from '../Utils';
 
 export const trimFilter = (value) => (value.toString().trim());
 
@@ -20,7 +20,7 @@ export class SimpleSanitizer {
   }
 
   getRules = async ({ ...options } = {}) => {
-    return buildRules(this.config.rules, { validator: this.options, ...options })
+    return getMixedResult(this.config.rules, { validator: this.options, ...options })
       .then((builtRules) => (builtRules.join('|')));
   }
 

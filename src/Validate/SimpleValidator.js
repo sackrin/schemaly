@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { buildRules } from './utils';
 import Validator from 'validatorjs';
+import { getMixedResult } from '../Utils';
 
 export class SimpleValidator {
   rules = [];
@@ -13,7 +13,7 @@ export class SimpleValidator {
   }
 
   getRules = async ({ ...options } = {}) => {
-    return buildRules(this.rules, { validator: this.options, ...options })
+    return getMixedResult(this.rules, { validator: this.options, ...options })
       .then(builtRules => (builtRules.join('|')));
   };
 
