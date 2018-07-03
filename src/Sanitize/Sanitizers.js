@@ -1,29 +1,25 @@
 import _ from 'lodash';
 
-export type SanitizersArgs = {
-  filters: Array<any>
-};
-
 export class Sanitizers {
-  filters: Array<any> = [];
+  filters = [];
 
-  options: Object;
+  options;
 
-  constructor ({ filters, ...options }: SanitizersArgs) {
+  constructor ({ filters, ...options }) {
     this.filters = filters;
     this.options = options;
   }
 
-  filter = async ({ value, ...options }: { value: any }): Promise<any> => {
+  filter = async ({ value, ...options }) => {
     // Check if the passed value is a promise
     const filterValue = !_.isFunction(value) ? value : await value(options);
     // If no collect then return a pass grant
     if (this.filters.length === 0) { return filterValue; }
     // Loop through and ensure all collect pass for given value
-    return this.filters.reduce(async (value: any, filter: any) => {
+    return this.filters.reduce(async (value, filter) => {
       return filter.apply({ value: await value, ...options });
     }, filterValue);
   }
 }
 
-export default (filters: Array<any>, options: Object = {}): Sanitizers => (new Sanitizers({ filters, ...options }));
+export default (filters, options = {}) => (new Sanitizers({ filters, ...options }));

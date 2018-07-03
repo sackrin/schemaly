@@ -2,7 +2,7 @@ import assert from 'assert';
 import GrantSinglePolicy from '../GrantSinglePolicy';
 import Allow from '../Allow';
 import Deny from '../Deny';
-import { Isotope } from '../../index';
+import { Isotope } from '../../Isotope';
 
 describe('Grant Single Policy', function () {
   const isotope = Isotope({});

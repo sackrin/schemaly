@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { uniqMerge } from '../';
 
-describe.only('uniqMerge', () => {
+describe('uniqMerge', () => {
   it('can merge two simple objects together with revised object overwriting original', () => {
     const fakeMerged = uniqMerge({
       title: 'mr',

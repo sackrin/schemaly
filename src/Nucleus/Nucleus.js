@@ -1,46 +1,25 @@
 import _ from 'lodash';
-import { Nuclei } from './Nuclei';
-import type { NucleusContext } from './context';
-import { Isotope } from '../Isotope';
-
-export type NucleusArgs = {
-  type: NucleusContext,
-  machine: string,
-  label: string,
-  parent?: Object,
-  nuclei?: Object,
-  setters?: Array<Function>,
-  getters?: Array<Function>,
-  policies?: Object,
-  sanitizers?: Object,
-  validators?: Object,
-  options?: Object
-};
 
 export class Nucleus {
-  config: {
-    type: NucleusContext,
-    machine: string,
-    label:string
-  };
+  config = {};
 
-  parent: Object;
+  parent;
 
-  nuclei: Nuclei;
+  nuclei;
 
-  options: Object;
+  options = {};
 
-  policies: Object;
+  policies;
 
-  sanitizers: Object;
+  sanitizers;
 
-  validators: Object;
+  validators;
 
-  setters: Array<Function>;
+  setters;
 
-  getters: Array<Function>;
+  getters;
 
-  constructor ({ type, machine, label, parent, nuclei, getters, setters, policies, sanitizers, validators, ...options }: NucleusArgs) {
+  constructor ({ type, machine, label, parent, nuclei, getters, setters, policies, sanitizers, validators, ...options }) {
     this.config = { type, machine, label };
     if (parent) this.parent = parent;
     if (policies) this.policies = policies;
@@ -58,7 +37,7 @@ export class Nucleus {
 
   get label () { return this.config.label; }
 
-  addNuclei = ({ nuclei }: { nuclei: Nuclei}) => {
+  addNuclei = ({ nuclei }) => {
     if (!this.config.type.children && !this.config.type.repeater) {
       throw new Error('CANNOT_HAVE_CHILDREN');
     }
@@ -66,29 +45,29 @@ export class Nucleus {
     this.nuclei = nuclei;
   };
 
-  grant = async ({ isotope, scope, roles, ...options }: { isotope: Isotope, scope: Array<string | Function>, roles: Array<string | Function> }) => {
+  grant = async ({ isotope, scope, roles, ...options }) => {
     const { policies } = this;
     if (!policies) return true;
     return policies.grant({ isotope, scope, roles, ...options });
   };
 
-  validate = async ({ value, isotope, ...options }: { value: any, isotope: Isotope, options?: Object }) => {
+  validate = async ({ value, isotope, ...options }) => {
     const { validators } = this;
     return validators ? validators.validate({ value, isotope, ...options }) : { valid: true, messages: [], children: [] };
   };
 
-  sanitize = async ({ isotope, ...options }: { isotope: Isotope, options?: Object }) => {
+  sanitize = async ({ isotope, ...options }) => {
     const { sanitizers } = this;
     return sanitizers ? sanitizers.filter({ value: isotope.value, isotope, ...options }) : isotope.value;
   };
 
-  getter = async ({ value, isotope, ...options }: { value:any, isotope: Isotope, options?: Object } = {}) => {
+  getter = async ({ value, isotope, ...options } = {}) => {
     return _.reduce(this.getters, async (value, getter) => (getter({ isotope, value, options })), value);
   };
 
-  setter = async ({ value, isotope, ...options }: { value: any, isotope: Isotope, options?: Object }) => {
+  setter = async ({ value, isotope, ...options }) => {
     return _.reduce(this.setters, async (value, setter) => (setter({ isotope, value, options })), value);
   };
 }
 
-export default (args: NucleusArgs): Nucleus => (new Nucleus(args));
+export default (args) => (new Nucleus(args));

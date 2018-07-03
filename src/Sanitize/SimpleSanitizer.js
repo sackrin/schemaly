@@ -1,33 +1,30 @@
 import _ from 'lodash';
 import { buildRules } from './utils';
-import type { BuiltRules } from './utils';
 
-export const trimFilter = (value: any): string => (value.toString().trim());
+export const trimFilter = (value) => (value.toString().trim());
 
-export const uppercaseFilter = (value: any): string => (value.toString().toUpperCase());
+export const uppercaseFilter = (value) => (value.toString().toUpperCase());
 
-export const lowercaseFilter = (value: any): string => (value.toString().toLowerCase());
-
-export type SimpleSanitizerArgs = {
-  rules: Array<string | Function>
-};
+export const lowercaseFilter = (value) => (value.toString().toLowerCase());
 
 export class SimpleSanitizer {
-  config: { rules: Array<string | Function> };
+  config = {
+    rules: []
+  };
 
-  options: Object;
+  options;
 
-  constructor ({ rules, ...options }: SimpleSanitizerArgs) {
+  constructor ({ rules, ...options }) {
     this.config = { rules };
     this.options = options;
   }
 
-  getRules = async ({ ...options }: Object = {}): Promise<string> => {
+  getRules = async ({ ...options } = {}) => {
     return buildRules(this.config.rules, { validator: this.options, ...options })
-      .then((builtRules: BuiltRules): string => (builtRules.join('|')));
+      .then((builtRules) => (builtRules.join('|')));
   }
 
-  apply = async ({ value, ...options }: { value: any }): Promise<any> => {
+  apply = async ({ value, ...options }) => {
     const builtRules = await this.getRules(options);
     const builtValue = _.isFunction(value) ? await value(options) : value;
     return _.reduce(builtRules.split('|'), (filtered, filter) => {
@@ -41,4 +38,4 @@ export class SimpleSanitizer {
   }
 }
 
-export default (args: SimpleSanitizerArgs): SimpleSanitizer => (new SimpleSanitizer(args));
+export default (args) => (new SimpleSanitizer(args));

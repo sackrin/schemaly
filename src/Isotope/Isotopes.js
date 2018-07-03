@@ -1,44 +1,35 @@
 import _ from 'lodash';
-import { Nuclei } from '../Nucleus';
-import { Reactor } from '../Reactor';
 import { Isotope } from './';
 
-export type IsotopesArgs = {
-  reactor: Reactor,
-  nuclei: Nuclei,
-  values: Object,
-  options?: Object
-};
-
 export class Isotopes {
-  reactor: Reactor;
+  reactor;
 
-  nuclei: Nuclei;
+  nuclei;
 
-  values: Object;
+  values;
 
-  isotopes: Array<Isotope> = [];
+  isotopes = [];
 
-  options: Object;
+  options;
 
-  constructor ({ reactor, nuclei, values, ...options }: IsotopesArgs) {
+  constructor ({ reactor, nuclei, values, ...options }) {
     this.reactor = reactor;
     this.nuclei = nuclei;
     this.values = values;
     this.options = options;
   }
 
-  find = (criteria: Object) => {
+  find = (criteria) => {
     const { isotopes } = this;
     return _.find(isotopes, criteria);
   };
 
-  filter = (criteria: Object) => {
+  filter = (criteria) => {
     const { isotopes } = this;
     return _.filter(isotopes, criteria);
   };
 
-  hydrate = async (options: Object = {}) => {
+  hydrate = async (options = {}) => {
     const { reactor, nuclei, isotopes, values } = this;
     await Promise.all(nuclei.all().map(async nucleus => {
       const value = _.get(values, nucleus.machine, undefined);
@@ -50,10 +41,10 @@ export class Isotopes {
     return this;
   };
 
-  validate = async (options:Object = {}) => {
+  validate = async (options = {}) => {
     const { isotopes } = this;
     let validations = {};
-    await Promise.all(isotopes.map(async (isotope: Isotope) => {
+    await Promise.all(isotopes.map(async (isotope) => {
       validations[`${isotope.machine}`] = await isotope.validate({ ...options });
     }));
     return validations;
@@ -61,14 +52,14 @@ export class Isotopes {
 
   sanitize = async () => {
     const { isotopes, options } = this;
-    await Promise.all(isotopes.map(async (isotope: Isotope) => {
+    await Promise.all(isotopes.map(async (isotope) => {
       await isotope.sanitize(options);
     }));
   };
 
   dump = async () => {
     const { isotopes } = this;
-    return isotopes.reduce(async (curr: Object, isotope: Isotope) => {
+    return isotopes.reduce(async (curr, isotope) => {
       const dumped = { ...await curr };
       dumped[isotope.machine] = await isotope.dump();
       return dumped;
@@ -76,4 +67,4 @@ export class Isotopes {
   }
 }
 
-export default (args: IsotopesArgs) => new Isotopes(args);
+export default (args) => new Isotopes(args);

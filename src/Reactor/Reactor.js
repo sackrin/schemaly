@@ -1,39 +1,32 @@
-import { Atom } from '../Atom';
 import { Isotopes } from '../Isotope';
 import { uniqMerge } from '../';
 
-export type ReactorArgs = {
-  atom: Atom,
-  roles: Array<string | Function>,
-  scope: Array<string | Function>
-};
-
 export class Reactor {
-  atom: Atom;
+  atom;
 
-  roles: Array<string | Function>;
+  roles = [];
 
-  scope: Array<string | Function>;
+  scope = [];
 
-  isotopes: Isotopes;
+  isotopes;
 
-  values: Object;
+  values;
 
-  options: Object;
+  options;
 
-  constructor ({ atom, roles, scope, ...options }: ReactorArgs) {
+  constructor ({ atom, roles, scope, ...options }) {
     this.atom = atom;
     this.roles = roles;
     this.scope = scope;
     this.options = options;
   }
 
-  with = ({ values }: { values: Object }) => {
+  with = ({ values }) => {
     this.values = values;
     return this;
   };
 
-  and = ({ values, ids = [] }: { values: Object, ids: Array<string> }) => {
+  and = ({ values, ids = [] }) => {
     this.values = uniqMerge({ ...this.values }, values, ids);
     return this;
   };
@@ -65,4 +58,4 @@ export class Reactor {
   };
 }
 
-export default (args: ReactorArgs): Reactor => (new Reactor(args));
+export default (args) => (new Reactor(args));

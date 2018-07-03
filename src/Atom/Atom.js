@@ -1,25 +1,15 @@
-import { Nuclei } from '../Nucleus/Nuclei';
-
-export type AtomArgs = {
-  machine: string,
-  nuclei: Nuclei,
-  roles: Array<string | Function>,
-  scope: Array<string | Function>,
-  label?: string
-};
-
 export class Atom {
-  config: Object;
+  config;
 
-  nuclei: Nuclei;
+  nuclei;
 
-  roles: Array<string | Function>;
+  roles;
 
-  scope: Array<string | Function>;
+  scope;
 
-  options: Object;
+  options;
 
-  constructor ({ machine, roles, scope, label, nuclei, ...options }: AtomArgs) {
+  constructor ({ machine, roles, scope, label, nuclei, ...options }) {
     this.config = { machine, label };
     this.nuclei = nuclei;
     this.roles = roles;
@@ -28,4 +18,4 @@ export class Atom {
   }
 }
 
-export default (args: AtomArgs): Atom => (new Atom(args));
+export default (args) => (new Atom(args));

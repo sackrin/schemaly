@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import GrantAllPolicies from '../GrantAllPolicies';
 import Allow from '../Allow';
 import Deny from '../Deny';
-import { Isotope } from '../../index';
+import { Isotope } from '../../Isotope';
 
 describe('Grant All Policies', function () {
   const isotope = Isotope({});

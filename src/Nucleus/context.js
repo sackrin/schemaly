@@ -1,9 +1,3 @@
-export type NucleusContext = {
-  code: string,
-  children: boolean,
-  repeater: boolean
-};
-
 export const STRING = {
   code: 'string',
   children: false,

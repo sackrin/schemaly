@@ -1,27 +1,15 @@
-import { Nucleus } from '../Nucleus';
-import { Reactor } from '../Reactor';
-import type { ValidationResult } from '../Validate/SimpleValidator';
 import { Isotopes } from './';
 
-export type IsotopeArgs = {
-  reactor: Reactor,
-  nucleus: Nucleus,
-  value: any,
-  isotopes?: Isotopes,
-  setters?: Array<Function>,
-  getters?: Array<Function>
-};
-
 export class Isotope {
-  reactor: Reactor;
+  reactor;
 
-  nucleus: Nucleus;
+  nucleus;
 
-  value: any;
+  value;
 
-  children: Array<Isotopes> = [];
+  children = [];
 
-  options: Object;
+  options;
 
   get machine () { return this.nucleus.machine; }
 
@@ -29,21 +17,21 @@ export class Isotope {
 
   get label () { return this.nucleus.label; }
 
-  constructor ({ reactor, nucleus, value, ...options }: IsotopeArgs) {
+  constructor ({ reactor, nucleus, value, ...options }) {
     this.reactor = reactor;
     this.nucleus = nucleus;
     this.value = value;
     this.options = options;
   }
 
-  getValue = async ({ ...options }: Object = {}) => {
+  getValue = async ({ ...options } = {}) => {
     // Retrieve the nucleus getter method
     const { getter } = this.nucleus;
     // Return the built value
     return getter({ value: this.value, isotope: this, ...options });
   };
 
-  setValue = async ({ value, ...options }: { value: any }) => {
+  setValue = async ({ value, ...options }) => {
     // Retrieve the nucleus getter method
     const { setter } = this.nucleus;
     // Assign the built value
@@ -52,15 +40,15 @@ export class Isotope {
     return this.value;
   };
 
-  find = (criteria: Object) => {
-    return this.children.reduce((found, item: Isotopes) => {
+  find = (criteria) => {
+    return this.children.reduce((found, item) => {
       const search = item.find(criteria);
       return !found && search ? search : found;
     }, undefined);
   };
 
-  filter = (criteria: Object) => {
-    return this.children.reduce((lst, item: Isotopes) => {
+  filter = (criteria) => {
+    return this.children.reduce((lst, item) => {
       const filtered = item.filter(criteria);
       return filtered.length > 0 ? [ ...lst, ...filtered ] : lst;
     }, []);
@@ -72,7 +60,7 @@ export class Isotope {
     return grant({ isotope: this, scope, roles });
   };
 
-  hydrate = async (options: Object = {}) => {
+  hydrate = async (options = {}) => {
     const { reactor, nucleus, value } = this;
     const { type, nuclei } = nucleus;
     if ((type.children || type.repeater) && !nuclei) {
@@ -99,7 +87,7 @@ export class Isotope {
     }
   };
 
-  validate = async ({ ...options }: Object = {}): Promise<ValidationResult> => {
+  validate = async ({ ...options } = {}) => {
     const { value, machine, label, type, nucleus, children } = this;
     const validated = await nucleus.validate({ value, isotope: this, ...options });
     const result = { ...validated, machine, type, label };
@@ -124,4 +112,4 @@ export class Isotope {
   };
 }
 
-export default (args: IsotopeArgs): Isotope => (new Isotope(args));
+export default (args) => (new Isotope(args));

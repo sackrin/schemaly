@@ -2,30 +2,24 @@ import _ from 'lodash';
 import { buildRules } from './utils';
 import Validator from 'validatorjs';
 
-export type ValidationResult = { valid: boolean, messages: Array<string> };
-
-export type SimpleValidatorArgs = {
-  rules: Array<string | Function>
-};
-
 export class SimpleValidator {
-  rules: Array<string | Function>;
+  rules = [];
 
-  options: Object;
+  options;
 
-  constructor ({ rules, ...options }: SimpleValidatorArgs) {
+  constructor ({ rules, ...options }) {
     this.rules = rules;
     this.options = options;
   }
 
-  getRules = async ({ ...options }: Object = {}): Promise<string> => {
+  getRules = async ({ ...options } = {}) => {
     return buildRules(this.rules, { validator: this.options, ...options })
       .then(builtRules => (builtRules.join('|')));
   };
 
-  validate = async ({ value, ...options }: { value:any }): Promise<ValidationResult> => {
-    const usingRules: string = await this.getRules({ options: options });
-    const usingValue: any = !_.isFunction(value) ? value : await value({ ...this.options, ...options });
+  validate = async ({ value, ...options }) => {
+    const usingRules = await this.getRules({ options: options });
+    const usingValue = !_.isFunction(value) ? value : await value({ ...this.options, ...options });
     const validation = new Validator({ value: usingValue }, { value: usingRules });
     if (validation.fails()) {
       return { valid: false, messages: [...validation.errors.get('value'), ..._.get(this.options, 'error_messages', [])], children: [] };
@@ -35,4 +29,4 @@ export class SimpleValidator {
   };
 }
 
-export default (args: SimpleValidatorArgs): SimpleValidator => (new SimpleValidator(args));
+export default (args) => (new SimpleValidator(args));
