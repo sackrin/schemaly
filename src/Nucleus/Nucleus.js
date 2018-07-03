@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 export class Nucleus {
   config = {};
 
@@ -15,9 +13,9 @@ export class Nucleus {
 
   validators;
 
-  setters;
+  setters = [];
 
-  getters;
+  getters = [];
 
   constructor ({ type, machine, label, parent, nuclei, getters, setters, policies, sanitizers, validators, ...options }) {
     this.config = { type, machine, label };
@@ -62,11 +60,11 @@ export class Nucleus {
   };
 
   getter = async ({ value, isotope, ...options } = {}) => {
-    return _.reduce(this.getters, async (value, getter) => (getter({ isotope, value, options })), value);
+    return this.getters.reduce(async (value, getter) => (getter({ isotope, value, options })), value);
   };
 
   setter = async ({ value, isotope, ...options }) => {
-    return _.reduce(this.setters, async (value, setter) => (setter({ isotope, value, options })), value);
+    return this.setters.reduce(async (value, setter) => (setter({ isotope, value, options })), value);
   };
 }
 

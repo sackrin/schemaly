@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { getMixedResult } from '../Utils';
 
 export class GrantAllPolicies {
@@ -20,7 +19,7 @@ export class GrantAllPolicies {
     // Loop through and search for a granting policy
     // Only one policy is required in order to achieve a policy grant
     // This is why best practice is to add a deny *, * policy to all policy groups
-    return _.reduce(this.policies, async (flag, policy) => {
+    return this.policies.reduce(async (flag, policy) => {
       const currFlag = await flag;
       return await policy.grant({
         isotope,

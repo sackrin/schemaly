@@ -10,7 +10,7 @@ export const uniqMerge = (original, updated, ids = ['id']) => {
       cloned[item[0]] = uniqMerge(originalValue, mergeValue);
       // otherwise if this is an array
     } else if (_.isArray(mergeValue)) {
-      const addedOrUpdated = _.map(mergeValue, (child) => {
+      const addedOrUpdated = mergeValue.map((child) => {
         const existing = _.find(originalValue, (itm) => {
           return ids.reduce((curr, id) => (itm[id] === child[id] ? true : curr), false);
         });

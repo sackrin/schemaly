@@ -27,7 +27,7 @@ export class SimpleSanitizer {
   apply = async ({ value, ...options }) => {
     const builtRules = await this.getRules(options);
     const builtValue = _.isFunction(value) ? await value(options) : value;
-    return _.reduce(builtRules.split('|'), (filtered, filter) => {
+    return builtRules.split('|').reduce((filtered, filter) => {
       switch (filter.toLowerCase()) {
         case 'trim' : { return trimFilter(filtered); }
         case 'upper_case' : { return uppercaseFilter(filtered); }
