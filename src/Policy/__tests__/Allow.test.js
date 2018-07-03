@@ -1,5 +1,4 @@
 import assert from 'assert';
-import { expect } from 'chai';
 import Allow from '../Allow';
 import { Isotope } from '../../index';
 

@@ -1,6 +1,6 @@
 import { Atom } from '../Atom';
 import { Isotopes } from '../Isotope';
-import { uniqMerge } from './utils';
+import { uniqMerge } from '../';
 
 export type ReactorArgs = {
   atom: Atom,
@@ -28,18 +28,17 @@ export class Reactor {
     this.options = options;
   }
 
-  with = (values: Object) => {
+  with = ({ values }: { values: Object }) => {
     this.values = values;
     return this;
   };
 
-  and = (values: Object) => {
-    // this.values = uniqMerge(this.values, values);
-    console.log(uniqMerge(this.values, values));
+  and = ({ values, ids = [] }: { values: Object, ids: Array<string> }) => {
+    this.values = uniqMerge({ ...this.values }, values, ids);
     return this;
   };
 
-  execute = async () => {
+  react = async () => {
     const { atom, values } = this;
     this.isotopes = Isotopes({
       reactor: this,

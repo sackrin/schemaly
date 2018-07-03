@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { uniqMerge } from '../utils';
+import { uniqMerge } from '../';
 
-describe('Reactor Utils', () => {
+describe.only('uniqMerge', () => {
   it('can merge two simple objects together with revised object overwriting original', () => {
     const fakeMerged = uniqMerge({
       title: 'mr',
