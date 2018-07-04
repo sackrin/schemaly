@@ -28,18 +28,13 @@ export class Isotope {
   }
 
   getValue = async ({ ...options } = {}) => {
-    // Retrieve the nucleus getter method
     const { getter } = this.nucleus;
-    // Return the built value
     return getter({ value: this.value, isotope: this, ...options });
   };
 
   setValue = async ({ value, ...options }) => {
-    // Retrieve the nucleus getter method
     const { setter } = this.nucleus;
-    // Assign the built value
     this.value = await setter({ value, isotope: this, ...options });
-    // Return the built value
     return this.value;
   };
 

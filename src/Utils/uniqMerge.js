@@ -5,10 +5,8 @@ export const uniqMerge = (original, updated, ids = ['id']) => {
   Object.entries(updated).forEach((item) => {
     const mergeValue = item[1];
     const originalValue = original[item[0]];
-    // if this is a standard object
     if (_.isPlainObject(mergeValue)) {
       cloned[item[0]] = uniqMerge(originalValue, mergeValue);
-      // otherwise if this is an array
     } else if (_.isArray(mergeValue)) {
       const addedOrUpdated = mergeValue.map((child) => {
         const existing = _.find(originalValue, (itm) => {
@@ -22,7 +20,6 @@ export const uniqMerge = (original, updated, ids = ['id']) => {
         });
       });
       cloned[item[0]] = [...filtered, ...addedOrUpdated];
-      // otherwise just yeah
     } else {
       cloned[item[0]] = mergeValue;
     }

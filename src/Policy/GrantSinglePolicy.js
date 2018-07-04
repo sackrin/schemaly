@@ -11,9 +11,7 @@ export class GrantSinglePolicy {
   }
 
   grant = async ({ isotope, roles, scope, ...options }) => {
-    // If no policies then return a pass grant
     if (this.policies.length === 0) { return true; }
-    // Retrieve the built passed scope and roles
     const builtScope = await getMixedResult(scope, options);
     const builtRoles = await getMixedResult(roles, options);
     // Loop through and search for a granting policy

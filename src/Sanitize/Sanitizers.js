@@ -19,9 +19,7 @@ export class Sanitizers {
   };
 
   filter = async ({ isotope, ...options }) => {
-    // If no collect then return a pass grant
     if (this.filters.length === 0) { return isotope.getValue(); }
-    // Loop through and ensure all collect pass for given value
     return this.filters.reduce(async (value, filter) => {
       return filter.apply({ value: await value, isotope, ...options });
     }, isotope.getValue());
