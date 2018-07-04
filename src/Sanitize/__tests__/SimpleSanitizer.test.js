@@ -1,7 +1,7 @@
 import assert from 'assert';
 import SimpleSanitizer from '../SimpleSanitizer';
 
-describe('Simple Sanitizer', () => {
+describe('Santize/SimpleSanitizer', () => {
   const simplePromiseRule = () => (new Promise(function (resolve, reject) {
     setTimeout(resolve, 100, ['sanitize_string']);
   }));
@@ -9,6 +9,12 @@ describe('Simple Sanitizer', () => {
   const mockPromiseValue = () => (new Promise(function (resolve, reject) {
     setTimeout(resolve, 100, '  johnny ');
   }));
+
+  const fakeIsotope = (options = {}) => ({
+    value: '',
+    getValue: async function () { return this.value; },
+    ...options
+  });
 
   it('can create a simple rules santizer', () => {
     const rules = ['trim|sanitize_string'];
@@ -35,7 +41,7 @@ describe('Simple Sanitizer', () => {
   it('sanitize a string using a single trim and upper_case filters', () => {
     const rules = ['trim|upper_case'];
     const sanitizer = SimpleSanitizer({ rules: rules });
-    return sanitizer.apply({ value: ' johnny ' })
+    return sanitizer.apply({ value: ' johnny ', isotope: fakeIsotope() })
       .then(sanitized => {
         assert.equal(sanitized, 'JOHNNY');
       });
@@ -44,7 +50,7 @@ describe('Simple Sanitizer', () => {
   it('sanitize a promise value using a single trim and upper_case filters', () => {
     const rules = ['trim|upper_case'];
     const sanitizer = SimpleSanitizer({ rules: rules });
-    return sanitizer.apply({ value: mockPromiseValue })
+    return sanitizer.apply({ value: mockPromiseValue, isotope: fakeIsotope() })
       .then(sanitized => {
         assert.equal(sanitized, 'JOHNNY');
       });
@@ -53,7 +59,7 @@ describe('Simple Sanitizer', () => {
   it('sanitize a string using the trim filter', () => {
     const rules = ['trim'];
     const sanitizer = SimpleSanitizer({ rules: rules });
-    return sanitizer.apply({ value: ' johnny ' })
+    return sanitizer.apply({ value: ' johnny ', isotope: fakeIsotope() })
       .then(sanitized => {
         assert.equal(sanitized, 'johnny');
       });
@@ -62,7 +68,7 @@ describe('Simple Sanitizer', () => {
   it('sanitize a string using the upper_case filter', () => {
     const rules = ['upper_case'];
     const sanitizer = SimpleSanitizer({ rules: rules });
-    return sanitizer.apply({ value: 'johnny' })
+    return sanitizer.apply({ value: 'johnny', isotope: fakeIsotope() })
       .then(sanitized => {
         assert.equal(sanitized, 'JOHNNY');
       });
@@ -71,7 +77,7 @@ describe('Simple Sanitizer', () => {
   it('sanitize a string using the lower_case filter', () => {
     const rules = ['lower_case'];
     const sanitizer = SimpleSanitizer({ rules: rules });
-    return sanitizer.apply({ value: 'JOHNNY' })
+    return sanitizer.apply({ value: 'JOHNNY', isotope: fakeIsotope() })
       .then(sanitized => {
         assert.equal(sanitized, 'johnny');
       });
@@ -80,7 +86,7 @@ describe('Simple Sanitizer', () => {
   it('sanitize a string using an invalid sanitizer filter', () => {
     const rules = ['invalidSanitizer'];
     const sanitizer = SimpleSanitizer({ rules: rules });
-    return sanitizer.apply({ value: 'johnny' })
+    return sanitizer.apply({ value: 'johnny', isotope: fakeIsotope() })
       .then(sanitized => {
         assert.equal(sanitized, 'johnny');
       });

@@ -1,11 +1,17 @@
 import assert from 'assert';
 import { SimpleValidator } from '../';
 
-describe('Simple Validator', function () {
+describe('Validate/SimpleValidator', function () {
   const simpleStringRule = 'required|min:5';
   const simplePromiseRule = () => (new Promise(function (resolve, reject) {
     setTimeout(resolve, 100, ['email']);
   }));
+
+  const fakeIsotope = (options) => ({
+    value: '',
+    getValue: async function () { return this.value; },
+    ...options
+  });
 
   it('can create a simple rule validator', () => {
     const validator = SimpleValidator({ rules: [simpleStringRule], test: true });
@@ -27,8 +33,9 @@ describe('Simple Validator', function () {
 
   it('validates against a simple value and passes', () => {
     const validator = SimpleValidator({ rules: [simpleStringRule] });
+    const isotope = fakeIsotope({ value: 'Johnny' });
     return validator
-      .validate({ value: 'Johnny' })
+      .validate({ isotope })
       .then(({ valid, messages }) => {
         assert.equal(valid, true);
         assert.deepEqual(messages, []);
@@ -37,8 +44,9 @@ describe('Simple Validator', function () {
 
   it('validates against a simple value and fails', () => {
     const validator = SimpleValidator({ rules: [simpleStringRule] });
+    const isotope = fakeIsotope({ value: 'John' });
     return validator
-      .validate({ value: 'John' })
+      .validate({ isotope })
       .then(({ valid, messages }) => {
         assert.equal(valid, false);
         assert.deepEqual(messages, [ 'The value must be at least 5 characters.' ]);
@@ -50,8 +58,9 @@ describe('Simple Validator', function () {
       setTimeout(resolve, 100, 'Johnny');
     }));
     const validator = SimpleValidator({ rules: [simpleStringRule] });
+    const isotope = fakeIsotope({ value: simplePromiseValue });
     return validator
-      .validate({ value: simplePromiseValue })
+      .validate({ isotope })
       .then(({ valid, messages }) => {
         assert.equal(valid, true);
         assert.deepEqual(messages, []);
@@ -63,8 +72,9 @@ describe('Simple Validator', function () {
       setTimeout(resolve, 100, 'John');
     }));
     const validator = SimpleValidator({ rules: [simpleStringRule] });
+    const isotope = fakeIsotope({ value: simplePromiseValue });
     return validator
-      .validate({ value: simplePromiseValue })
+      .validate({ isotope })
       .then(({ valid, messages }) => {
         assert.equal(valid, false);
         assert.deepEqual(messages, [ 'The value must be at least 5 characters.' ]);

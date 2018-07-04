@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 export class Sanitizers {
   filters = [];
 
@@ -10,15 +8,15 @@ export class Sanitizers {
     this.options = options;
   }
 
-  filter = async ({ value, ...options }) => {
-    // Check if the passed value is a promise
-    const filterValue = !_.isFunction(value) ? value : await value(options);
+  filter = async ({ isotope, ...options }) => {
+    // Retrieve the isotope value
+    const value = await isotope.getValue();
     // If no collect then return a pass grant
-    if (this.filters.length === 0) { return filterValue; }
+    if (this.filters.length === 0) { return value; }
     // Loop through and ensure all collect pass for given value
     return this.filters.reduce(async (value, filter) => {
-      return filter.apply({ value: await value, ...options });
-    }, filterValue);
+      return filter.apply({ value: await value, isotope, ...options });
+    }, value);
   }
 }
 

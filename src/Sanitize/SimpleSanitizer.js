@@ -22,9 +22,9 @@ export class SimpleSanitizer {
   getRules = async ({ ...options } = {}) => {
     return getMixedResult(this.config.rules, { validator: this.options, ...options })
       .then((builtRules) => (builtRules.join('|')));
-  }
+  };
 
-  apply = async ({ value, ...options }) => {
+  apply = async ({ value, isotope, ...options }) => {
     const builtRules = await this.getRules(options);
     const builtValue = _.isFunction(value) ? await value(options) : value;
     return builtRules.split('|').reduce((filtered, filter) => {

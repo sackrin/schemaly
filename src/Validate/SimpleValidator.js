@@ -17,7 +17,8 @@ export class SimpleValidator {
       .then(builtRules => (builtRules.join('|')));
   };
 
-  validate = async ({ value, ...options }) => {
+  validate = async ({ isotope, ...options }) => {
+    const value = await isotope.getValue();
     const usingRules = await this.getRules({ options: options });
     const usingValue = !_.isFunction(value) ? value : await value({ ...this.options, ...options });
     const validation = new Validator({ value: usingValue }, { value: usingRules });

@@ -16,6 +16,12 @@ describe('Validators', () => {
     setTimeout(resolve, 100, 'johnny');
   }));
 
+  const fakeIsotope = (options) => ({
+    value: '',
+    getValue: async function () { return this.value; },
+    ...options
+  });
+
   it('can create a simple validator group', () => {
     const validators = Validators(simpleValidators, { test: true });
     assert.deepEqual(validators.validators, simpleValidators);
@@ -24,7 +30,7 @@ describe('Validators', () => {
 
   it('can perform validation on a simple value and pass', () => {
     const validators = Validators(simpleValidators);
-    return validators.validate({ value: 'johnny' })
+    return validators.validate({ isotope: fakeIsotope({ value: 'johnny' }) })
       .then(({ valid, messages }) => {
         assert.equal(valid, true);
         assert.deepEqual(messages, []);
@@ -33,7 +39,7 @@ describe('Validators', () => {
 
   it('can perform validation on a simple value and fail', () => {
     const validators = Validators(simpleValidators);
-    return validators.validate({ value: 'john' })
+    return validators.validate({ isotope: fakeIsotope({ value: 'john' }) })
       .then(({ valid, messages }) => {
         assert.equal(valid, false);
         assert.deepEqual(messages, [ 'The value must be at least 5 characters.' ]);
@@ -42,7 +48,7 @@ describe('Validators', () => {
 
   it('can perform validation on a promise value and pass', () => {
     const validators = Validators(simpleValidators);
-    return validators.validate({ value: johnnyByPromise })
+    return validators.validate({ isotope: fakeIsotope({ value: johnnyByPromise }) })
       .then(({ valid, messages }) => {
         assert.equal(valid, true);
         assert.deepEqual(messages, []);
@@ -51,7 +57,7 @@ describe('Validators', () => {
 
   it('can perform validation on a promise value and fail', () => {
     const validators = Validators(simpleValidators);
-    return validators.validate({ value: johnByPromise })
+    return validators.validate({ isotope: fakeIsotope({ value: johnByPromise }) })
       .then(({ valid, messages }) => {
         assert.equal(valid, false);
         assert.deepEqual(messages, [ 'The value must be at least 5 characters.' ]);

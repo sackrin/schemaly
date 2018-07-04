@@ -2,7 +2,7 @@ import assert from 'assert';
 import SimpleSanitizer from '../SimpleSanitizer';
 import Sanitizers from '../Sanitizers';
 
-describe('Sanitizers', () => {
+describe('Sanitize/Sanitizers', () => {
   const mockSanitizers = [
     SimpleSanitizer({ rules: ['trim'] }),
     SimpleSanitizer({ rules: ['upper_case'] })
@@ -12,6 +12,12 @@ describe('Sanitizers', () => {
     setTimeout(resolve, 100, '  johnny ');
   }));
 
+  const fakeIsotope = (options = {}) => ({
+    value: '',
+    getValue: async function () { return this.value; },
+    ...options
+  });
+
   it('can create a basic sanitizer group', () => {
     const sanitizers = Sanitizers(mockSanitizers, { test: true });
     assert.deepEqual(sanitizers.filters, mockSanitizers);
@@ -20,7 +26,7 @@ describe('Sanitizers', () => {
 
   it('can sanitize a simple value', () => {
     const sanitizers = Sanitizers(mockSanitizers);
-    return sanitizers.filter({ value: ' johnny ' })
+    return sanitizers.filter({ isotope: fakeIsotope({ value: ' johnny ' }) })
       .then(filteredValue => {
         assert.equal(filteredValue, 'JOHNNY');
       })
@@ -29,7 +35,7 @@ describe('Sanitizers', () => {
 
   it('can sanitize a simple value with no sanitizes', () => {
     const sanitizers = Sanitizers([]);
-    return sanitizers.filter({ value: '  johnny  ' })
+    return sanitizers.filter({ isotope: fakeIsotope({ value: '  johnny  ' }) })
       .then(filteredValue => {
         assert.equal(filteredValue, '  johnny  ');
       })
@@ -38,7 +44,7 @@ describe('Sanitizers', () => {
 
   it('can sanitize a promise value', () => {
     const sanitizers = Sanitizers(mockSanitizers);
-    return sanitizers.filter({ value: mockPromiseValue })
+    return sanitizers.filter({ isotope: fakeIsotope({ value: mockPromiseValue }) })
       .then(filteredValue => {
         assert.equal(filteredValue, 'JOHNNY');
       })

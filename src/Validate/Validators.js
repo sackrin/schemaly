@@ -8,13 +8,13 @@ export class Validators {
     this.options = options;
   }
 
-  validate = async ({ value, ...options }) => {
+  validate = async ({ isotope, ...options }) => {
     // If no validators then return a pass grant
     if (this.validators.length === 0) { return { valid: true, messages: [], children: [] }; }
     // Loop through and ensure all validators pass for given value
     return this.validators.reduce(async (flag, validator) => {
       const currFlag = await flag;
-      const validationCheck = await validator.validate({ value, ...options });
+      const validationCheck = await validator.validate({ isotope, ...options });
       return {
         valid: !validationCheck.valid ? false : currFlag.valid,
         messages: [ ...currFlag.messages, ...validationCheck.messages ],

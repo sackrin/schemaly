@@ -6,9 +6,8 @@ import Nuclei from '../Nuclei';
 import { Sanitizers, SimpleSanitizer } from '../../Sanitize';
 import { Validators, SimpleValidator } from '../../Validate';
 import { GrantSinglePolicy, DenyPolicy, AllowPolicy } from '../../Policy';
-import { Isotope } from '../../Isotope';
 
-describe('Nucleus', function () {
+describe('Nucleus/Nucleus', function () {
   const fakeArgs = {
     parent: {},
     type: context.STRING,
@@ -34,8 +33,10 @@ describe('Nucleus', function () {
     ]
   };
 
-  const fakeIsotope = Isotope({
-    value: ' Jennifer '
+  const fakeIsotope = (options = {}) => ({
+    value: '',
+    getValue: async function () { return this.value; },
+    ...options
   });
 
   it('can be created and with config, parent and options', () => {
@@ -82,7 +83,7 @@ describe('Nucleus', function () {
 
   it('can validate a value against provided validators and expect a pass', () => {
     const fakeNucleus = Nucleus(fakeArgs);
-    return fakeNucleus.validate({ value: 'Jennifer', isotope: fakeIsotope })
+    return fakeNucleus.validate({ isotope: fakeIsotope({ value: 'Jennifer' }) })
       .then(check => {
         expect(check.valid).to.equal(true);
         expect(check.messages).to.deep.equal([]);
@@ -93,7 +94,7 @@ describe('Nucleus', function () {
 
   it('can validate a value against provided validators and expect a fail', () => {
     const fakeNucleus = Nucleus(fakeArgs);
-    return fakeNucleus.validate({ value: 'Tom', isotope: fakeIsotope })
+    return fakeNucleus.validate({ isotope: fakeIsotope({ value: 'Tom' }) })
       .then(check => {
         expect(check.valid).to.equal(false);
         expect(check.messages).to.deep.equal([ 'The value must be at least 5 characters.' ]);
@@ -104,7 +105,7 @@ describe('Nucleus', function () {
 
   it('can sanitize a value against provided sanitizes', () => {
     const fakeNucleus = Nucleus(fakeArgs);
-    return fakeNucleus.sanitize({ isotope: fakeIsotope })
+    return fakeNucleus.sanitize({ isotope: fakeIsotope({ value: 'Jennifer' }) })
       .then(value => {
         expect(value).to.equal('JENNIFER');
       }).catch((msg) => {
@@ -134,7 +135,7 @@ describe('Nucleus', function () {
 
   it('can perform a successful grant check against provided policies', () => {
     const fakeNucleus = Nucleus(fakeArgs);
-    return fakeNucleus.grant({ isotope: fakeIsotope, scope: [ 'read' ], roles: [ 'user' ] })
+    return fakeNucleus.grant({ isotope: fakeIsotope({ value: 'Jennifer' }), scope: [ 'read' ], roles: [ 'user' ] })
       .then(result => {
         expect(result).to.equal(true);
       }).catch((msg) => {
@@ -144,7 +145,7 @@ describe('Nucleus', function () {
 
   it('can perform an unsuccessful grant check against provided policies', () => {
     const fakeNucleus = Nucleus(fakeArgs);
-    return fakeNucleus.grant({ isotope: fakeIsotope, scope: [ 'read' ], roles: [ 'member' ] })
+    return fakeNucleus.grant({ isotope: fakeIsotope({ value: 'Jennifer' }), scope: [ 'read' ], roles: [ 'member' ] })
       .then(result => {
         expect(result).to.equal(false);
       }).catch((msg) => {

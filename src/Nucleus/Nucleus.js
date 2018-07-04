@@ -49,14 +49,14 @@ export class Nucleus {
     return policies.grant({ isotope, scope, roles, ...options });
   };
 
-  validate = async ({ value, isotope, ...options }) => {
+  validate = async ({ isotope, ...options }) => {
     const { validators } = this;
-    return validators ? validators.validate({ value, isotope, ...options }) : { valid: true, messages: [], children: [] };
+    return validators ? validators.validate({ isotope, ...options }) : { valid: true, messages: [], children: [] };
   };
 
   sanitize = async ({ isotope, ...options }) => {
     const { sanitizers } = this;
-    return sanitizers ? sanitizers.filter({ value: isotope.value, isotope, ...options }) : isotope.value;
+    return sanitizers ? sanitizers.filter({ isotope, ...options }) : isotope.value;
   };
 
   getter = async ({ value, isotope, ...options } = {}) => {
