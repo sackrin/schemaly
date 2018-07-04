@@ -8,12 +8,15 @@ export class Isotopes {
 
   values;
 
+  parent;
+
   isotopes = [];
 
   options;
 
-  constructor ({ reactor, nuclei, values, ...options }) {
+  constructor ({ parent, reactor, nuclei, values, ...options }) {
     this.reactor = reactor;
+    this.parent = reactor;
     this.nuclei = nuclei;
     this.values = values;
     this.options = options;
@@ -33,7 +36,7 @@ export class Isotopes {
     const { reactor, nuclei, isotopes, values } = this;
     await Promise.all(nuclei.all().map(async nucleus => {
       const value = _.get(values, nucleus.machine, undefined);
-      const isotope = Isotope({ reactor, nucleus, value });
+      const isotope = Isotope({ parent: this, reactor, nucleus, value });
       if (await isotope.grant()) {
         isotopes.push(await isotope.hydrate());
       }

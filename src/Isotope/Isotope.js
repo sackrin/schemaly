@@ -5,6 +5,8 @@ export class Isotope {
 
   nucleus;
 
+  parent;
+
   value;
 
   children = [];
@@ -17,9 +19,10 @@ export class Isotope {
 
   get label () { return this.nucleus.label; }
 
-  constructor ({ reactor, nucleus, value, ...options }) {
+  constructor ({ parent, reactor, nucleus, value, ...options }) {
     this.reactor = reactor;
     this.nucleus = nucleus;
+    this.parent = parent;
     this.value = value;
     this.options = options;
   }
@@ -68,10 +71,10 @@ export class Isotope {
     }
     const hydrated = [];
     if (type.children && !type.repeater) {
-      hydrated.push(await Isotopes({ reactor, nuclei, values: value }).hydrate(options));
+      hydrated.push(await Isotopes({ parent: this, reactor, nuclei, values: value }).hydrate(options));
     } else if (type.children && type.repeater) {
       await Promise.all(value.map(async _value => {
-        hydrated.push(await Isotopes({ reactor, nuclei, values: _value }).hydrate(options));
+        hydrated.push(await Isotopes({ parent: this, reactor, nuclei, values: _value }).hydrate(options));
       }));
     }
     this.children = hydrated;
