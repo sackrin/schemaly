@@ -1,7 +1,7 @@
 import assert from 'assert';
 import { expect } from 'chai';
 import Nucleus from '../Nucleus';
-import * as context from '../context';
+import * as Context from '../Context';
 import Nuclei from '../Nuclei';
 import { Sanitizers, SimpleSanitizer } from '../../Sanitize';
 import { Validators, SimpleValidator } from '../../Validate';
@@ -10,7 +10,7 @@ import { GrantSinglePolicy, DenyPolicy, AllowPolicy } from '../../Policy';
 describe('Nucleus/Nucleus', function () {
   const fakeArgs = {
     parent: {},
-    type: context.STRING,
+    type: Context.STRING,
     machine: 'first_name',
     label: 'First Name',
     policies: GrantSinglePolicy([
@@ -45,7 +45,7 @@ describe('Nucleus/Nucleus', function () {
       test: true
     });
     assert.equal(nucleus.parent, fakeArgs.parent);
-    assert.equal(nucleus.config.type, context.STRING);
+    assert.equal(nucleus.config.type, Context.STRING);
     assert.equal(nucleus.config.machine, 'first_name');
     assert.equal(nucleus.config.label, 'First Name');
     assert.equal(nucleus.options.test, true);
@@ -57,7 +57,7 @@ describe('Nucleus/Nucleus', function () {
   it('can use getters to access common properties', () => {
     const fakeNucleus = Nucleus({ ...fakeArgs });
     expect(fakeNucleus.machine).to.equal('first_name');
-    expect(fakeNucleus.type).to.equal(context.STRING);
+    expect(fakeNucleus.type).to.equal(Context.STRING);
     expect(fakeNucleus.label).to.equal('First Name');
   });
 
@@ -66,7 +66,7 @@ describe('Nucleus/Nucleus', function () {
     const nucleusTwo = Nucleus({ ...fakeArgs, label: 'surname' });
     const nucleusThree = Nucleus({ ...fakeArgs, label: 'title' });
     const fakeNuclei = Nuclei([nucleusOne, nucleusTwo, nucleusThree]);
-    const nucleus = Nucleus({ ...fakeArgs, type: context.COLLECTION, machine: 'people' });
+    const nucleus = Nucleus({ ...fakeArgs, type: Context.COLLECTION, machine: 'people' });
     nucleus.addNuclei({ nuclei: fakeNuclei });
     assert.equal(nucleus.nuclei, fakeNuclei);
     assert.equal(nucleus.nuclei.parent, nucleus);

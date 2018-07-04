@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { Atom } from '../../Atom';
 import Reactor from '../Reactor';
-import { context, Nuclei, Nucleus } from '../../Nucleus';
+import { Context, Nuclei, Nucleus } from '../../Nucleus';
 import { AllowPolicy, DenyPolicy, GrantSinglePolicy } from '../../Policy';
 import { SimpleValidator, Validators } from '../../Validate';
 
@@ -13,7 +13,7 @@ describe('Reactor', () => {
     roles: ['owner', 'user', 'guest', 'admin'],
     nuclei: Nuclei([
       Nucleus({
-        type: context.STRING,
+        type: Context.STRING,
         machine: '_id',
         label: 'ID',
         policies: GrantSinglePolicy([
@@ -21,7 +21,7 @@ describe('Reactor', () => {
         ])
       }),
       Nucleus({
-        type: context.STRING,
+        type: Context.STRING,
         machine: 'title',
         label: 'Title',
         policies: GrantSinglePolicy([
@@ -30,7 +30,7 @@ describe('Reactor', () => {
         ])
       }),
       Nucleus({
-        type: context.STRING,
+        type: Context.STRING,
         machine: 'first_name',
         label: 'First Name',
         policies: GrantSinglePolicy([
@@ -42,7 +42,7 @@ describe('Reactor', () => {
         ])
       }),
       Nucleus({
-        type: context.STRING,
+        type: Context.STRING,
         machine: 'surname',
         label: 'Surname',
         validators: Validators([
@@ -55,7 +55,7 @@ describe('Reactor', () => {
         ])
       }),
       Nucleus({
-        type: context.STRING,
+        type: Context.STRING,
         machine: 'dob',
         label: 'Date Of Birth',
         validators: Validators([
@@ -67,7 +67,7 @@ describe('Reactor', () => {
         ])
       }),
       Nucleus({
-        type: context.COLLECTION,
+        type: Context.COLLECTION,
         machine: 'emails',
         policies: GrantSinglePolicy([
           DenyPolicy({ scope: ['*'], roles: ['*'] }),
@@ -76,7 +76,7 @@ describe('Reactor', () => {
         ]),
         nuclei: Nuclei([
           Nucleus({
-            type: context.STRING,
+            type: Context.STRING,
             machine: '_id',
             label: 'ID',
             policies: GrantSinglePolicy([
@@ -84,7 +84,7 @@ describe('Reactor', () => {
             ])
           }),
           Nucleus({
-            type: context.BOOLEAN,
+            type: Context.BOOLEAN,
             machine: 'primary',
             label: 'Primary',
             policies: GrantSinglePolicy([
@@ -93,7 +93,7 @@ describe('Reactor', () => {
             ])
           }),
           Nucleus({
-            type: context.STRING,
+            type: Context.STRING,
             machine: 'address',
             label: 'Address'
           })

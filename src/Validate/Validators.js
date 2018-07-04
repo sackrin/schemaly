@@ -1,12 +1,22 @@
-export class Validators {
-  options;
+import _ from 'lodash';
 
-  validators;
+export class Validators {
+  validators = [];
+
+  options = {};
 
   constructor ({ validators, ...options }) {
     this.validators = validators;
     this.options = options;
   }
+
+  merge = (additional) => {
+    if (!_.isArray(additional)) return;
+    this.validators = [
+      ...additional,
+      ...this.validators
+    ];
+  };
 
   validate = async ({ isotope, ...options }) => {
     // If no validators then return a pass grant

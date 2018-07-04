@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Nucleus, Nuclei, context } from '../../Nucleus';
+import { Nucleus, Nuclei, Context } from '../../Nucleus';
 import { Isotopes } from '../';
 import { Reactor } from '../../Reactor';
 import { Atom } from '../../Atom';
@@ -44,23 +44,23 @@ describe('Isotopes', () => {
     const fakeIsotopes = Isotopes({
       ...fakeArgs,
       nuclei: Nuclei([
-        Nucleus({ type: context.STRING, machine: 'first_name', label: 'First Name' }),
-        Nucleus({ type: context.STRING, machine: 'last_name', label: 'Last Name' }),
+        Nucleus({ type: Context.STRING, machine: 'first_name', label: 'First Name' }),
+        Nucleus({ type: Context.STRING, machine: 'last_name', label: 'Last Name' }),
         Nucleus({
-          type: context.CONTAINER,
+          type: Context.CONTAINER,
           machine: 'company',
           label: 'Company',
           nuclei: Nuclei([
-            Nucleus({ type: context.STRING, machine: 'name', label: 'Company Name' })
+            Nucleus({ type: Context.STRING, machine: 'name', label: 'Company Name' })
           ])
         }),
         Nucleus({
-          type: context.COLLECTION,
+          type: Context.COLLECTION,
           machine: 'emails',
           label: 'Emails',
           nuclei: Nuclei([
-            Nucleus({ type: context.STRING, machine: 'label', label: 'Label' }),
-            Nucleus({ type: context.STRING, machine: 'address', label: 'Address' })
+            Nucleus({ type: Context.STRING, machine: 'label', label: 'Label' }),
+            Nucleus({ type: Context.STRING, machine: 'address', label: 'Address' })
           ])
         })
       ])
@@ -81,10 +81,10 @@ describe('Isotopes', () => {
     const fakeIsotopes = Isotopes({
       ...fakeArgs,
       nuclei: Nuclei([
-        Nucleus({ type: context.STRING, machine: 'first_name', label: 'First Name' }),
-        Nucleus({ type: context.STRING, machine: 'last_name', label: 'Last Name' }),
+        Nucleus({ type: Context.STRING, machine: 'first_name', label: 'First Name' }),
+        Nucleus({ type: Context.STRING, machine: 'last_name', label: 'Last Name' }),
         Nucleus({
-          type: context.CONTAINER,
+          type: Context.CONTAINER,
           machine: 'company',
           label: 'Company'
         })
@@ -103,7 +103,7 @@ describe('Isotopes', () => {
       ...fakeArgs,
       nuclei: Nuclei([
         Nucleus({
-          type: context.STRING,
+          type: Context.STRING,
           machine: 'first_name',
           label: 'First Name',
           policies: GrantSinglePolicy([
@@ -111,7 +111,7 @@ describe('Isotopes', () => {
             AllowPolicy({ roles: ['user'], scope: ['r', 'w'] })
           ])
         }),
-        Nucleus({ type: context.STRING,
+        Nucleus({ type: Context.STRING,
           machine: 'last_name',
           label: 'Last Name',
           policies: GrantSinglePolicy([
@@ -120,11 +120,11 @@ describe('Isotopes', () => {
           ])
         }),
         Nucleus({
-          type: context.CONTAINER,
+          type: Context.CONTAINER,
           machine: 'company',
           label: 'Company',
           nuclei: Nuclei([
-            Nucleus({ type: context.STRING, machine: 'name', label: 'Company Name' })
+            Nucleus({ type: Context.STRING, machine: 'name', label: 'Company Name' })
           ]),
           policies: GrantSinglePolicy([
             DenyPolicy({ roles: ['*'], scope: ['r', 'w'] }),
@@ -132,12 +132,12 @@ describe('Isotopes', () => {
           ])
         }),
         Nucleus({
-          type: context.COLLECTION,
+          type: Context.COLLECTION,
           machine: 'emails',
           label: 'Emails',
           nuclei: Nuclei([
             Nucleus({
-              type: context.STRING,
+              type: Context.STRING,
               machine: 'label',
               label: 'Label',
               policies: GrantSinglePolicy([
@@ -146,7 +146,7 @@ describe('Isotopes', () => {
               ])
             }),
             Nucleus({
-              type: context.STRING,
+              type: Context.STRING,
               machine: 'address',
               label: 'Address',
               policies: GrantSinglePolicy([
@@ -181,7 +181,7 @@ describe('Isotopes', () => {
       ...fakeArgs,
       nuclei: Nuclei([
         Nucleus({
-          type: context.STRING,
+          type: Context.STRING,
           machine: 'first_name',
           label: 'First Name',
           sanitizers: Sanitizers([
@@ -190,7 +190,7 @@ describe('Isotopes', () => {
           ])
         }),
         Nucleus({
-          type: context.STRING,
+          type: Context.STRING,
           machine: 'last_name',
           label: 'Last Name',
           sanitizers: Sanitizers([
@@ -199,12 +199,12 @@ describe('Isotopes', () => {
           ])
         }),
         Nucleus({
-          type: context.CONTAINER,
+          type: Context.CONTAINER,
           machine: 'company',
           label: 'Company',
           nuclei: Nuclei([
             Nucleus({
-              type: context.STRING,
+              type: Context.STRING,
               machine: 'name',
               label: 'Company Name',
               sanitizers: Sanitizers([
@@ -215,12 +215,12 @@ describe('Isotopes', () => {
           ])
         }),
         Nucleus({
-          type: context.COLLECTION,
+          type: Context.COLLECTION,
           machine: 'emails',
           label: 'Emails',
           nuclei: Nuclei([
             Nucleus({
-              type: context.STRING,
+              type: Context.STRING,
               machine: 'label',
               label: 'Label',
               sanitizers: Sanitizers([
@@ -229,7 +229,7 @@ describe('Isotopes', () => {
               ])
             }),
             Nucleus({
-              type: context.STRING,
+              type: Context.STRING,
               machine: 'address',
               label: 'Address',
               sanitizers: Sanitizers([
@@ -271,7 +271,7 @@ describe('Isotopes', () => {
       ...fakeArgs,
       nuclei: Nuclei([
         Nucleus({
-          type: context.STRING,
+          type: Context.STRING,
           machine: 'first_name',
           label: 'First Name',
           validators: Validators([
@@ -279,7 +279,7 @@ describe('Isotopes', () => {
           ])
         }),
         Nucleus({
-          type: context.STRING,
+          type: Context.STRING,
           machine: 'last_name',
           label: 'Last Name',
           validators: Validators([
@@ -287,12 +287,12 @@ describe('Isotopes', () => {
           ])
         }),
         Nucleus({
-          type: context.CONTAINER,
+          type: Context.CONTAINER,
           machine: 'company',
           label: 'Company',
           nuclei: Nuclei([
             Nucleus({
-              type: context.STRING,
+              type: Context.STRING,
               machine: 'name',
               label: 'Company Name',
               validators: Validators([
@@ -302,12 +302,12 @@ describe('Isotopes', () => {
           ])
         }),
         Nucleus({
-          type: context.COLLECTION,
+          type: Context.COLLECTION,
           machine: 'emails',
           label: 'Emails',
           nuclei: Nuclei([
             Nucleus({
-              type: context.STRING,
+              type: Context.STRING,
               machine: 'label',
               label: 'Label',
               validators: Validators([
@@ -315,7 +315,7 @@ describe('Isotopes', () => {
               ])
             }),
             Nucleus({
-              type: context.STRING,
+              type: Context.STRING,
               machine: 'address',
               label: 'Address',
               validators: Validators([
@@ -347,7 +347,7 @@ describe('Isotopes', () => {
       ...fakeArgs,
       nuclei: Nuclei([
         Nucleus({
-          type: context.STRING,
+          type: Context.STRING,
           machine: 'first_name',
           label: 'First Name',
           validators: Validators([
@@ -355,7 +355,7 @@ describe('Isotopes', () => {
           ])
         }),
         Nucleus({
-          type: context.STRING,
+          type: Context.STRING,
           machine: 'last_name',
           label: 'Last Name',
           validators: Validators([
@@ -363,12 +363,12 @@ describe('Isotopes', () => {
           ])
         }),
         Nucleus({
-          type: context.CONTAINER,
+          type: Context.CONTAINER,
           machine: 'company',
           label: 'Company',
           nuclei: Nuclei([
             Nucleus({
-              type: context.STRING,
+              type: Context.STRING,
               machine: 'name',
               label: 'Company Name',
               validators: Validators([
@@ -378,12 +378,12 @@ describe('Isotopes', () => {
           ])
         }),
         Nucleus({
-          type: context.COLLECTION,
+          type: Context.COLLECTION,
           machine: 'emails',
           label: 'Emails',
           nuclei: Nuclei([
             Nucleus({
-              type: context.STRING,
+              type: Context.STRING,
               machine: 'label',
               label: 'Label',
               validators: Validators([
@@ -391,7 +391,7 @@ describe('Isotopes', () => {
               ])
             }),
             Nucleus({
-              type: context.STRING,
+              type: Context.STRING,
               machine: 'address',
               label: 'Address',
               validators: Validators([
@@ -423,39 +423,39 @@ describe('Isotopes', () => {
       ...fakeArgs,
       nuclei: Nuclei([
         Nucleus({
-          type: context.STRING,
+          type: Context.STRING,
           machine: 'first_name',
           label: 'First Name'
         }),
         Nucleus({
-          type: context.STRING,
+          type: Context.STRING,
           machine: 'last_name',
           label: 'Last Name'
         }),
         Nucleus({
-          type: context.CONTAINER,
+          type: Context.CONTAINER,
           machine: 'company',
           label: 'Company',
           nuclei: Nuclei([
             Nucleus({
-              type: context.STRING,
+              type: Context.STRING,
               machine: 'name',
               label: 'Company Name'
             })
           ])
         }),
         Nucleus({
-          type: context.COLLECTION,
+          type: Context.COLLECTION,
           machine: 'emails',
           label: 'Emails',
           nuclei: Nuclei([
             Nucleus({
-              type: context.STRING,
+              type: Context.STRING,
               machine: 'label',
               label: 'Label'
             }),
             Nucleus({
-              type: context.STRING,
+              type: Context.STRING,
               machine: 'address',
               label: 'Address'
             })

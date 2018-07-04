@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { SimpleValidator, Validators } from '../../Validate';
 import { AllowPolicy, DenyPolicy, GrantSinglePolicy } from '../../Policy';
 import { Sanitizers, SimpleSanitizer } from '../../Sanitize';
-import { Nucleus, context, Nuclei } from '../../Nucleus';
+import { Nucleus, Context, Nuclei } from '../../Nucleus';
 import Isotope from '../Isotope';
 import { Reactor } from '../../Reactor';
 
@@ -14,7 +14,7 @@ describe('Isotope', () => {
       roles: ['user']
     }),
     nucleus: Nucleus({
-      type: context.STRING,
+      type: Context.STRING,
       machine: 'first_name',
       label: 'First Name',
       policies: GrantSinglePolicy([
@@ -46,7 +46,7 @@ describe('Isotope', () => {
       roles: ['user']
     }),
     nucleus: Nucleus({
-      type: context.CONTAINER,
+      type: Context.CONTAINER,
       machine: 'profile',
       label: 'Profile',
       policies: GrantSinglePolicy([
@@ -55,7 +55,7 @@ describe('Isotope', () => {
       ]),
       nuclei: Nuclei([
         Nucleus({
-          type: context.STRING,
+          type: Context.STRING,
           machine: 'first_name',
           label: 'First Name',
           policies: GrantSinglePolicy([
@@ -72,7 +72,7 @@ describe('Isotope', () => {
           ])
         }),
         Nucleus({
-          type: context.STRING,
+          type: Context.STRING,
           machine: 'surname',
           label: 'Surname',
           policies: GrantSinglePolicy([
@@ -89,7 +89,7 @@ describe('Isotope', () => {
           ])
         }),
         Nucleus({
-          type: context.STRING,
+          type: Context.STRING,
           machine: 'secret',
           label: 'Admin Notes',
           policies: GrantSinglePolicy([
@@ -113,7 +113,7 @@ describe('Isotope', () => {
       roles: ['user']
     }),
     nucleus: Nucleus({
-      type: context.COLLECTION,
+      type: Context.COLLECTION,
       machine: 'emails',
       label: 'Emails',
       policies: GrantSinglePolicy([
@@ -122,7 +122,7 @@ describe('Isotope', () => {
       ]),
       nuclei: Nuclei([
         Nucleus({
-          type: context.STRING,
+          type: Context.STRING,
           machine: 'label',
           label: 'Label',
           policies: GrantSinglePolicy([
@@ -139,7 +139,7 @@ describe('Isotope', () => {
           ])
         }),
         Nucleus({
-          type: context.STRING,
+          type: Context.STRING,
           machine: 'address',
           label: 'Address',
           policies: GrantSinglePolicy([
@@ -156,7 +156,7 @@ describe('Isotope', () => {
           ])
         }),
         Nucleus({
-          type: context.STRING,
+          type: Context.STRING,
           machine: 'secret',
           label: 'Admin Notes',
           policies: GrantSinglePolicy([

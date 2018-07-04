@@ -1,3 +1,6 @@
+import { Sanitizers } from '../Sanitize';
+import { Validators } from '../Validate';
+
 export class Nucleus {
   config = {};
 
@@ -20,9 +23,23 @@ export class Nucleus {
   constructor ({ type, machine, label, parent, nuclei, getters, setters, policies, sanitizers, validators, ...options }) {
     this.config = { type, machine, label };
     if (parent) this.parent = parent;
-    if (policies) this.policies = policies;
-    if (sanitizers) this.sanitizers = sanitizers;
-    if (validators) this.validators = validators;
+    if (policies) { this.policies = policies; }
+    if (sanitizers) {
+      sanitizers.merge(type.sanitizers);
+      this.sanitizers = sanitizers;
+    } else {
+      this.sanitizers = Sanitizers([
+        ...type ? type.sanitizers : []
+      ]);
+    }
+    if (validators) {
+      validators.merge(type.validators);
+      this.validators = validators;
+    } else {
+      this.validators = Validators([
+        ...type ? type.validators : []
+      ]);
+    }
     if (getters) this.getters = getters;
     if (setters) this.setters = setters;
     if (nuclei) this.addNuclei({ nuclei: nuclei });
@@ -49,14 +66,14 @@ export class Nucleus {
     return policies.grant({ isotope, scope, roles, ...options });
   };
 
-  validate = async ({ isotope, ...options }) => {
+  validate = async ({ value, isotope, ...options }) => {
     const { validators } = this;
-    return validators ? validators.validate({ isotope, ...options }) : { valid: true, messages: [], children: [] };
+    return validators ? validators.validate({ value, isotope, ...options }) : { valid: true, messages: [], children: [] };
   };
 
   sanitize = async ({ isotope, ...options }) => {
     const { sanitizers } = this;
-    return sanitizers ? sanitizers.filter({ isotope, ...options }) : isotope.value;
+    return sanitizers ? sanitizers.filter({ isotope, ...options }) : isotope.getValue();
   };
 
   getter = async ({ value, isotope, ...options } = {}) => {

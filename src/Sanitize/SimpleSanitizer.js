@@ -7,6 +7,12 @@ export const uppercaseFilter = (value) => (value.toString().toUpperCase());
 
 export const lowercaseFilter = (value) => (value.toString().toLowerCase());
 
+export const stringFilter = (value) => (value.toString());
+
+export const intFilter = (value) => (parseInt(value));
+
+export const floatFilter = (value) => (parseFloat(value));
+
 export class SimpleSanitizer {
   config = {
     rules: []
@@ -29,6 +35,9 @@ export class SimpleSanitizer {
     const builtValue = _.isFunction(value) ? await value(options) : value;
     return builtRules.split('|').reduce((filtered, filter) => {
       switch (filter.toLowerCase()) {
+        case 'string' : { return stringFilter(filtered); }
+        case 'float' : { return floatFilter(filtered); }
+        case 'int' : { return intFilter(filtered); }
         case 'trim' : { return trimFilter(filtered); }
         case 'upper_case' : { return uppercaseFilter(filtered); }
         case 'lower_case' : { return lowercaseFilter(filtered); }

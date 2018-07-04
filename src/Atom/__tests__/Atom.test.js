@@ -1,6 +1,6 @@
 import assert from 'assert';
 import Atom from '../Atom';
-import { Nucleus, Nuclei, context } from '../../Nucleus';
+import { Nucleus, Nuclei, Context } from '../../Nucleus';
 
 describe('Atom', () => {
   const fakeArgs = {
@@ -9,9 +9,9 @@ describe('Atom', () => {
     scope: ['read', 'write'],
     roles: ['user', 'guest'],
     nuclei: Nuclei([
-      Nucleus({ type: context.STRING, label: 'title' }),
-      Nucleus({ type: context.STRING, label: 'first_name' }),
-      Nucleus({ type: context.STRING, label: 'surname' })
+      Nucleus({ type: Context.STRING, label: 'title' }),
+      Nucleus({ type: Context.STRING, label: 'first_name' }),
+      Nucleus({ type: Context.STRING, label: 'surname' })
     ])
   };
 
