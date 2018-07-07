@@ -16,7 +16,7 @@ describe('Validators', () => {
     setTimeout(resolve, 100, 'johnny');
   }));
 
-  const fakeIsotope = (options) => ({
+  const fakeIsotope = (options: Object) => ({
     value: '',
     getValue: async function () { return this.value; },
     ...options

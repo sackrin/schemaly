@@ -1,16 +1,17 @@
 import _ from 'lodash';
+import {Validator} from "./index";
 
 export class Validators {
-  validators = [];
+  validators: Array<Validator> = [];
 
   options = {};
 
-  constructor ({ validators, ...options }) {
+  constructor ({ validators, ...options }: { validators: Array<Validator>, options?:Object }) {
     this.validators = validators;
     this.options = options;
   }
 
-  merge = (additional) => {
+  merge = (additional: Array<Validator>) => {
     if (!_.isArray(additional)) return;
     this.validators = [
       ...additional,
@@ -18,7 +19,7 @@ export class Validators {
     ];
   };
 
-  validate = async ({ isotope, ...options }) => {
+  validate = async ({ isotope: Isotope, ...options }) => {
     if (this.validators.length === 0) return { valid: true, messages: [], children: [] };
     return this.validators.reduce(async (flag, validator) => {
       const currFlag = await flag;
