@@ -1,17 +1,26 @@
 import _ from 'lodash';
-import {Validator} from "./index";
+import { Isotope } from "../Isotope/Isotope";
+import { ValidatorInterface } from "./ValidatorInterface";
+import {ValidatorResultInterface} from "./ValidatorResultInterface";
 
-export class Validators {
-  validators: Array<Validator> = [];
+export interface ValidatorsInterface {
+  validators: Array<ValidatorInterface>;
+  options: Object;
+  merge(additional: Array<ValidatorInterface>): void;
+  validate({ isotope, ...options }: { isotope: Isotope, options?: Object }): Promise<ValidatorResultInterface>;
+}
 
-  options = {};
+export class Validators implements ValidatorsInterface {
+  validators: Array<ValidatorInterface> = [];
 
-  constructor ({ validators, ...options }: { validators: Array<Validator>, options?:Object }) {
+  options: Object = {};
+
+  constructor ({ validators, options = {} }: { validators: Array<ValidatorInterface>, options?:Object }) {
     this.validators = validators;
     this.options = options;
   }
 
-  merge = (additional: Array<Validator>) => {
+  merge = (additional: Array<ValidatorInterface>): void => {
     if (!_.isArray(additional)) return;
     this.validators = [
       ...additional,
@@ -19,22 +28,26 @@ export class Validators {
     ];
   };
 
-  validate = async ({ isotope: Isotope, ...options }) => {
+  validate = async ({ isotope, ...options }: { isotope: Isotope, options?: Object }): Promise<ValidatorResultInterface> => {
     if (this.validators.length === 0) return { valid: true, messages: [], children: [] };
-    return this.validators.reduce(async (flag, validator) => {
-      const currFlag = await flag;
-      const validationCheck = await validator.validate({ isotope, ...options });
+    const result:ValidatorResultInterface = {
+      valid: true,
+      messages: [],
+      children: []
+    };
+    return this.validators.reduce(async (flag: Promise<ValidatorResultInterface>, validator: ValidatorInterface) => {
+      const currFlag:ValidatorResultInterface = await flag;
+      const validationCheck:ValidatorResultInterface = await validator.validate({ isotope, ...options });
       return {
         valid: !validationCheck.valid ? false : currFlag.valid,
         messages: [ ...currFlag.messages, ...validationCheck.messages ],
         children: [ ...currFlag.children, ...validationCheck.children ]
       };
-    }, {
-      valid: true,
-      messages: [],
-      children: []
-    });
+    }, Promise.resolve(result));
   };
 }
 
-export default (validators, options = {}) => (new Validators({ validators, ...options }));
+export default (
+    validators: Array<ValidatorInterface>,
+    options: Object = {}
+  ): ValidatorsInterface => (new Validators({ validators, options }));

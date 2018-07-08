@@ -11,6 +11,7 @@
     "build": "tsc --emitDeclarationOnly && babel src --out-dir lib --extensions \".ts\"",
     "pretest": "npm run build",
     "test": "mocha --colors --recursive \"./src/**/*.test.js\" ts-node/register src/**/test.ts",
+    "test:js": "mocha --colors --recursive \"./src/**/*.test.js\"",
     "lint": "eslint src/**/*.{js} --ext .js"
   },
   "files": [

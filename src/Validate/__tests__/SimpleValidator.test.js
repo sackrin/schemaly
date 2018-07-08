@@ -7,14 +7,19 @@ describe('Validate/SimpleValidator', function () {
     setTimeout(resolve, 100, ['email']);
   }));
 
-  const fakeIsotope = (options) => ({
+  const fakeIsotope = (options: Object) => ({
     value: '',
     getValue: async function () { return this.value; },
     ...options
   });
 
   it('can create a simple rule validator', () => {
-    const validator = SimpleValidator({ rules: [simpleStringRule], test: true });
+    const options: {
+      test: boolean
+    } = {
+      test: true
+    };
+    const validator = SimpleValidator({ rules: [simpleStringRule], options });
     assert.deepEqual(validator.rules, [simpleStringRule]);
     assert.deepEqual(validator.options.test, true);
   });

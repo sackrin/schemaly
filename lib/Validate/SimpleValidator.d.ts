@@ -1,19 +1,21 @@
-export declare class SimpleValidator {
-    rules: never[];
+import { Isotope } from "../Isotope/Isotope";
+import { ValidatorInterface } from "./ValidatorInterface";
+import { ValidatorResultInterface } from "./ValidatorResultInterface";
+export declare class SimpleValidator implements ValidatorInterface {
+    rules: Array<string | Function>;
     options: any;
     constructor({ rules, ...options }: {
-        [x: string]: any;
-        rules: any;
+        rules: Array<string | Function>;
+        options?: any;
     });
-    getRules: ({ ...options }?: {}) => Promise<any>;
+    getRules: (options?: any) => Promise<any>;
     validate: ({ isotope, ...options }: {
-        [x: string]: any;
-        isotope: any;
-    }) => Promise<{
-        valid: boolean;
-        messages: any[];
-        children: never[];
-    }>;
+        isotope: Isotope;
+        options?: Object | undefined;
+    }) => Promise<ValidatorResultInterface>;
 }
-declare const _default: (args: any) => SimpleValidator;
+declare const _default: (args: {
+    rules: (string | Function)[];
+    options?: any;
+}) => SimpleValidator;
 export default _default;

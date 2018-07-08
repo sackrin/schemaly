@@ -1,15 +1,27 @@
-export declare class Validators {
-    validators: never[];
-    options: {};
-    constructor({ validators, ...options }: {
-        [x: string]: any;
-        validators: any;
-    });
-    merge: (additional: any) => void;
-    validate: ({ isotope, ...options }: {
-        [x: string]: any;
-        isotope: any;
-    }) => Promise<any>;
+import { Isotope } from "../Isotope/Isotope";
+import { ValidatorInterface } from "./ValidatorInterface";
+import { ValidatorResultInterface } from "./ValidatorResultInterface";
+export interface ValidatorsInterface {
+    validators: Array<ValidatorInterface>;
+    options: Object;
+    merge(additional: Array<ValidatorInterface>): void;
+    validate({ isotope, ...options }: {
+        isotope: Isotope;
+        options?: Object;
+    }): Promise<ValidatorResultInterface>;
 }
-declare const _default: (validators: any, options?: {}) => Validators;
+export declare class Validators implements ValidatorsInterface {
+    validators: Array<ValidatorInterface>;
+    options: Object;
+    constructor({ validators, options }: {
+        validators: Array<ValidatorInterface>;
+        options?: Object;
+    });
+    merge: (additional: ValidatorInterface[]) => void;
+    validate: ({ isotope, ...options }: {
+        isotope: Isotope;
+        options?: Object | undefined;
+    }) => Promise<ValidatorResultInterface>;
+}
+declare const _default: (validators: ValidatorInterface[], options?: Object) => ValidatorsInterface;
 export default _default;
