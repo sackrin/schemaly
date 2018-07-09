@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-export async function getMixedResult (values, options = {}) {
-  return values.reduce(async (collect, value) => {
-    const builtCollect = await collect;
-    return !_.isFunction(value) ? [...builtCollect, value] : [...builtCollect, ...await value(options)];
+export async function getMixedResult (values: any[], options: Object = {}): Promise<any[]> {
+  return values.reduce(async (collect: Promise<any>, value: any) => {
+    const built: any[] = await collect;
+    return !_.isFunction(value) ? [...built, value] : [...built, ...await value(options)];
   }, Promise.all([]));
 }
 

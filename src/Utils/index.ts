@@ -1,2 +1,1 @@
-export { default as uniqMerge } from './uniqMerge';
-export { default as getMixedResult } from './getMixedResult';
+export { default as getMixedResult } from "./getMixedResult";

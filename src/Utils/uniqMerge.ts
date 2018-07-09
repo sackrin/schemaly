@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
-export const uniqMerge = (original, updated, ids = ['id']) => {
-  const cloned = { ...original };
+export const uniqMerge = (original: any, updated: any, ids: string[] = ['id']) => {
+  const cloned: any = { ...original };
   Object.entries(updated).forEach((item) => {
-    const mergeValue = item[1];
-    const originalValue = original[item[0]];
+    const mergeValue: any = item[1];
+    const originalValue: any = original[item[0]];
     if (_.isPlainObject(mergeValue)) {
       cloned[item[0]] = uniqMerge(originalValue, mergeValue);
     } else if (_.isArray(mergeValue)) {

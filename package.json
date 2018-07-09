@@ -4,14 +4,10 @@
   "description": "A simple to use and extendable policy driven JS object schema library",
   "main": "./lib/index.js",
   "scripts": {
-    "start": "npm run dev",
-    "dev": "npm test -- -w",
-    "document": "./node_modules/.bin/esdoc",
     "clean": "rm -rf lib",
-    "build": "tsc --emitDeclarationOnly && babel src --out-dir lib --extensions \".ts\"",
+    "build": "tsc",
     "pretest": "npm run build",
-    "test": "mocha --colors --recursive \"./src/**/*.test.js\" ts-node/register src/**/test.ts",
-    "test:js": "mocha --colors --recursive \"./src/**/*.test.js\"",
+    "test": "mocha --colors --compilers ts-node/register --recursive ./src/**/*.test.ts",
     "lint": "eslint src/**/*.{js} --ext .js"
   },
   "files": [
@@ -25,12 +21,6 @@
   },
   "homepage": "https://github.com/sackrin/fissionjs#readme",
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.52",
-    "@babel/core": "^7.0.0-beta.52",
-    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.52",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.52",
-    "@babel/preset-env": "^7.0.0-beta.52",
-    "@babel/preset-typescript": "^7.0.0-beta.52",
     "@types/chai": "^4.1.4",
     "@types/lodash": "^4.14.110",
     "@types/mocha": "^5.2.4",
@@ -47,6 +37,7 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "mocha": "^5.1.1",
+    "ts-node": "^7.0.0",
     "typescript": "^2.9.2",
     "typings": "^2.1.1"
   },
