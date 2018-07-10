@@ -1,5 +1,5 @@
 import RoleType from "./RoleType";
 
-export type RolesType = Array<RoleType>;
+export type RolesType = RoleType[];
 
 export default RolesType;

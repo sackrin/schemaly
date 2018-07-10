@@ -1,5 +1,5 @@
 import ScopeType from "./ScopeType";
 
-export type ScopesType = Array<ScopeType>;
+export type ScopesType = ScopeType[];
 
 export default ScopesType;

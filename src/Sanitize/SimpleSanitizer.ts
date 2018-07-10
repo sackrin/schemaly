@@ -1,27 +1,7 @@
-import { Isotope } from "../Isotope/Isotope";
+import _ from "lodash";
 import { getMixedResult } from "../Utils";
-
-type FilterType = string | Function;
-
-type FiltersType = FilterType[];
-
-interface Sanitizer {
-  filters: FiltersType;
-  options: any;
-  getRules(options: any): Promise<string>;
-  apply({ value, isotope, ...options }: SanitizerApplyArgs): Promise<any>;
-}
-
-interface SanitizerArgs {
-  filters: FiltersType;
-  options: any;
-}
-
-interface SanitizerApplyArgs {
-  value: any;
-  isotope: Isotope;
-  options: any;
-}
+import { floatFilter, intFilter, lowerCaseFilter, stringFilter, trimFilter, upperCaseFilter } from "./Filter";
+import { FiltersType, Sanitizer, SanitizerApplyArgs, SanitizerArgs } from "./Types";
 
 export class SimpleSanitizer implements Sanitizer {
   public filters: FiltersType = [];
@@ -33,25 +13,25 @@ export class SimpleSanitizer implements Sanitizer {
     this.options = options;
   }
 
-  public getRules = async (options: any = {}): Promise<string> => {
+  public getFilters = async (options: any = {}): Promise<string> => {
     return getMixedResult(this.filters, { ...this.options, ...options })
       .then((built) => (built.join("|")));
   }
 
   public apply = async ({ value, isotope, ...options }: SanitizerApplyArgs): Promise<any> => {
-    const builtRules = await this.getRules(options);
-    const builtValue = _.isFunction(value) ? await value(options) : value;
-    return builtRules.split("|").reduce((filtered, filter) => {
+    const filters: string = await this.getFilters(options);
+    const unsanitized: any = _.isFunction(value) ? await value(options) : value;
+    return filters.split("|").reduce((filtered: any, filter: string) => {
       switch (filter.toLowerCase()) {
         case "string" : { return stringFilter(filtered); }
         case "float" : { return floatFilter(filtered); }
         case "int" : { return intFilter(filtered); }
         case "trim" : { return trimFilter(filtered); }
-        case "upper_case" : { return uppercaseFilter(filtered); }
-        case "lower_case" : { return lowercaseFilter(filtered); }
+        case "upper_case" : { return upperCaseFilter(filtered); }
+        case "lower_case" : { return lowerCaseFilter(filtered); }
         default : { return filtered; }
       }
-    }, builtValue);
+    }, Promise.resolve(unsanitized));
   }
 }
 
