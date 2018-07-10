@@ -1,6 +1,6 @@
-import _ from 'lodash';
+import _ from "lodash";
 
-export const uniqMerge = (original: any, updated: any, ids: string[] = ['id']) => {
+export const uniqMerge = (original: any, updated: any, ids: string[] = ["id"]) => {
   const cloned: any = { ...original };
   Object.entries(updated).forEach((item) => {
     const mergeValue: any = item[1];

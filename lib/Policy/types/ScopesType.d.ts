@@ -1,3 +1,3 @@
 import ScopeType from "./ScopeType";
-export declare type ScopesType = Array<ScopeType>;
+export declare type ScopesType = ScopeType[];
 export default ScopesType;

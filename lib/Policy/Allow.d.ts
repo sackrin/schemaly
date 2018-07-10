@@ -1,5 +1,5 @@
-import { PolicyInterface } from './PolicyInterface';
-import { PolicyArgs, PolicyGrantArgs, RolesType, ScopesType } from './types';
+import { PolicyInterface } from "./PolicyInterface";
+import { PolicyArgs, PolicyGrantArgs, RolesType, ScopesType } from "./types";
 /**
  * ALLOW POLICY
  * Use this policy to implicitly grant against roles and scope.
@@ -11,10 +11,10 @@ import { PolicyArgs, PolicyGrantArgs, RolesType, ScopesType } from './types';
 export declare class Allow implements PolicyInterface {
     roles: RolesType;
     scope: ScopesType;
-    options: Object;
+    options: any;
     constructor({ roles, scope, options }: PolicyArgs);
-    getRoles: (options?: Object) => Promise<string[]>;
-    getScope: (options?: Object) => Promise<string[]>;
+    getRoles: (options?: any) => Promise<string[]>;
+    getScope: (options?: any) => Promise<string[]>;
     grant: ({ isotope, roles, scope, ...options }: PolicyGrantArgs) => Promise<boolean>;
 }
 declare const _default: (args: PolicyArgs) => Allow;

@@ -1,4 +1,4 @@
-import { RolesType, ScopesType, PolicyGrantArgs } from "./types";
+import { PolicyGrantArgs, RolesType, ScopesType } from "./types";
 export interface PolicyInterface {
     roles: RolesType;
     scope: ScopesType;

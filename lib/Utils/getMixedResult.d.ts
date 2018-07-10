@@ -1,2 +1,2 @@
-export declare function getMixedResult(values: any[], options?: Object): Promise<any[]>;
+export declare function getMixedResult(values: any[], options?: any): Promise<any[]>;
 export default getMixedResult;

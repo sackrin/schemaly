@@ -1,1 +1,1 @@
-export { default as Isotope } from './Isotope';
+export { default as Isotope } from "./Isotope";

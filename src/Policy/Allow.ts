@@ -1,12 +1,12 @@
-import _ from 'lodash';
+import _ from "lodash";
 import { getMixedResult } from "../Utils";
-import { PolicyInterface } from './PolicyInterface';
+import { Policy } from "./Types";
 import {
   PolicyArgs,
   PolicyGrantArgs,
   RolesType,
-  ScopesType
-} from './types';
+  ScopesType,
+} from "./types";
 
 /**
  * ALLOW POLICY
@@ -16,37 +16,60 @@ import {
  * Should be used within a Policies instance.
  * Use the grant method in order to grant against a provided set of roles, scope and isotope
  */
-export class Allow implements PolicyInterface {
-  roles: RolesType = [];
+export class Allow implements Policy {
+  public roles: RolesType = [];
 
-  scope: ScopesType = [];
+  public scope: ScopesType = [];
 
-  options: Object = {};
+  public options: any = {};
 
-  constructor ({ roles, scope, options = {} }: PolicyArgs) {
+  /**
+   * @param {RoleType | RolesType} roles
+   * @param {ScopeType | ScopesType} scope
+   * @param {any} options
+   */
+  constructor({ roles, scope, options = {} }: PolicyArgs) {
     this.roles = _.isArray(roles) ? roles : [ roles ];
     this.scope = _.isArray(scope) ? scope : [ scope ];
     this.options = options;
   }
 
-  getRoles = async (options: Object = {}): Promise<string[]> => {
-    return <Promise<string[]>>getMixedResult(this.roles, options);
-  };
+  /**
+   * Get Constructed Roles
+   * @param options
+   * @returns {Promise<string[]>}
+   */
+  public getRoles = async (options: any = {}): Promise<string[]> => {
+    return getMixedResult(this.roles, { ...this.options, ...options });
+  }
 
-  getScope = async (options: Object = {}): Promise<string[]> => {
-    return <Promise<string[]>>getMixedResult(this.scope, options);
-  };
+  /**
+   * Get Constructed Scope
+   * @param options
+   * @returns {Promise<string[]>}
+   */
+  public getScope = async (options: any = {}): Promise<string[]> => {
+    return getMixedResult(this.scope, { ...this.options, ...options });
+  }
 
-  grant = async ({ isotope, roles, scope, ...options }: PolicyGrantArgs): Promise<boolean> => {
+  /**
+   * Grant Challenge
+   * @param {Isotope} isotope
+   * @param {RoleType | RolesType} roles
+   * @param {ScopeType | ScopesType} scope
+   * @param {{options?: any} | any} options
+   * @returns {Promise<boolean>}
+   */
+  public grant = async ({ isotope, roles, scope, ...options }: PolicyGrantArgs): Promise<boolean> => {
     const forRoles: string[] = await getMixedResult(this.roles, options);
     const againstRoles: string[] = await getMixedResult(_.isArray(roles) ? roles : [ roles ], options);
     const roleCheck: string[] = _.difference(againstRoles, forRoles);
-    if (roleCheck.length === againstRoles.length && forRoles.indexOf('*') === -1) return false;
+    if (roleCheck.length === againstRoles.length && forRoles.indexOf("*") === -1) { return false; }
     const forScopes: string[] = await getMixedResult(this.scope, options);
     const againstScopes: string[] = await getMixedResult(_.isArray(scope) ? scope : [ scope ], options);
     const scopeCheck: string[] = _.difference(againstScopes, forScopes);
-    return (!(scopeCheck.length === againstScopes.length && forScopes.indexOf('*') === -1));
-  };
+    return (!(scopeCheck.length === againstScopes.length && forScopes.indexOf("*") === -1));
+  }
 }
 
 /**
@@ -56,4 +79,4 @@ export class Allow implements PolicyInterface {
  * @param {PolicyArgs} args
  * @returns {Allow}
  */
-export default (args:PolicyArgs): Allow  => (new Allow(args));
+export default (args: PolicyArgs): Allow  => (new Allow(args));
