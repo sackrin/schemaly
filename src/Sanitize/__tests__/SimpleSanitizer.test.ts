@@ -1,5 +1,6 @@
-import assert from "assert";
+import { expect } from "chai";
 import SimpleSanitizer from "../SimpleSanitizer";
+import {Isotope} from "../../Isotope";
 
 describe("Santize/SimpleSanitizer", () => {
   const simplePromiseRule = () => (new Promise((resolve) => {
@@ -10,85 +11,83 @@ describe("Santize/SimpleSanitizer", () => {
     setTimeout(resolve, 100, "  johnny ");
   }));
 
-  const fakeIsotope = (options = {}) => ({
-    value: "",
-    getValue: async function () { return this.value; },
-    ...options
-  });
+  const fakeIsotope = (options: any = {}) => (Isotope(options));
 
-  it("can create a simple rules santizer", () => {
-    const rules = ["trim|sanitize_string"];
-    const sanitizer = SimpleSanitizer({ rules: rules, test: true });
-    assert.deepEqual(sanitizer.rules, rules);
-    assert.deepEqual(sanitizer.options.test, true);
+  it("can create a simple filters santizer", () => {
+    const filters = ["trim|sanitize_string"];
+    const sanitizer = SimpleSanitizer({ filters, options: { test: true } });
+    expect(sanitizer.filters).to.deep.equal(filters);
+    expect(sanitizer.options.test).to.equal(true);
   });
 
   it("can create a mixed rule santizer", () => {
-    const rules = ["trim", simplePromiseRule];
-    const sanitizer = SimpleSanitizer({ rules: rules });
-    assert.deepEqual(sanitizer.rules, rules);
+    const filters = ["trim", simplePromiseRule];
+    const sanitizer = SimpleSanitizer({ filters });
+    expect(sanitizer.filters).to.deep.equal(filters);
   });
 
-  it("get rules produces a usable santizer string", () => {
-    const rules = ["trim", simplePromiseRule];
-    const sanitizer = SimpleSanitizer({ rules: rules });
-    return sanitizer.getRules()
-      .then(builtRules => {
-        assert.equal(builtRules, "trim|sanitize_string");
+  it("get filters produces a usable santizer string", () => {
+    const filters = ["trim", simplePromiseRule];
+    const sanitizer = SimpleSanitizer({ filters });
+    return sanitizer.getFilters()
+      .then((built) => {
+        expect(built).to.equal("trim|sanitize_string");
       });
   });
 
   it("sanitize a string using a single trim and upper_case filters", () => {
-    const rules = ["trim|upper_case"];
-    const sanitizer = SimpleSanitizer({ rules: rules });
-    return sanitizer.apply({ value: " johnny ", isotope: fakeIsotope() })
-      .then(sanitized => {
-        assert.equal(sanitized, "JOHNNY");
+    const filters = ["trim|upper_case"];
+    const sanitizer = SimpleSanitizer({ filters });
+    return sanitizer.apply({
+      value: " johnny ",
+      isotope: fakeIsotope(),
+    }).then((sanitized) => {
+        expect(sanitized).to.equal("JOHNNY");
       });
   });
 
   it("sanitize a promise value using a single trim and upper_case filters", () => {
-    const rules = ["trim|upper_case"];
-    const sanitizer = SimpleSanitizer({ rules: rules });
+    const filters = ["trim|upper_case"];
+    const sanitizer = SimpleSanitizer({ filters });
     return sanitizer.apply({ value: mockPromiseValue, isotope: fakeIsotope() })
-      .then(sanitized => {
-        assert.equal(sanitized, "JOHNNY");
+      .then((sanitized) => {
+        expect(sanitized).to.equal("JOHNNY");
       });
   });
 
   it("sanitize a string using the trim filter", () => {
-    const rules = ["trim"];
-    const sanitizer = SimpleSanitizer({ rules: rules });
+    const filters = ["trim"];
+    const sanitizer = SimpleSanitizer({ filters });
     return sanitizer.apply({ value: " johnny ", isotope: fakeIsotope() })
-      .then(sanitized => {
-        assert.equal(sanitized, "johnny");
+      .then((sanitized) => {
+        expect(sanitized).to.equal("johnny");
       });
   });
 
   it("sanitize a string using the upper_case filter", () => {
-    const rules = ["upper_case"];
-    const sanitizer = SimpleSanitizer({ rules: rules });
+    const filters = ["upper_case"];
+    const sanitizer = SimpleSanitizer({ filters });
     return sanitizer.apply({ value: "johnny", isotope: fakeIsotope() })
-      .then(sanitized => {
-        assert.equal(sanitized, "JOHNNY");
+      .then((sanitized) => {
+        expect(sanitized).to.equal("JOHNNY");
       });
   });
 
   it("sanitize a string using the lower_case filter", () => {
-    const rules = ["lower_case"];
-    const sanitizer = SimpleSanitizer({ rules: rules });
+    const filters = ["lower_case"];
+    const sanitizer = SimpleSanitizer({ filters });
     return sanitizer.apply({ value: "JOHNNY", isotope: fakeIsotope() })
-      .then(sanitized => {
-        assert.equal(sanitized, "johnny");
+      .then((sanitized) => {
+        expect(sanitized).to.equal("johnny");
       });
   });
 
   it("sanitize a string using an invalid sanitizer filter", () => {
-    const rules = ["invalidSanitizer"];
-    const sanitizer = SimpleSanitizer({ rules: rules });
+    const filters = ["invalidSanitizer"];
+    const sanitizer = SimpleSanitizer({ filters });
     return sanitizer.apply({ value: "johnny", isotope: fakeIsotope() })
-      .then(sanitized => {
-        assert.equal(sanitized, "johnny");
+      .then((sanitized) => {
+        expect(sanitized).to.equal("johnny");
       });
   });
 });
