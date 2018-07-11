@@ -6,7 +6,7 @@ import {
   PolicyGrantArgs,
   RolesType,
   ScopesType,
-} from "./types";
+} from "./Types";
 
 /**
  * DENY POLICY

@@ -1,5 +1,15 @@
-export class Isotope {
-  constructor(public options: any) {}
+interface IsotopeArgs {
+  value: any;
 }
 
-export default (args: any) => (new Isotope(args));
+export class Isotope {
+  public value: any;
+
+  constructor({ value }: IsotopeArgs) {
+    this.value = value;
+  }
+
+  public getValue = async (): Promise<any> => (this.value);
+}
+
+export default (args: IsotopeArgs) => (new Isotope(args));
