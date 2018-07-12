@@ -3,7 +3,7 @@ import { Isotope } from "../../Isotope";
 import DenyPolicy, { Deny } from "../Deny";
 
 describe("Policy/Deny", (): void => {
-  const isotope = Isotope({ value: 'John' });
+  const isotope = Isotope({ value: "John" });
 
   it("can have simple roles, scope and options added", () => {
     const denyRule: Deny = DenyPolicy({ roles: ["user", "admin"], scope: ["read", "write"], options: { test: true } });

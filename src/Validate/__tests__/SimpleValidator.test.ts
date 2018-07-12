@@ -23,7 +23,7 @@ describe("Validate/SimpleValidator", (): void => {
 
   it("get rules produces a usable validator string", () => {
     const validator = SimpleValidator({ rules: [ simpleStringRule, simplePromiseRule ] });
-    return validator.getRules().then(rules => {
+    return validator.getRules().then((rules) => {
       expect(rules).to.equal("required|min:5|email");
     }).catch((msg) => { throw new Error(msg); });
   });

@@ -3,7 +3,7 @@ import { Isotope } from "../../Isotope";
 import { GrantOne, DenyPolicy, AllowPolicy } from "../";
 
 describe("Policy/GrantOne", (): void => {
-  const isotope = Isotope({ value: 'John' });
+  const isotope = Isotope({ value: "John" });
 
   const simplePolicies = [
     DenyPolicy({ roles: ["member"], scope: ["read", "write"] }),

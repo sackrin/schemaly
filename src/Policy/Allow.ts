@@ -11,7 +11,7 @@ import {
 /**
  * ALLOW POLICY
  * Use this policy to implicitly grant against roles and scope.
- * ie. new Allow({ roles: ['user', 'admin'], scope: ['read', 'write'] })
+ * ie. new Allow({ roles: ["user", "admin"], scope: ["read", "write"] })
  * You should always define policies while creating your atom schema
  * Should be used within a Policies instance.
  * Use the grant method in order to grant against a provided set of roles, scope and isotope

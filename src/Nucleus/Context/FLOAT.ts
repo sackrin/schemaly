@@ -1,14 +1,14 @@
-import { SimpleSanitizer } from '../../Sanitize';
+import { SimpleSanitizer } from "../../Sanitize";
 import { Context } from "./Types";
 
 export const FLOAT: Context = {
-  code: 'float',
+  code: "float",
   children: false,
   repeater: false,
   sanitizers: [
-    SimpleSanitizer({ filters: ['float'] })
+    SimpleSanitizer({ filters: ["float"] }),
   ],
-  validators: []
+  validators: [],
 };
 
 export default FLOAT;

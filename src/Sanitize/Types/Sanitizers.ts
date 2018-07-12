@@ -4,7 +4,7 @@ interface Sanitizers {
   sanitizers: SanitizersType;
   options: any;
   merge(additional: SanitizersType): void;
-  apply({ isotope, options }: SanitizerApplyArgs): Promise<any>;
+  apply({ value, isotope, options }: SanitizerApplyArgs): Promise<any>;
 }
 
 export default Sanitizers;

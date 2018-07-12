@@ -14,7 +14,7 @@ export class ValidateAll implements Validators {
    * @param {ValidatorsType} validators
    * @param {any} options
    */
-  constructor ({ validators, options = {} }: ValidatorsArgs) {
+  constructor({ validators, options = {} }: ValidatorsArgs) {
     this.validators = validators;
     this.options = options;
   }
@@ -28,9 +28,9 @@ export class ValidateAll implements Validators {
   public merge = (additional: ValidatorsType): void => {
     this.validators = [
       ...additional,
-      ...this.validators
+      ...this.validators,
     ];
-  };
+  }
 
   /**
    * Validate Value
@@ -46,7 +46,7 @@ export class ValidateAll implements Validators {
       return {
         valid: true,
         messages: [],
-        children: []
+        children: [],
       };
     }
     return validators.reduce(async (curr: Promise<ValidatorResult>, validator: Validator) => {
@@ -55,14 +55,14 @@ export class ValidateAll implements Validators {
       return {
         valid: !validationCheck.valid ? false : result.valid,
         messages: [ ...result.messages, ...validationCheck.messages ],
-        children: [ ...result.children, ...validationCheck.children ]
+        children: [ ...result.children, ...validationCheck.children ],
       };
     }, Promise.resolve({
       valid: true,
       messages: [],
-      children: []
+      children: [],
     }));
-  };
+  }
 }
 
 /**

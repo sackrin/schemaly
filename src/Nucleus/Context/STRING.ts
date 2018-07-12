@@ -1,14 +1,14 @@
-import { SimpleSanitizer } from '../../Sanitize';
+import { SimpleSanitizer } from "../../Sanitize";
 import { Context } from "./Types";
 
 export const STRING: Context = {
-  code: 'string',
+  code: "string",
   children: false,
   repeater: false,
   sanitizers: [
-    SimpleSanitizer({ filters: ['string'] })
+    SimpleSanitizer({ filters: ["string"] }),
   ],
-  validators: []
+  validators: [],
 };
 
 export default STRING;

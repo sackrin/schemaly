@@ -1,4 +1,4 @@
-import { Nucleus } from "../Nucleus";
+import { Nucleus } from "./";
 
 export type NucleiType = Nucleus[];
 

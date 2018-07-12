@@ -19,7 +19,7 @@ export class SimpleValidator implements Validator {
    * @param {RulesType} rules
    * @param {any} options
    */
-  constructor ({ rules, options = {} }: ValidatorArgs) {
+  constructor({ rules, options = {} }: ValidatorArgs) {
     this.rules = rules;
     this.options = options;
   }
@@ -32,7 +32,7 @@ export class SimpleValidator implements Validator {
   public getRules = async (options: any = {}): Promise<string> => {
     return getMixedResult(this.rules, { ...this.options, ...options })
       .then((built) => (built.join("|")));
-  };
+  }
 
   /**
    * Validate Value
@@ -44,15 +44,22 @@ export class SimpleValidator implements Validator {
   public validate = async ({ isotope, options = {} }: ValidatorValidateArgs): Promise<ValidatorResult> => {
     const value = await isotope.getValue();
     const usingRules: string = await this.getRules({ options: { ...options, isotope } });
-    const usingValue: any = !_.isFunction(value) ? value : await value({ isotope, options: { ...this.options, ...options, isotope } });
+    const usingValue: any = !_.isFunction(value) ? value : await value({
+      isotope,
+      options: {
+        ...this.options,
+        ...options,
+        isotope,
+      },
+    });
     const validation = new ValidatorJS({ value: usingValue }, { value: usingRules });
     const failed = validation.fails();
     return {
       valid: !failed,
       messages: failed ? validation.errors.get("value") : [],
-      children: []
+      children: [],
     };
-  };
+  }
 }
 
 /**

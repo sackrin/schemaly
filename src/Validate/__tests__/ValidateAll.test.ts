@@ -6,14 +6,14 @@ import { Isotope } from "../../Isotope";
 describe("Validate/ValidateAll", () => {
   const simpleValidateAll = [
     SimpleValidator({ rules: ["required"] }),
-    SimpleValidator({ rules: ["min:5"] })
+    SimpleValidator({ rules: ["min:5"] }),
   ];
 
-  const johnByPromise = () => (new Promise(function (resolve, reject) {
+  const johnByPromise = () => (new Promise((resolve) => {
     setTimeout(resolve, 100, "john");
   }));
 
-  const johnnyByPromise = () => (new Promise(function (resolve, reject) {
+  const johnnyByPromise = () => (new Promise((resolve) => {
     setTimeout(resolve, 100, "johnny");
   }));
 

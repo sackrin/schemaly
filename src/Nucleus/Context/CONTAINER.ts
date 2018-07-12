@@ -1,11 +1,11 @@
 import { Context } from "./Types";
 
 export const CONTAINER: Context = {
-  code: 'container',
+  code: "container",
   children: true,
   repeater: false,
   sanitizers: [],
-  validators: []
+  validators: [],
 };
 
 export default CONTAINER;

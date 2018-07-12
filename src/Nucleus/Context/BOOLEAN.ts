@@ -1,11 +1,11 @@
 import { Context } from "./Types";
 
 export const BOOLEAN: Context = {
-  code: 'boolean',
+  code: "boolean",
   children: false,
   repeater: false,
   sanitizers: [],
-  validators: []
+  validators: [],
 };
 
 export default BOOLEAN;
