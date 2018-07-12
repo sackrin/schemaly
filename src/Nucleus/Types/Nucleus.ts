@@ -11,7 +11,7 @@ export interface Nucleus {
   machine: string;
   label?: string;
   parent?: Nucleus;
-  nuclei?: Nuclei;
+  nuclei: Nuclei;
   options?: any;
   policies?: Policies;
   sanitizers: Sanitizers;

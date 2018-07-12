@@ -11,6 +11,7 @@ import { ValidateAll } from "../Validate";
 import { Isotope } from "../Isotope/Isotope";
 import { PolicyGrantArgs } from "../Policy";
 import { Nucleus, Nuclei, NucleusArgs } from "./Types";
+import Fields from "./Fields";
 
 export class Field implements Nucleus {
   public context: Context;
@@ -21,7 +22,7 @@ export class Field implements Nucleus {
 
   public parent?: Nucleus;
 
-  public nuclei?: Nuclei;
+  public nuclei: Nuclei = Fields([]);
 
   public options?: any = {};
 
@@ -50,6 +51,7 @@ export class Field implements Nucleus {
   }: NucleusArgs) {
     this.context = context;
     this.machine = machine;
+    this.label = label;
     this.parent = parent;
     this.policies = policies;
     this.getters = getters;
@@ -61,10 +63,7 @@ export class Field implements Nucleus {
   }
 
   public setNuclei = (nuclei?: Nuclei): void => {
-    if (!nuclei) {
-      this.nuclei = undefined;
-      return;
-    }
+    if (!nuclei) { return; }
     const { children, repeater } = this.context;
     if (!children && !repeater) {
       throw new Error("CANNOT_HAVE_CHILDREN");
@@ -136,7 +135,7 @@ export class Field implements Nucleus {
     }
     return getters.reduce(
       async (value, getter) => getter({ isotope, value, options }),
-      isotope.getValue(),
+      await isotope.getValue(),
     );
   }
 
@@ -153,7 +152,7 @@ export class Field implements Nucleus {
     }
     return setters.reduce(
       async (value, setter) => setter({ isotope, value, options }),
-      isotope.getValue(),
+      await isotope.getValue(),
     );
   }
 }

@@ -5,7 +5,7 @@ import Fields from "../Fields";
 import { SanitizeAll, SimpleSanitizer } from "../../Sanitize";
 import { ValidateAll, SimpleValidator } from "../../Validate";
 import { GrantOne, DenyPolicy, AllowPolicy } from "../../Policy";
-import {NucleusArgs} from "../Types";
+import { NucleusArgs } from "../Types";
 import {Isotope} from "../../Isotope";
 
 describe("Nucleus/Field", (): void => {
@@ -64,14 +64,14 @@ describe("Nucleus/Field", (): void => {
   });
 
   it("collection nucleus can have a group of nuclei added", () => {
-    const nucleusOne = Field({ ...fakeArgs, label: "first_name" });
-    const nucleusTwo = Field({ ...fakeArgs, label: "surname" });
-    const nucleusThree = Field({ ...fakeArgs, label: "title" });
-    const fakeFields = Fields([nucleusOne, nucleusTwo, nucleusThree]);
+    const nucleusOne = Field({ ...fakeArgs, machine: "first_name" });
+    const nucleusTwo = Field({ ...fakeArgs, machine: "surname" });
+    const nucleusThree = Field({ ...fakeArgs, machine: "title" });
+    const fakeFields = Fields([ nucleusOne, nucleusTwo, nucleusThree ]);
     const nucleus = Field({ ...fakeArgs, context: Context.COLLECTION, machine: "people" });
     nucleus.setNuclei(fakeFields);
     expect(nucleus.nuclei).to.equal(fakeFields);
-    expect(nucleus.nuclei).to.equal(nucleus);
+    expect(nucleus.nuclei.parent).to.equal(nucleus);
   });
 
   it("string nucleus cannot have a group of nuclei added", () => {
