@@ -4,7 +4,7 @@ import {Policies} from "../../Policy/Types";
 import {SanitizerApplyArgs, Sanitizers} from "../../Sanitize/Types";
 import {PolicyGrantArgs} from "../../Policy";
 import {ValidatorResult, Validators, ValidatorValidateArgs} from "../../Validate/Types";
-import {Nuclei} from "../";
+import {Nuclei} from "./";
 
 export interface Nucleus {
   context: Context;
@@ -12,12 +12,12 @@ export interface Nucleus {
   label?: string;
   parent?: Nucleus;
   nuclei: Nuclei;
-  options?: any;
-  policies?: Policies;
+  options: any;
+  policies: Policies;
   sanitizers: Sanitizers;
   validators: Validators;
-  setters?: Function[];
-  getters?: Function[];
+  setters: Function[];
+  getters: Function[];
   setNuclei(nuclei?: Nuclei): void;
   setSanitizers(sanitizers?: Sanitizers): void;
   setValidators(validators?: Validators): void;

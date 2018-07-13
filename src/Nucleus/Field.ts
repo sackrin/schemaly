@@ -1,41 +1,63 @@
-import { Context } from "./Context/Types";
-import { Policies } from "../Policy/Types";
-import {SanitizerApplyArgs, Sanitizers} from "../Sanitize/Types";
+import { Isotope } from "../Isotope/Isotope";
+import { GrantAll, PolicyGrantArgs, Policies } from "../Policy";
+import Fields from "./Fields";
+import { Context } from "./Context";
+import { Nucleus, Nuclei, NucleusArgs } from "./Types";
 import {
+  Sanitizers,
+  SanitizeAll,
+  SanitizerApplyArgs,
+} from "../Sanitize";
+import {
+  ValidateAll,
   ValidatorResult,
   Validators,
   ValidatorValidateArgs,
-} from "../Validate/Types";
-import { SanitizeAll } from "../Sanitize";
-import { ValidateAll } from "../Validate";
-import { Isotope } from "../Isotope/Isotope";
-import { PolicyGrantArgs } from "../Policy";
-import { Nucleus, Nuclei, NucleusArgs } from "./Types";
-import Fields from "./Fields";
+} from "../Validate";
 
+/**
+ * FIELD NUCLEUS
+ * A base implementation of the Nucleus field.
+ * This class outlines the rules of a field and provides a blueprint to create Isotopes.
+ * Contain Nucleus instances within Fields Nuclei instances to create groups of Fields
+ * Outline your field policies, validators and sanitizers using this class
+ */
 export class Field implements Nucleus {
   public context: Context;
 
   public machine: string;
 
-  public label?: string;
-
-  public parent?: Nucleus;
-
   public nuclei: Nuclei = Fields([]);
 
-  public options?: any = {};
-
-  public policies?: Policies;
+  public policies: Policies = GrantAll([]);
 
   public sanitizers: Sanitizers = SanitizeAll([]);
 
   public validators: Validators = ValidateAll([]);
 
-  public setters?: Function[] = [];
+  public options: any = {};
 
-  public getters?: Function[] = [];
+  public setters: Function[] = [];
 
+  public getters: Function[] = [];
+
+  public label?: string;
+
+  public parent?: Nucleus;
+
+  /**
+   * @param {Context} context
+   * @param {string} machine
+   * @param {string} label
+   * @param {Nucleus} parent
+   * @param {Nuclei} nuclei
+   * @param {Function[]} getters
+   * @param {Function[]} setters
+   * @param {Policies} policies
+   * @param {Sanitizers} sanitizers
+   * @param {Validators} validators
+   * @param {any} options
+   */
   constructor({
     context,
     machine,
@@ -53,10 +75,10 @@ export class Field implements Nucleus {
     this.machine = machine;
     this.label = label;
     this.parent = parent;
-    this.policies = policies;
-    this.getters = getters;
-    this.setters = setters;
-    this.options = options;
+    if (policies) { this.policies = policies; }
+    if (getters) { this.getters = getters; }
+    if (setters) { this.setters = setters; }
+    if (options) { this.options = options; }
     this.setNuclei(nuclei);
     this.setSanitizers(sanitizers);
     this.setValidators(validators);
@@ -92,6 +114,14 @@ export class Field implements Nucleus {
     }
   }
 
+  /**
+   * Grant Challenge
+   * @param {Isotope} isotope
+   * @param {ScopeType | ScopesType} scope
+   * @param {RoleType | RolesType} roles
+   * @param {any} options
+   * @returns {Promise<boolean>}
+   */
   public grant = async ({
     isotope,
     scope,
@@ -105,6 +135,12 @@ export class Field implements Nucleus {
     return policies.grant({ isotope, scope, roles, options });
   }
 
+  /**
+   * Validate Isotope
+   * @param {Isotope} isotope
+   * @param {any} options
+   * @returns {Promise<ValidatorResult>}
+   */
   public validate = async ({
     isotope,
     options = {},
@@ -115,13 +151,33 @@ export class Field implements Nucleus {
       : { valid: true, messages: [], children: [] };
   }
 
-  public sanitize = async ({ value, isotope, options = {} }: SanitizerApplyArgs): Promise<any> => {
+  /**
+   * Sanitize Value
+   * Calling this WILL NOT update the value of the passed Isotope
+   * @param {any} value
+   * @param {Isotope} isotope
+   * @param {any} options
+   * @returns {Promise<any>}
+   */
+  public sanitize = async ({
+    value,
+    isotope,
+    options = {},
+  }: SanitizerApplyArgs): Promise<any> => {
     const { sanitizers } = this;
     return sanitizers
       ? sanitizers.apply({ value: await value, isotope, options })
       : isotope.getValue();
   }
 
+  /**
+   * Apply Getter Filters
+   * Getters can be used to format values for read only
+   * Should always be used to retrieve a value of an Isotope
+   * @param {Isotope} isotope
+   * @param {any} options
+   * @returns {Promise<any>}
+   */
   public applyGetters = async ({
     isotope,
     options = {},
@@ -139,6 +195,15 @@ export class Field implements Nucleus {
     );
   }
 
+  /**
+   * Apply Setter Filters
+   * Setters can be used to format values for setting a value
+   * Should always be used before setting a value of an Isotope
+   * PLEASE NOTE! This does not update Isotope value, just returns a filtered value
+   * @param {Isotope} isotope
+   * @param {any} options
+   * @returns {Promise<any>}
+   */
   public applySetters = async ({
     isotope,
     options = {},
@@ -157,4 +222,11 @@ export class Field implements Nucleus {
   }
 }
 
-export default (args: NucleusArgs) => new Field(args);
+/**
+ * FACTORY CALLBACK
+ * This is the typical way to create a new field.
+ * Should be used in favour of using the primary field class
+ * @param {NucleusArgs} args
+ * @returns {Field}
+ */
+export default (args: NucleusArgs) => (new Field(args));

@@ -1,8 +1,11 @@
 import { expect } from "chai";
 import { BOOLEAN } from "../";
-import { Field, Nucleus } from "../../";
+import { Field } from "../../";
+import { Nucleus } from "../../Types";
 
-describe("Nucleus/Context/BOOLEAN", () => {
+describe("Nucleus/Context/BOOLEAN", (): void => {
+  // console.log(blah);
+
   const fakeNucleus: Nucleus = Field({
     machine: "example",
     context: BOOLEAN,

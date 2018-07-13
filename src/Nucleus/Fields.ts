@@ -1,5 +1,9 @@
 import { Nuclei, Nucleus, NucleiArgs, NucleiType } from "./Types";
 
+/**
+ * FIELDS NUCLEI
+ * Contains multiple Field instances
+ */
 export class Fields implements Nuclei {
   public nuclei: NucleiType = [];
 
@@ -7,6 +11,11 @@ export class Fields implements Nuclei {
 
   public options: any = {};
 
+  /**
+   * @param {NucleiType} nuclei
+   * @param {Nucleus} parent
+   * @param {any} options
+   */
   constructor({ nuclei, parent, options = {} }: NucleiArgs) {
     this.nuclei = nuclei;
     this.parent = parent;
@@ -20,4 +29,12 @@ export class Fields implements Nuclei {
   public all = (): NucleiType => (this.nuclei);
 }
 
-export default (nuclei: NucleiType, options: any = {}) => (new Fields({ nuclei, options }));
+/**
+ * FACTORY CALLBACK
+ * This is the typical way to create a new fields instance.
+ * Should be used in favour of using the primary fields class
+ * @param {NucleiType} nuclei
+ * @param args
+ * @returns {Fields}
+ */
+export default (nuclei: NucleiType, args: any = {}) => (new Fields({ nuclei, ...args }));
