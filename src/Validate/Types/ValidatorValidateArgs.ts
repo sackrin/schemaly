@@ -1,4 +1,4 @@
-import {Isotope} from "../../Isotope/Isotope";
+import { Isotope } from "../../Isotope/Types";
 
 export interface ValidatorValidateArgs {
   isotope: Isotope;

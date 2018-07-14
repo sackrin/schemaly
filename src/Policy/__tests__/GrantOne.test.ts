@@ -1,9 +1,31 @@
 import { expect } from "chai";
-import { Isotope } from "../../Isotope";
+import { Hydrate } from "../../Isotope";
 import { GrantOne, DenyPolicy, AllowPolicy } from "../";
+import { Schema } from "../../Atom";
+import { Field, Fields } from "../../Nucleus";
+import STRING from "../../Nucleus/Context/STRING";
+import { Reaction } from "../../Reactor";
 
 describe("Policy/GrantOne", (): void => {
-  const isotope = Isotope({ value: "John" });
+  const fakeAtom = Schema({
+    machine: "test",
+    roles: [ "user", "admin" ],
+    scope: [ "read", "write" ],
+    nuclei: Fields([
+      Field({ machine: "first_name", context: STRING })
+    ])
+  });
+
+  const isotope = Hydrate({
+    reactor: Reaction({
+      atom: fakeAtom,
+      roles: [ "user", "admin" ],
+      scope: [ "read", "write" ],
+      values: { first_name: "John" }
+    }),
+    nucleus: fakeAtom.nuclei.nuclei[0],
+    value: "John"
+  });
 
   const simplePolicies = [
     DenyPolicy({ roles: ["member"], scope: ["read", "write"] }),

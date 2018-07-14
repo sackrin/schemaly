@@ -6,10 +6,32 @@ import { SanitizeAll, SimpleSanitizer } from "../../Sanitize";
 import { ValidateAll, SimpleValidator } from "../../Validate";
 import { GrantOne, DenyPolicy, AllowPolicy } from "../../Policy";
 import { NucleusArgs } from "../Types";
-import {Isotope} from "../../Isotope";
+import { Hydrate } from "../../Isotope";
+import { Schema } from "../../Atom";
+import { Reaction } from "../../Reactor";
+import { STRING } from "../Context";
 
 describe("Nucleus/Field", (): void => {
-  const getIsotope = (options: any = {}) => (Isotope(options));
+  const fakeAtom = Schema({
+    machine: "test",
+    roles: [ "user", "admin" ],
+    scope: [ "read", "write" ],
+    nuclei: Fields([
+      Field({ machine: "example", context: STRING })
+    ])
+  });
+
+  const getIsotope = (options: any = {}) => (Hydrate({
+    reactor: Reaction({
+      atom: fakeAtom,
+      roles: [ "user", "admin" ],
+      scope: [ "read", "write" ],
+      values: { }
+    }),
+    nucleus: fakeAtom.nuclei.nuclei[0],
+    ...options
+  }));
+
 
   const fakeParent = Field({
     context: Context.CONTAINER,

@@ -1,9 +1,31 @@
 import { expect } from "chai";
-import { Isotope } from "../../Isotope";
+import { Hydrate } from "../../Isotope";
 import AllowPolicy, { Allow } from "../Allow";
+import { Reaction } from "../../Reactor";
+import {Field, Fields, STRING} from "../../Nucleus";
+import {Schema} from "../../Atom";
 
 describe("Policy/Allow", (): void => {
-  const isotope = Isotope({ value: "John" });
+
+  const fakeAtom = Schema({
+    machine: "test",
+    roles: [ "user", "admin" ],
+    scope: [ "read", "write" ],
+    nuclei: Fields([
+      Field({ machine: "first_name", context: STRING })
+    ])
+  });
+
+  const isotope = Hydrate({
+    reactor: Reaction({
+      atom: fakeAtom,
+      roles: [ "user", "admin" ],
+      scope: [ "read", "write" ],
+      values: { first_name: "John" }
+    }),
+    nucleus: fakeAtom.nuclei.nuclei[0],
+    value: "John"
+  });
 
   it("can have simple roles and scope added", () => {
     const allowRule: Allow = AllowPolicy({

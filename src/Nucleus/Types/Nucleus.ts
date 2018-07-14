@@ -1,10 +1,10 @@
 import {Context} from "../Context/Types";
-import {Isotope} from "../../Isotope/Isotope";
 import {Policies} from "../../Policy/Types";
 import {SanitizerApplyArgs, Sanitizers} from "../../Sanitize/Types";
 import {PolicyGrantArgs} from "../../Policy";
 import {ValidatorResult, Validators, ValidatorValidateArgs} from "../../Validate/Types";
 import {Nuclei} from "./";
+import {Isotope} from "../../Isotope/Types";
 
 export interface Nucleus {
   context: Context;

@@ -1,4 +1,3 @@
-import { Isotope } from "../Isotope/Isotope";
 import { GrantAll, PolicyGrantArgs, Policies } from "../Policy";
 import Fields from "./Fields";
 import { Context } from "./Context";
@@ -14,6 +13,7 @@ import {
   Validators,
   ValidatorValidateArgs,
 } from "../Validate";
+import {Isotope} from "../Isotope/Types";
 
 /**
  * FIELD NUCLEUS
@@ -187,11 +187,11 @@ export class Field implements Nucleus {
   }): Promise<any> => {
     const getters = this.getters;
     if (!getters) {
-      return isotope.getValue();
+      return isotope.value;
     }
     return getters.reduce(
       async (value, getter) => getter({ isotope, value, options }),
-      await isotope.getValue(),
+      await isotope.value,
     );
   }
 
@@ -213,11 +213,11 @@ export class Field implements Nucleus {
   }): Promise<any> => {
     const setters = this.setters;
     if (!setters) {
-      return isotope.getValue();
+      return isotope.value;
     }
     return setters.reduce(
       async (value, setter) => setter({ isotope, value, options }),
-      await isotope.getValue(),
+      await isotope.value,
     );
   }
 }

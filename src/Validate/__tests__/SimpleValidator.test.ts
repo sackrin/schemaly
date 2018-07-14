@@ -1,6 +1,9 @@
 import { expect } from "chai";
 import { SimpleValidator } from "../";
-import { Isotope } from "../../Isotope";
+import {Hydrate, Isotope} from "../../Isotope";
+import {Schema} from "../../Atom";
+import {Reaction} from "../../Reactor";
+import {Field, Fields, STRING} from "../../Nucleus";
 
 describe("Validate/SimpleValidator", (): void => {
   const simpleStringRule = "required|min:5";
@@ -8,7 +11,26 @@ describe("Validate/SimpleValidator", (): void => {
     setTimeout(resolve, 100, ["email"]);
   }));
 
-  const fakeIsotope = (options: any = {}) => (Isotope(options));
+  const fakeAtom = Schema({
+    machine: "test",
+    roles: [ "user", "admin" ],
+    scope: [ "read", "write" ],
+    nuclei: Fields([
+      Field({ machine: "first_name", context: STRING })
+    ])
+  });
+
+  const fakeIsotope = (options: any = {}) => (Hydrate({
+    reactor: Reaction({
+      atom: fakeAtom,
+      roles: [ "user", "admin" ],
+      scope: [ "read", "write" ],
+      values: { first_name: "John" }
+    }),
+    nucleus: fakeAtom.nuclei.nuclei[0],
+    value: "John",
+    ...options
+  }));
 
   it("can create a simple rule validator", () => {
     const validator = SimpleValidator({ rules: [ simpleStringRule ], options: { test: true } });

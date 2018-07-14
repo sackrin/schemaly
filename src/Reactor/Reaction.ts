@@ -8,18 +8,17 @@ interface ReactorArgs {
   roles: RolesType;
   scope: ScopesType;
   values: any;
-  options: any;
-  with(values: any): this;
+  options?: any;
 }
 
-export class Chamber implements Reactor {
+export class Reaction implements Reactor {
   public atom: Atom;
 
   public roles: RolesType;
 
   public scope: ScopesType;
 
-  public isotopes: Isotopes;
+  public isotopes?: Isotopes;
 
   public values: any;
 
@@ -38,4 +37,4 @@ export class Chamber implements Reactor {
   }
 }
 
-export default (args) => (new Chamber(args));
+export default (args: ReactorArgs): Reactor => (new Reaction(args));
