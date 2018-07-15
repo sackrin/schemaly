@@ -19,8 +19,7 @@ describe("Policy/GrantAll", (): void => {
     reactor: Reaction({
       atom: fakeAtom,
       roles: [ "user", "admin" ],
-      scope: [ "read", "write" ],
-      values: { first_name: "John" }
+      scope: [ "read", "write" ]
     }),
     nucleus: fakeAtom.nuclei.nuclei[0],
     value: "John"

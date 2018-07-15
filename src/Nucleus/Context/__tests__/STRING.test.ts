@@ -25,8 +25,7 @@ describe("Nucleus/Context/STRING", () => {
     reactor: Reaction({
       atom: fakeAtom,
       roles: [ "user", "admin" ],
-      scope: [ "read", "write" ],
-      values: { }
+      scope: [ "read", "write" ]
     }),
     nucleus: fakeAtom.nuclei.nuclei[0],
     ...options

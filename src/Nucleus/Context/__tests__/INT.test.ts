@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { INT } from "../";
 import { Field } from "../../";
-import { Hydrate, Isotope } from "../../../Isotope";
+import { Hydrate } from "../../../Isotope";
 import {Schema} from "../../../Atom";
 import {Reaction} from "../../../Reactor";
 import {Fields, STRING} from "../../index";
@@ -25,8 +25,7 @@ describe("Nucleus/Context/INT", () => {
     reactor: Reaction({
       atom: fakeAtom,
       roles: [ "user", "admin" ],
-      scope: [ "read", "write" ],
-      values: { }
+      scope: [ "read", "write" ]
     }),
     nucleus: fakeAtom.nuclei.nuclei[0],
     ...options

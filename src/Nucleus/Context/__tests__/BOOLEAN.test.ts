@@ -4,8 +4,6 @@ import { Field } from "../../";
 import { Nucleus } from "../../Types";
 
 describe("Nucleus/Context/BOOLEAN", (): void => {
-  // console.log(blah);
-
   const fakeNucleus: Nucleus = Field({
     machine: "example",
     context: BOOLEAN,

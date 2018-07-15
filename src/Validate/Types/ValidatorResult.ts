@@ -6,7 +6,7 @@ export interface ValidatorResult {
   label?: string;
   valid: boolean;
   messages: string[];
-  children: ValidatorResult[];
+  children: {[s: string]: ValidatorResult}[];
 }
 
 export default ValidatorResult;

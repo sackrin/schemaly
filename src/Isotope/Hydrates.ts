@@ -3,13 +3,14 @@ import { Reactor } from "../Reactor/Types";
 import { Nuclei } from "../Nucleus/Types";
 import { Isotope, Isotopes } from "./Types";
 import Hydrate from "./Hydrate";
+import {ValidatorResult} from "../Validate/Types";
 
 interface IsotopesArgs {
-  parent: Isotope;
+  parent: Isotope | Reactor;
   reactor: Reactor;
   nuclei: Nuclei;
   values: any;
-  options: any;
+  options?: any;
 }
 
 export class Hydrates implements Isotopes {
@@ -19,11 +20,11 @@ export class Hydrates implements Isotopes {
 
   public values: any;
 
-  public parent: Isotope;
+  public parent: Isotope | Reactor;
 
   public isotopes: Isotope[] = [];
 
-  public options: any = {};
+  public options?: any = {};
 
   constructor({ parent, reactor, nuclei, values, options = {} }: IsotopesArgs) {
     this.reactor = reactor;
@@ -72,7 +73,7 @@ export class Hydrates implements Isotopes {
     }));
   }
 
-  public dump = async (options: any = {}): Promise<any> => {
+  public dump = async (options: any = {}): Promise<{[s: string]: ValidatorResult}> => {
     const { isotopes } = this;
     return isotopes.reduce(async (curr: Promise<any>, isotope: Isotope) => {
       const dumped: any = { ...await curr };
