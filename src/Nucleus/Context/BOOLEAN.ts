@@ -5,7 +5,7 @@ export const BOOLEAN: Context = {
   children: false,
   repeater: false,
   sanitizers: [],
-  validators: [],
+  validators: []
 };
 
 export default BOOLEAN;

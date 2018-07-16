@@ -2,6 +2,7 @@ import { Reactor } from "../../Reactor/Types";
 import { Nuclei, Nucleus } from "../../Nucleus/Types";
 import { Isotopes } from "./";
 import { ValidatorResult } from "../../Validate/Types";
+import { Context } from "../../Nucleus/Context/Types";
 
 export interface Isotope {
   reactor: Reactor;
@@ -10,8 +11,10 @@ export interface Isotope {
   value: any;
   children: Isotopes[];
   options: any;
+  machine: string;
+  context: Context;
   getValue(options?: any): Promise<any>;
-  setValue({ value, options }: { value: any, options?: any }): Promise<any>;
+  setValue({ value, options }: { value: any; options?: any }): Promise<any>;
   find(criteria: Object | Function): Isotope | undefined;
   filter(criteria: Object | Function): Isotope[];
   grant(options?: any): Promise<boolean>;

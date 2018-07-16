@@ -1,4 +1,11 @@
-import { Validator, ValidatorResult, Validators, ValidatorsArgs, ValidatorsType, ValidatorValidateArgs } from "./Types";
+import {
+  Validator,
+  ValidatorResult,
+  Validators,
+  ValidatorsArgs,
+  ValidatorsType,
+  ValidatorValidateArgs
+} from "./Types";
 
 /**
  * VALIDATE ALL
@@ -26,11 +33,8 @@ export class ValidateAll implements Validators {
    * @param {ValidatorsType} additional
    */
   public merge = (additional: ValidatorsType): void => {
-    this.validators = [
-      ...additional,
-      ...this.validators,
-    ];
-  }
+    this.validators = [...additional, ...this.validators];
+  };
 
   /**
    * Validate Value
@@ -40,29 +44,38 @@ export class ValidateAll implements Validators {
    * @param {any} options
    * @returns {Promise<ValidatorResult>}
    */
-  public validate = async ({ isotope, options = {} }: ValidatorValidateArgs): Promise<ValidatorResult> => {
+  public validate = async ({
+    isotope,
+    options = {}
+  }: ValidatorValidateArgs): Promise<ValidatorResult> => {
     const { validators } = this;
     if (validators.length === 0) {
       return {
         valid: true,
         messages: [],
-        children: [],
+        children: []
       };
     }
-    return validators.reduce(async (curr: Promise<ValidatorResult>, validator: Validator) => {
-      const result = await curr;
-      const validationCheck = await validator.validate({ isotope, ...options });
-      return {
-        valid: !validationCheck.valid ? false : result.valid,
-        messages: [ ...result.messages, ...validationCheck.messages ],
-        children: [ ...result.children, ...validationCheck.children ],
-      };
-    }, Promise.resolve({
-      valid: true,
-      messages: [],
-      children: [],
-    }));
-  }
+    return validators.reduce(
+      async (curr: Promise<ValidatorResult>, validator: Validator) => {
+        const result = await curr;
+        const validationCheck = await validator.validate({
+          isotope,
+          ...options
+        });
+        return {
+          valid: !validationCheck.valid ? false : result.valid,
+          messages: [...result.messages, ...validationCheck.messages],
+          children: [...result.children, ...validationCheck.children]
+        };
+      },
+      Promise.resolve({
+        valid: true,
+        messages: [],
+        children: []
+      })
+    );
+  };
 }
 
 /**
@@ -73,4 +86,5 @@ export class ValidateAll implements Validators {
  * @param options
  * @returns {ValidateAll}
  */
-export default (validators: ValidatorsType, options: any = {}) => (new ValidateAll({ validators, options }));
+export default (validators: ValidatorsType, options: any = {}) =>
+  new ValidateAll({ validators, options });

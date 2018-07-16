@@ -1,4 +1,4 @@
-import {Context} from "../../Nucleus/Context/Types";
+import { Context } from "../../Nucleus/Context/Types";
 
 export interface ValidatorResult {
   machine?: string;
@@ -6,7 +6,7 @@ export interface ValidatorResult {
   label?: string;
   valid: boolean;
   messages: string[];
-  children: {[s: string]: ValidatorResult}[];
+  children: Array<{ [s: string]: ValidatorResult }>;
 }
 
 export default ValidatorResult;

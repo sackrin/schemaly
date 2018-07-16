@@ -6,7 +6,7 @@ import { Nucleus } from "../../Types";
 describe("Nucleus/Context/BOOLEAN", (): void => {
   const fakeNucleus: Nucleus = Field({
     machine: "example",
-    context: BOOLEAN,
+    context: BOOLEAN
   });
 
   it("can add validators to the parent nucleus", () => {

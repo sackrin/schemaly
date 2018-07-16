@@ -27,7 +27,14 @@ export class Schema implements Atom {
    * @param {Nuclei} nuclei
    * @param {any} options
    */
-  constructor({ machine, roles, scope, label, nuclei, options = {} }: AtomArgs) {
+  constructor({
+    machine,
+    roles,
+    scope,
+    label,
+    nuclei,
+    options = {}
+  }: AtomArgs) {
     this.machine = machine;
     this.label = label;
     this.nuclei = nuclei;
@@ -42,4 +49,4 @@ export class Schema implements Atom {
  * @param {AtomArgs} args
  * @returns {Atom}
  */
-export default (args: AtomArgs): Atom => (new Schema(args));
+export default (args: AtomArgs): Atom => new Schema(args);

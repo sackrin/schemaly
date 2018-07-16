@@ -24,9 +24,9 @@ export class Fields implements Nuclei {
 
   public setParent = (parent: Nucleus): void => {
     this.parent = parent;
-  }
+  };
 
-  public all = (): NucleiType => (this.nuclei);
+  public all = (): NucleiType => this.nuclei;
 }
 
 /**
@@ -37,4 +37,5 @@ export class Fields implements Nuclei {
  * @param args
  * @returns {Fields}
  */
-export default (nuclei: NucleiType, args: any = {}) => (new Fields({ nuclei, ...args }));
+export default (nuclei: NucleiType, args: any = {}) =>
+  new Fields({ nuclei, ...args });

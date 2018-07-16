@@ -1,7 +1,13 @@
 import _ from "lodash";
 import ValidatorJS from "validatorjs";
 import { getMixedResult } from "../Utils";
-import { Validator, RulesType, ValidatorArgs, ValidatorValidateArgs, ValidatorResult } from "./Types";
+import {
+  Validator,
+  RulesType,
+  ValidatorArgs,
+  ValidatorValidateArgs,
+  ValidatorResult
+} from "./Types";
 
 /**
  * SIMPLE VALIDATOR
@@ -30,9 +36,10 @@ export class SimpleValidator implements Validator {
    * @returns {Promise<string>}
    */
   public getRules = async (options: any = {}): Promise<string> => {
-    return getMixedResult(this.rules, { ...this.options, ...options })
-      .then((built) => (built.join("|")));
-  }
+    return getMixedResult(this.rules, { ...this.options, ...options }).then(
+      built => built.join("|")
+    );
+  };
 
   /**
    * Validate Value
@@ -41,25 +48,35 @@ export class SimpleValidator implements Validator {
    * @param {any} options
    * @returns {Promise<ValidatorResult>}
    */
-  public validate = async ({ isotope, options = {} }: ValidatorValidateArgs): Promise<ValidatorResult> => {
+  public validate = async ({
+    isotope,
+    options = {}
+  }: ValidatorValidateArgs): Promise<ValidatorResult> => {
     const value = await isotope.getValue();
-    const usingRules: string = await this.getRules({ options: { ...options, isotope } });
-    const usingValue: any = !_.isFunction(value) ? value : await value({
-      isotope,
-      options: {
-        ...this.options,
-        ...options,
-        isotope,
-      },
+    const usingRules: string = await this.getRules({
+      options: { ...options, isotope }
     });
-    const validation = new ValidatorJS({ value: usingValue }, { value: usingRules });
+    const usingValue: any = !_.isFunction(value)
+      ? value
+      : await value({
+          isotope,
+          options: {
+            ...this.options,
+            ...options,
+            isotope
+          }
+        });
+    const validation = new ValidatorJS(
+      { value: usingValue },
+      { value: usingRules }
+    );
     const failed = validation.fails();
     return {
       valid: !failed,
       messages: failed ? validation.errors.get("value") : [],
-      children: [],
+      children: []
     };
-  }
+  };
 }
 
 /**
@@ -69,4 +86,4 @@ export class SimpleValidator implements Validator {
  * @param {ValidatorArgs} args
  * @returns {SimpleValidator}
  */
-export default (args: ValidatorArgs) => (new SimpleValidator(args));
+export default (args: ValidatorArgs) => new SimpleValidator(args);

@@ -1,324 +1,382 @@
 import { expect } from "chai";
-import { Nucleus, Nuclei, Context } from "../../Nucleus";
-import { Isotopes } from "../";
-import { Reactor } from "../../Reactor";
-import { Atom } from "../../Atom";
-import { GrantSinglePolicy, DenyPolicy, AllowPolicy } from "../../Policy";
-import { Validators, SimpleValidator } from "../../Validate";
-import { Sanitizers, SimpleSanitizer } from "../../Sanitize";
+import {
+  COLLECTION,
+  CONTAINER,
+  Field,
+  Fields,
+  Nuclei,
+  STRING
+} from "../../Nucleus";
+import { Hydrates } from "../index";
+import { SimpleValidator, ValidateAll } from "../../Validate";
+import { SanitizeAll, SimpleSanitizer } from "../../Sanitize";
+import { AllowPolicy, DenyPolicy, GrantOne } from "../../Policy";
+import { Schema } from "../../Atom";
+import { Reaction } from "../../Reactor";
 
-describe("Isotopes", () => {
-  const fakeArgs = {
-    reactor: Reactor({
-      atom: Atom({}),
-      roles: ["user", "admin"],
-      scope: ["r", "w"]
-    }),
-    values: {
-      first_name: "Thomas",
-      last_name: "Tank Engine",
-      company: {
-        name: "Acme Company",
-        address: "1 Engine Road"
+describe("Isotope/Hydrates", () => {
+  const fakeValues = {
+    first_name: "Thomas",
+    last_name: "Tank Engine",
+    company: {
+      name: "Acme Company",
+      address: "1 Engine Road"
+    },
+    emails: [
+      {
+        label: "Home Email",
+        address: "example@home.com"
       },
-      emails: [
-        {
-          label: "Home Email",
-          address: "example@home.com"
-        },
-        {
-          label: "Work Email",
-          address: "example@work.com"
-        }
-      ]
-    }
+      {
+        label: "Work Email",
+        address: "example@work.com"
+      }
+    ]
   };
 
-  it("can create an Isotopes group with standard arguments", () => {
-    const fakeIsotopes = Isotopes({ ...fakeArgs, test: true });
-    expect(fakeIsotopes.reactor).to.deep.equal(fakeArgs.reactor);
-    expect(fakeIsotopes.options).to.deep.equal({ test: true });
+  const getAtom = (options: any = {}) =>
+    Schema({
+      machine: "test",
+      roles: ["user", "admin", "owner"],
+      scope: ["r", "w"],
+      nuclei: Fields([]),
+      ...options
+    });
+
+  const getHydrates = ({
+    nuclei,
+    value,
+    reaction,
+    options = {}
+  }: {
+    nuclei: Nuclei;
+    value?: any;
+    reaction?: any;
+    options?: any;
+  }) => {
+    const reactor = Reaction({
+      atom: getAtom({ nuclei }),
+      roles: ["user", "admin"],
+      scope: ["r", "w"],
+      ...reaction
+    });
+    return Hydrates({
+      reactor,
+      nuclei,
+      parent: reactor,
+      values: value ? value : fakeValues,
+      options
+    });
+  };
+
+  it("can create an Hydrates group with standard arguments", () => {
+    const fakeHydrates = getHydrates({
+      nuclei: Fields([]),
+      options: { test: true }
+    });
+    expect(fakeHydrates.options).to.deep.equal({ test: true });
   });
 
   it("can hydrate against a set of nuclei, provided values and generate isotopes", () => {
-    const fakeIsotopes = Isotopes({
-      ...fakeArgs,
-      nuclei: Nuclei([
-        Nucleus({ type: Context.STRING, machine: "first_name", label: "First Name" }),
-        Nucleus({ type: Context.STRING, machine: "last_name", label: "Last Name" }),
-        Nucleus({
-          type: Context.CONTAINER,
+    const fakeHydrates = getHydrates({
+      nuclei: Fields([
+        Field({ context: STRING, machine: "first_name", label: "First Name" }),
+        Field({ context: STRING, machine: "last_name", label: "Last Name" }),
+        Field({
+          context: CONTAINER,
           machine: "company",
           label: "Company",
-          nuclei: Nuclei([
-            Nucleus({ type: Context.STRING, machine: "name", label: "Company Name" })
+          nuclei: Fields([
+            Field({ context: STRING, machine: "name", label: "Company Name" })
           ])
         }),
-        Nucleus({
-          type: Context.COLLECTION,
+        Field({
+          context: COLLECTION,
           machine: "emails",
           label: "Emails",
-          nuclei: Nuclei([
-            Nucleus({ type: Context.STRING, machine: "label", label: "Label" }),
-            Nucleus({ type: Context.STRING, machine: "address", label: "Address" })
+          nuclei: Fields([
+            Field({ context: STRING, machine: "label", label: "Label" }),
+            Field({ context: STRING, machine: "address", label: "Address" })
           ])
         })
       ])
     });
-    return fakeIsotopes.hydrate()
-    .then(() => {
-      expect(fakeIsotopes.find({ machine: "first_name" })).to.not.be.undefined;
-      expect(fakeIsotopes.find({ machine: "last_name" })).to.not.be.undefined;
-      expect(fakeIsotopes.find({ machine: "company" }).find({ machine: "name" })).to.not.be.undefined;
-      expect(fakeIsotopes.find({ machine: "emails" }).find({ machine: "address" })).to.not.be.undefined;
-      expect(fakeIsotopes.find({ machine: "emails" }).filter({ machine: "address" })).to.have.length(2);
-    }).catch((msg) => {
-      throw new Error(msg);
-    });
+    return fakeHydrates
+      .hydrate()
+      .then(() => {
+        expect(fakeHydrates.find({ machine: "first_name" })).to.not.be
+          .undefined;
+        expect(fakeHydrates.find({ machine: "last_name" })).to.not.be.undefined;
+        expect(
+          fakeHydrates.find({ machine: "company" }).find({ machine: "name" })
+        ).to.not.be.undefined;
+        expect(
+          fakeHydrates.find({ machine: "emails" }).find({ machine: "address" })
+        ).to.not.be.undefined;
+        expect(
+          fakeHydrates
+            .find({ machine: "emails" })
+            .filter({ machine: "address" })
+        ).to.have.length(2);
+      })
+      .catch(msg => {
+        throw new Error(msg);
+      });
   });
 
-  it("can throw an exception when a child bearing nucleus has no children", () => {
-    const fakeIsotopes = Isotopes({
-      ...fakeArgs,
-      nuclei: Nuclei([
-        Nucleus({ type: Context.STRING, machine: "first_name", label: "First Name" }),
-        Nucleus({ type: Context.STRING, machine: "last_name", label: "Last Name" }),
-        Nucleus({
-          type: Context.CONTAINER,
+  it("can not error when a child bearing nucleus has no children", () => {
+    const fakeHydrates = getHydrates({
+      nuclei: Fields([
+        Field({ context: STRING, machine: "first_name", label: "First Name" }),
+        Field({ context: STRING, machine: "last_name", label: "Last Name" }),
+        Field({
+          context: CONTAINER,
           machine: "company",
           label: "Company"
         })
       ])
     });
-    return fakeIsotopes.hydrate()
-    .then(() => {
-      throw new Error("should not have reached here");
-    }).catch(error => {
-      expect(error.message).to.equal("NUCLEUS_EXPECTS_CHILDREN");
-    });
+    return fakeHydrates
+      .hydrate()
+      .then(() => {
+        expect(fakeHydrates.find({ machine: "first_name" })).to.not.be
+          .undefined;
+        expect(fakeHydrates.find({ machine: "last_name" })).to.not.be.undefined;
+        expect(fakeHydrates.find({ machine: "company" })).to.not.be.undefined;
+      })
+      .catch(error => {
+        throw new Error(error);
+      });
   });
 
   it("can not create isotopes for nuclei failing policy checks", () => {
-    const fakeIsotopes = Isotopes({
-      ...fakeArgs,
-      nuclei: Nuclei([
-        Nucleus({
-          type: Context.STRING,
+    const fakeHydrates = getHydrates({
+      nuclei: Fields([
+        Field({
+          context: STRING,
           machine: "first_name",
           label: "First Name",
-          policies: GrantSinglePolicy([
+          policies: GrantOne([
             DenyPolicy({ roles: ["*"], scope: ["r", "w"] }),
             AllowPolicy({ roles: ["user"], scope: ["r", "w"] })
           ])
         }),
-        Nucleus({ type: Context.STRING,
+        Field({
+          context: STRING,
           machine: "last_name",
           label: "Last Name",
-          policies: GrantSinglePolicy([
+          policies: GrantOne([
             DenyPolicy({ roles: ["*"], scope: ["r", "w"] }),
             AllowPolicy({ roles: ["owner"], scope: ["r", "w"] })
           ])
         }),
-        Nucleus({
-          type: Context.CONTAINER,
+        Field({
+          context: CONTAINER,
           machine: "company",
           label: "Company",
-          nuclei: Nuclei([
-            Nucleus({ type: Context.STRING, machine: "name", label: "Company Name" })
+          nuclei: Fields([
+            Field({ context: STRING, machine: "name", label: "Company Name" })
           ]),
-          policies: GrantSinglePolicy([
+          policies: GrantOne([
             DenyPolicy({ roles: ["*"], scope: ["r", "w"] }),
             AllowPolicy({ roles: ["owner"], scope: ["r", "w"] })
           ])
         }),
-        Nucleus({
-          type: Context.COLLECTION,
+        Field({
+          context: COLLECTION,
           machine: "emails",
           label: "Emails",
-          nuclei: Nuclei([
-            Nucleus({
-              type: Context.STRING,
+          nuclei: Fields([
+            Field({
+              context: STRING,
               machine: "label",
               label: "Label",
-              policies: GrantSinglePolicy([
+              policies: GrantOne([
                 DenyPolicy({ roles: ["*"], scope: ["r", "w"] }),
                 AllowPolicy({ roles: ["user"], scope: ["r", "w"] })
               ])
             }),
-            Nucleus({
-              type: Context.STRING,
+            Field({
+              context: STRING,
               machine: "address",
               label: "Address",
-              policies: GrantSinglePolicy([
+              policies: GrantOne([
                 DenyPolicy({ roles: ["*"], scope: ["r", "w"] }),
                 AllowPolicy({ roles: ["owner"], scope: ["r", "w"] })
               ])
             })
           ]),
-          policies: GrantSinglePolicy([
+          policies: GrantOne([
             DenyPolicy({ roles: ["*"], scope: ["r", "w"] }),
             AllowPolicy({ roles: ["user"], scope: ["r", "w"] })
           ])
         })
       ])
     });
-    return fakeIsotopes.hydrate()
-    .then(() => {
-      expect(fakeIsotopes.find({ machine: "first_name" })).to.not.be.undefined;
-      expect(fakeIsotopes.find({ machine: "last_name" })).to.be.undefined;
-      expect(fakeIsotopes.find({ machine: "company" })).to.be.undefined;
-      expect(fakeIsotopes.find({ machine: "emails" })).to.not.be.undefined;
-      expect(fakeIsotopes.find({ machine: "emails" }).filter({ machine: "label" })).to.have.length(2);
-      expect(fakeIsotopes.find({ machine: "emails" }).filter({ machine: "address" })).to.have.length(0);
-      expect(fakeIsotopes.isotopes).to.have.length(2);
-    }).catch((msg) => {
-      throw new Error(msg);
-    });
+    return fakeHydrates
+      .hydrate()
+      .then(() => {
+        expect(fakeHydrates.find({ machine: "first_name" })).to.not.be
+          .undefined;
+        expect(fakeHydrates.find({ machine: "last_name" })).to.be.undefined;
+        expect(fakeHydrates.find({ machine: "company" })).to.be.undefined;
+        expect(fakeHydrates.find({ machine: "emails" })).to.not.be.undefined;
+        expect(
+          fakeHydrates.find({ machine: "emails" }).filter({ machine: "label" })
+        ).to.have.length(2);
+        expect(
+          fakeHydrates
+            .find({ machine: "emails" })
+            .filter({ machine: "address" })
+        ).to.have.length(0);
+        expect(fakeHydrates.isotopes).to.have.length(2);
+      })
+      .catch(msg => {
+        throw new Error(msg);
+      });
   });
 
   it("can perform sanitization against hydrated isotopes", () => {
-    const fakeIsotopes = Isotopes({
-      ...fakeArgs,
-      nuclei: Nuclei([
-        Nucleus({
-          type: Context.STRING,
+    const fakeHydrates = getHydrates({
+      nuclei: Fields([
+        Field({
+          context: STRING,
           machine: "first_name",
           label: "First Name",
-          sanitizers: Sanitizers([
-            SimpleSanitizer({ rules: ["trim"] }),
-            SimpleSanitizer({ rules: ["upper_case"] })
+          sanitizers: SanitizeAll([
+            SimpleSanitizer({ filters: ["trim"] }),
+            SimpleSanitizer({ filters: ["upper_case"] })
           ])
         }),
-        Nucleus({
-          type: Context.STRING,
+        Field({
+          context: STRING,
           machine: "last_name",
           label: "Last Name",
-          sanitizers: Sanitizers([
-            SimpleSanitizer({ rules: ["trim"] }),
-            SimpleSanitizer({ rules: ["upper_case"] })
+          sanitizers: SanitizeAll([
+            SimpleSanitizer({ filters: ["trim"] }),
+            SimpleSanitizer({ filters: ["upper_case"] })
           ])
         }),
-        Nucleus({
-          type: Context.CONTAINER,
+        Field({
+          context: CONTAINER,
           machine: "company",
           label: "Company",
-          nuclei: Nuclei([
-            Nucleus({
-              type: Context.STRING,
+          nuclei: Fields([
+            Field({
+              context: STRING,
               machine: "name",
               label: "Company Name",
-              sanitizers: Sanitizers([
-                SimpleSanitizer({ rules: ["trim"] }),
-                SimpleSanitizer({ rules: ["upper_case"] })
+              sanitizers: SanitizeAll([
+                SimpleSanitizer({ filters: ["trim"] }),
+                SimpleSanitizer({ filters: ["upper_case"] })
               ])
             })
           ])
         }),
-        Nucleus({
-          type: Context.COLLECTION,
+        Field({
+          context: COLLECTION,
           machine: "emails",
           label: "Emails",
-          nuclei: Nuclei([
-            Nucleus({
-              type: Context.STRING,
+          nuclei: Fields([
+            Field({
+              context: STRING,
               machine: "label",
               label: "Label",
-              sanitizers: Sanitizers([
-                SimpleSanitizer({ rules: ["trim"] }),
-                SimpleSanitizer({ rules: ["upper_case"] })
+              sanitizers: SanitizeAll([
+                SimpleSanitizer({ filters: ["trim"] }),
+                SimpleSanitizer({ filters: ["upper_case"] })
               ])
             }),
-            Nucleus({
-              type: Context.STRING,
+            Field({
+              context: STRING,
               machine: "address",
               label: "Address",
-              sanitizers: Sanitizers([
-                SimpleSanitizer({ rules: ["trim"] }),
-                SimpleSanitizer({ rules: ["upper_case"] })
+              sanitizers: SanitizeAll([
+                SimpleSanitizer({ filters: ["trim"] }),
+                SimpleSanitizer({ filters: ["upper_case"] })
               ])
             })
           ])
         })
       ])
     });
-    return fakeIsotopes
-    .hydrate()
-    .then(fakeIsotopes.sanitize)
-    .then(fakeIsotopes.dump)
-    .then(dumped => {
-      expect(dumped).to.deep.equal({
-        first_name: "THOMAS",
-        last_name: "TANK ENGINE",
-        company: {
-          name: "ACME COMPANY"
-        },
-        emails: [
-          {
-            label: "HOME EMAIL",
-            address: "EXAMPLE@HOME.COM"
+    return fakeHydrates
+      .hydrate()
+      .then(fakeHydrates.sanitize)
+      .then(fakeHydrates.dump)
+      .then(dumped => {
+        expect(dumped).to.deep.equal({
+          first_name: "THOMAS",
+          last_name: "TANK ENGINE",
+          company: {
+            name: "ACME COMPANY"
           },
-          {
-            label: "WORK EMAIL",
-            address: "EXAMPLE@WORK.COM"
-          }
-        ]
+          emails: [
+            {
+              label: "HOME EMAIL",
+              address: "EXAMPLE@HOME.COM"
+            },
+            {
+              label: "WORK EMAIL",
+              address: "EXAMPLE@WORK.COM"
+            }
+          ]
+        });
       });
-    });
   });
 
   it("can perform validation against hydrated isotopes and PASS", () => {
-    const fakeIsotopes = Isotopes({
-      ...fakeArgs,
-      nuclei: Nuclei([
-        Nucleus({
-          type: Context.STRING,
+    const fakeHydrates = getHydrates({
+      nuclei: Fields([
+        Field({
+          context: STRING,
           machine: "first_name",
           label: "First Name",
-          validators: Validators([
+          validators: ValidateAll([
             SimpleValidator({ rules: ["required", "min:5"] })
           ])
         }),
-        Nucleus({
-          type: Context.STRING,
+        Field({
+          context: STRING,
           machine: "last_name",
           label: "Last Name",
-          validators: Validators([
+          validators: ValidateAll([
             SimpleValidator({ rules: ["required", "min:5"] })
           ])
         }),
-        Nucleus({
-          type: Context.CONTAINER,
+        Field({
+          context: CONTAINER,
           machine: "company",
           label: "Company",
-          nuclei: Nuclei([
-            Nucleus({
-              type: Context.STRING,
+          nuclei: Fields([
+            Field({
+              context: STRING,
               machine: "name",
               label: "Company Name",
-              validators: Validators([
+              validators: ValidateAll([
                 SimpleValidator({ rules: ["required", "min:5"] })
               ])
             })
           ])
         }),
-        Nucleus({
-          type: Context.COLLECTION,
+        Field({
+          context: COLLECTION,
           machine: "emails",
           label: "Emails",
-          nuclei: Nuclei([
-            Nucleus({
-              type: Context.STRING,
+          nuclei: Fields([
+            Field({
+              context: STRING,
               machine: "label",
               label: "Label",
-              validators: Validators([
+              validators: ValidateAll([
                 SimpleValidator({ rules: ["required", "min:5"] })
               ])
             }),
-            Nucleus({
-              type: Context.STRING,
+            Field({
+              context: STRING,
               machine: "address",
               label: "Address",
-              validators: Validators([
+              validators: ValidateAll([
                 SimpleValidator({ rules: ["required", "min:5"] })
               ])
             })
@@ -326,75 +384,74 @@ describe("Isotopes", () => {
         })
       ])
     });
-    return fakeIsotopes
-    .hydrate()
-    .then(fakeIsotopes.validate)
-    .then(result => {
-      expect(result.first_name.valid).to.equal(true);
-      expect(result.last_name.valid).to.equal(true);
-      expect(result.company.valid).to.equal(true);
-      expect(result.company.children[0].name.valid).to.equal(true);
-      expect(result.emails.valid).to.equal(true);
-      expect(result.emails.children[0].label.valid).to.equal(true);
-      expect(result.emails.children[0].address.valid).to.equal(true);
-      expect(result.emails.children[1].label.valid).to.equal(true);
-      expect(result.emails.children[1].address.valid).to.equal(true);
-    });
+    return fakeHydrates
+      .hydrate()
+      .then(fakeHydrates.validate)
+      .then(result => {
+        expect(result.first_name.valid).to.equal(true);
+        expect(result.last_name.valid).to.equal(true);
+        expect(result.company.valid).to.equal(true);
+        expect(result.company.children[0].name.valid).to.equal(true);
+        expect(result.emails.valid).to.equal(true);
+        expect(result.emails.children[0].label.valid).to.equal(true);
+        expect(result.emails.children[0].address.valid).to.equal(true);
+        expect(result.emails.children[1].label.valid).to.equal(true);
+        expect(result.emails.children[1].address.valid).to.equal(true);
+      });
   });
 
   it("can perform validation against hydrated isotopes and FAIL", () => {
-    const fakeIsotopes = Isotopes({
-      ...fakeArgs,
-      nuclei: Nuclei([
-        Nucleus({
-          type: Context.STRING,
+    const fakeHydrates = getHydrates({
+      nuclei: Fields([
+        Field({
+          context: STRING,
           machine: "first_name",
           label: "First Name",
-          validators: Validators([
+          validators: ValidateAll([
             SimpleValidator({ rules: ["required", "min:5"] })
           ])
         }),
-        Nucleus({
-          type: Context.STRING,
+        Field({
+          context: STRING,
           machine: "last_name",
           label: "Last Name",
-          validators: Validators([
+          validators: ValidateAll([
             SimpleValidator({ rules: ["required", "min:5"] })
           ])
         }),
-        Nucleus({
-          type: Context.CONTAINER,
+        Field({
+          context: CONTAINER,
           machine: "company",
           label: "Company",
-          nuclei: Nuclei([
-            Nucleus({
-              type: Context.STRING,
+          nuclei: Fields([
+            Field({
+              context: STRING,
               machine: "name",
               label: "Company Name",
-              validators: Validators([
+              validators: ValidateAll([
                 SimpleValidator({ rules: ["required", "min:25"] })
               ])
             })
           ])
         }),
-        Nucleus({
-          type: Context.COLLECTION,
+        Field({
+          context: COLLECTION,
           machine: "emails",
           label: "Emails",
-          nuclei: Nuclei([
-            Nucleus({
-              type: Context.STRING,
+          nuclei: Fields([
+            Field({
+              context: STRING,
               machine: "label",
               label: "Label",
-              validators: Validators([
+              validators: ValidateAll([
                 SimpleValidator({ rules: ["required", "min:5"] })
               ])
             }),
-            Nucleus({
-              type: Context.STRING,
+            Field({
+              context: STRING,
               machine: "address",
               label: "Address",
-              validators: Validators([
+              validators: ValidateAll([
                 SimpleValidator({ rules: ["required", "min:25"] })
               ])
             })
@@ -402,60 +459,59 @@ describe("Isotopes", () => {
         })
       ])
     });
-    return fakeIsotopes
-    .hydrate()
-    .then(fakeIsotopes.validate)
-    .then(result => {
-      expect(result.first_name.valid).to.equal(true);
-      expect(result.last_name.valid).to.equal(true);
-      expect(result.company.valid).to.equal(false);
-      expect(result.company.children[0].name.valid).to.equal(false);
-      expect(result.emails.valid).to.equal(false);
-      expect(result.emails.children[0].label.valid).to.equal(true);
-      expect(result.emails.children[0].address.valid).to.equal(false);
-      expect(result.emails.children[1].label.valid).to.equal(true);
-      expect(result.emails.children[1].address.valid).to.equal(false);
-    });
+    return fakeHydrates
+      .hydrate()
+      .then(fakeHydrates.validate)
+      .then(result => {
+        expect(result.first_name.valid).to.equal(true);
+        expect(result.last_name.valid).to.equal(true);
+        expect(result.company.valid).to.equal(false);
+        expect(result.company.children[0].name.valid).to.equal(false);
+        expect(result.emails.valid).to.equal(false);
+        expect(result.emails.children[0].label.valid).to.equal(true);
+        expect(result.emails.children[0].address.valid).to.equal(false);
+        expect(result.emails.children[1].label.valid).to.equal(true);
+        expect(result.emails.children[1].address.valid).to.equal(false);
+      });
   });
 
   it("can generate a value object with policies", () => {
-    const fakeIsotopes = Isotopes({
-      ...fakeArgs,
-      nuclei: Nuclei([
-        Nucleus({
-          type: Context.STRING,
+    const fakeHydrates = getHydrates({
+      nuclei: Fields([
+        Field({
+          context: STRING,
           machine: "first_name",
           label: "First Name"
         }),
-        Nucleus({
-          type: Context.STRING,
+        Field({
+          context: STRING,
           machine: "last_name",
           label: "Last Name"
         }),
-        Nucleus({
-          type: Context.CONTAINER,
+        Field({
+          context: CONTAINER,
           machine: "company",
           label: "Company",
-          nuclei: Nuclei([
-            Nucleus({
-              type: Context.STRING,
+          nuclei: Fields([
+            Field({
+              context: STRING,
               machine: "name",
               label: "Company Name"
             })
           ])
         }),
-        Nucleus({
-          type: Context.COLLECTION,
+        Field({
+          context: COLLECTION,
           machine: "emails",
           label: "Emails",
-          nuclei: Nuclei([
-            Nucleus({
-              type: Context.STRING,
+          nuclei: Fields([
+            Field({
+              context: STRING,
               machine: "label",
               label: "Label"
             }),
-            Nucleus({
-              type: Context.STRING,
+            Field({
+              context: STRING,
               machine: "address",
               label: "Address"
             })
@@ -463,27 +519,27 @@ describe("Isotopes", () => {
         })
       ])
     });
-    return fakeIsotopes
-    .hydrate()
-    .then(fakeIsotopes.dump)
-    .then(dumped => {
-      expect(dumped).to.deep.equal({
-        first_name: "Thomas",
-        last_name: "Tank Engine",
-        company: {
-          name: "Acme Company"
-        },
-        emails: [
-          {
-            label: "Home Email",
-            address: "example@home.com"
+    return fakeHydrates
+      .hydrate()
+      .then(fakeHydrates.dump)
+      .then(dumped => {
+        expect(dumped).to.deep.equal({
+          first_name: "Thomas",
+          last_name: "Tank Engine",
+          company: {
+            name: "Acme Company"
           },
-          {
-            label: "Work Email",
-            address: "example@work.com"
-          }
-        ]
+          emails: [
+            {
+              label: "Home Email",
+              address: "example@home.com"
+            },
+            {
+              label: "Work Email",
+              address: "example@work.com"
+            }
+          ]
+        });
       });
-    });
   });
 });

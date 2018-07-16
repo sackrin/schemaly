@@ -1,12 +1,6 @@
 import _ from "lodash";
 import { getMixedResult } from "../Utils";
-import { Policy } from "./Types";
-import {
-  PolicyArgs,
-  PolicyGrantArgs,
-  RolesType,
-  ScopesType,
-} from "./Types";
+import { Policy, PolicyArgs, PolicyGrantArgs, RolesType, ScopesType } from "./Types";
 
 /**
  * DENY POLICY
@@ -29,8 +23,8 @@ export class Deny implements Policy {
    * @param {any} options
    */
   constructor({ roles, scope, options = {} }: PolicyArgs) {
-    this.roles = _.isArray(roles) ? roles : [ roles ];
-    this.scope = _.isArray(scope) ? scope : [ scope ];
+    this.roles = _.isArray(roles) ? roles : [roles];
+    this.scope = _.isArray(scope) ? scope : [scope];
     this.options = options;
   }
 
@@ -41,7 +35,7 @@ export class Deny implements Policy {
    */
   public getRoles = async (options: any = {}): Promise<string[]> => {
     return getMixedResult(this.roles, { ...this.options, ...options });
-  }
+  };
 
   /**
    * Get Constructed Scope
@@ -50,7 +44,7 @@ export class Deny implements Policy {
    */
   public getScope = async (options: any = {}): Promise<string[]> => {
     return getMixedResult(this.scope, { ...this.options, ...options });
-  }
+  };
 
   /**
    * Grant Challenge
@@ -60,16 +54,35 @@ export class Deny implements Policy {
    * @param {{options?: any} | any} options
    * @returns {Promise<boolean>}
    */
-  public grant = async ({ isotope, roles, scope, ...options }: PolicyGrantArgs): Promise<boolean> => {
+  public grant = async ({
+    isotope,
+    roles,
+    scope,
+    ...options
+  }: PolicyGrantArgs): Promise<boolean> => {
     const forRoles: string[] = await getMixedResult(this.roles, options);
-    const againstRoles: string[] = await getMixedResult(_.isArray(roles) ? roles : [ roles ], options);
+    const againstRoles: string[] = await getMixedResult(
+      _.isArray(roles) ? roles : [roles],
+      options
+    );
     const roleCheck: string[] = _.difference(againstRoles, forRoles);
-    if (roleCheck.length === againstRoles.length && forRoles.indexOf("*") === -1) { return true; }
+    if (
+      roleCheck.length === againstRoles.length &&
+      forRoles.indexOf("*") === -1
+    ) {
+      return true;
+    }
     const forScopes: string[] = await getMixedResult(this.scope, options);
-    const againstScopes: string[] = await getMixedResult(_.isArray(scope) ? scope : [ scope ], options);
+    const againstScopes: string[] = await getMixedResult(
+      _.isArray(scope) ? scope : [scope],
+      options
+    );
     const scopeCheck: string[] = _.difference(againstScopes, forScopes);
-    return (scopeCheck.length === againstScopes.length && forScopes.indexOf("*") === -1);
-  }
+    return (
+      scopeCheck.length === againstScopes.length &&
+      forScopes.indexOf("*") === -1
+    );
+  };
 }
 
 /**
@@ -79,4 +92,4 @@ export class Deny implements Policy {
  * @param {PolicyArgs} args
  * @returns {Allow}
  */
-export default (args: PolicyArgs): Deny  => (new Deny(args));
+export default (args: PolicyArgs): Deny => new Deny(args);

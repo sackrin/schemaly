@@ -2,7 +2,7 @@ import { Context } from "../Context/Types";
 import { Policies } from "../../Policy/Types";
 import { Sanitizers } from "../../Sanitize/Types";
 import { Validators } from "../../Validate/Types";
-import { Nucleus, Nuclei} from "./";
+import { Nucleus, Nuclei } from "./";
 
 export interface NucleusArgs {
   machine: string;

@@ -5,7 +5,7 @@ export const COLLECTION: Context = {
   children: true,
   repeater: true,
   sanitizers: [],
-  validators: [],
+  validators: []
 };
 
 export default COLLECTION;

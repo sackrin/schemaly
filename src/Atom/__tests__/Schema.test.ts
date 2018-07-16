@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import Schema from "../Schema";
-import { STRING, Fields, Field} from "../../Nucleus";
+import { STRING, Fields, Field } from "../../Nucleus";
 
 describe("Atom/Schema", () => {
   const fakeArgs = {
@@ -11,16 +11,16 @@ describe("Atom/Schema", () => {
     nuclei: Fields([
       Field({ context: STRING, machine: "title" }),
       Field({ context: STRING, machine: "first_name" }),
-      Field({ context: STRING, machine: "surname" }),
-    ]),
+      Field({ context: STRING, machine: "surname" })
+    ])
   };
 
   it("can create an atom instance", () => {
     const fakeAtom = Schema({
       ...fakeArgs,
       options: {
-        testing: true,
-      },
+        testing: true
+      }
     });
     expect(fakeAtom.label).to.equal("Person Schema");
     expect(fakeAtom.machine).to.equal("person");

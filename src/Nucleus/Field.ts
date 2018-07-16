@@ -2,18 +2,14 @@ import { GrantAll, PolicyGrantArgs, Policies } from "../Policy";
 import Fields from "./Fields";
 import { Context } from "./Context";
 import { Nucleus, Nuclei, NucleusArgs } from "./Types";
-import {
-  Sanitizers,
-  SanitizeAll,
-  SanitizerApplyArgs,
-} from "../Sanitize";
+import { Sanitizers, SanitizeAll, SanitizerApplyArgs } from "../Sanitize";
 import {
   ValidateAll,
   ValidatorResult,
   Validators,
-  ValidatorValidateArgs,
+  ValidatorValidateArgs
 } from "../Validate";
-import {Isotope} from "../Isotope/Types";
+import { Isotope } from "../Isotope/Types";
 
 /**
  * FIELD NUCLEUS
@@ -69,30 +65,40 @@ export class Field implements Nucleus {
     policies,
     sanitizers,
     validators,
-    options = {},
+    options = {}
   }: NucleusArgs) {
     this.context = context;
     this.machine = machine;
     this.label = label;
     this.parent = parent;
-    if (policies) { this.policies = policies; }
-    if (getters) { this.getters = getters; }
-    if (setters) { this.setters = setters; }
-    if (options) { this.options = options; }
+    if (policies) {
+      this.policies = policies;
+    }
+    if (getters) {
+      this.getters = getters;
+    }
+    if (setters) {
+      this.setters = setters;
+    }
+    if (options) {
+      this.options = options;
+    }
     this.setNuclei(nuclei);
     this.setSanitizers(sanitizers);
     this.setValidators(validators);
   }
 
   public setNuclei = (nuclei?: Nuclei): void => {
-    if (!nuclei) { return; }
+    if (!nuclei) {
+      return;
+    }
     const { children, repeater } = this.context;
     if (!children && !repeater) {
       throw new Error("CANNOT_HAVE_CHILDREN");
     }
     nuclei.setParent(this);
     this.nuclei = nuclei;
-  }
+  };
 
   public setSanitizers = (sanitizers?: Sanitizers): void => {
     const context = this.context;
@@ -102,7 +108,7 @@ export class Field implements Nucleus {
       sanitizers.merge(context.sanitizers);
       this.sanitizers = sanitizers;
     }
-  }
+  };
 
   public setValidators = (validators?: Validators): void => {
     const context = this.context;
@@ -112,7 +118,7 @@ export class Field implements Nucleus {
       validators.merge(context.validators);
       this.validators = validators;
     }
-  }
+  };
 
   /**
    * Grant Challenge
@@ -126,14 +132,14 @@ export class Field implements Nucleus {
     isotope,
     scope,
     roles,
-    options = {},
+    options = {}
   }: PolicyGrantArgs): Promise<boolean> => {
     const { policies } = this;
     if (!policies) {
       return true;
     }
     return policies.grant({ isotope, scope, roles, options });
-  }
+  };
 
   /**
    * Validate Isotope
@@ -143,13 +149,13 @@ export class Field implements Nucleus {
    */
   public validate = async ({
     isotope,
-    options = {},
+    options = {}
   }: ValidatorValidateArgs): Promise<ValidatorResult> => {
     const { validators } = this;
     return validators
       ? validators.validate({ isotope, options })
       : { valid: true, messages: [], children: [] };
-  }
+  };
 
   /**
    * Sanitize Value
@@ -162,13 +168,13 @@ export class Field implements Nucleus {
   public sanitize = async ({
     value,
     isotope,
-    options = {},
+    options = {}
   }: SanitizerApplyArgs): Promise<any> => {
     const { sanitizers } = this;
     return sanitizers
       ? sanitizers.apply({ value: await value, isotope, options })
       : isotope.getValue();
-  }
+  };
 
   /**
    * Apply Getter Filters
@@ -180,7 +186,7 @@ export class Field implements Nucleus {
    */
   public applyGetters = async ({
     isotope,
-    options = {},
+    options = {}
   }: {
     isotope: Isotope;
     options?: any;
@@ -191,9 +197,9 @@ export class Field implements Nucleus {
     }
     return getters.reduce(
       async (value, getter) => getter({ isotope, value, options }),
-      await isotope.value,
+      await isotope.value
     );
-  }
+  };
 
   /**
    * Apply Setter Filters
@@ -206,7 +212,7 @@ export class Field implements Nucleus {
    */
   public applySetters = async ({
     isotope,
-    options = {},
+    options = {}
   }: {
     isotope: Isotope;
     options?: any;
@@ -217,9 +223,9 @@ export class Field implements Nucleus {
     }
     return setters.reduce(
       async (value, setter) => setter({ isotope, value, options }),
-      await isotope.value,
+      await isotope.value
     );
-  }
+  };
 }
 
 /**
@@ -229,4 +235,4 @@ export class Field implements Nucleus {
  * @param {NucleusArgs} args
  * @returns {Field}
  */
-export default (args: NucleusArgs) => (new Field(args));
+export default (args: NucleusArgs) => new Field(args);

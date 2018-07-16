@@ -1,4 +1,4 @@
-import {Policy} from "./";
+import { Policy } from "./";
 
 export interface PoliciesArgs {
   policies: Policy[];

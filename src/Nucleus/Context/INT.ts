@@ -5,10 +5,8 @@ export const INT: Context = {
   code: "int",
   children: false,
   repeater: false,
-  sanitizers: [
-    SimpleSanitizer({ filters: ["int"] }),
-  ],
-  validators: [],
+  sanitizers: [SimpleSanitizer({ filters: ["int"] })],
+  validators: []
 };
 
 export default INT;

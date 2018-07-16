@@ -5,7 +5,7 @@ export const CONTAINER: Context = {
   children: true,
   repeater: false,
   sanitizers: [],
-  validators: [],
+  validators: []
 };
 
 export default CONTAINER;

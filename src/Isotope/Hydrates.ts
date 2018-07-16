@@ -3,7 +3,7 @@ import { Reactor } from "../Reactor/Types";
 import { Nuclei } from "../Nucleus/Types";
 import { Isotope, Isotopes } from "./Types";
 import Hydrate from "./Hydrate";
-import {ValidatorResult} from "../Validate/Types";
+import { ValidatorResult } from "../Validate/Types";
 
 interface IsotopesArgs {
   parent: Isotope | Reactor;
@@ -37,50 +37,64 @@ export class Hydrates implements Isotopes {
   public find = (criteria: Function | Object): Isotope => {
     const { isotopes } = this;
     return _.find(isotopes, criteria) as Isotope;
-  }
+  };
 
   public filter = (criteria: Function | Object): Isotope[] => {
     const { isotopes } = this;
     return _.filter(isotopes, criteria) as Isotope[];
-  }
+  };
 
   public hydrate = async (options: any = {}): Promise<void> => {
     const { reactor, nuclei, isotopes, values } = this;
-    await Promise.all(nuclei.all().map(async (nucleus) => {
-      const value = _.get(values, nucleus.machine);
-      // const isotope = Hydrate({ parent: this, reactor, nucleus, value });
-      const isotope = Hydrate({ reactor, nucleus, value, parent: this });
-      if (await isotope.grant({ ...this.options, ...options })) {
-        await isotope.hydrate({ ...this.options, ...options });
-        isotopes.push(isotope);
-      }
-    }));
-  }
+    await Promise.all(
+      nuclei.all().map(async nucleus => {
+        const value = _.get(values, nucleus.machine);
+        const isotope = Hydrate({ reactor, nucleus, value, parent: this });
+        const grantCheck = await isotope.grant({ ...this.options, ...options });
+        if (grantCheck) {
+          await isotope.hydrate({ ...this.options, ...options });
+          isotopes.push(isotope);
+        }
+      })
+    );
+  };
 
   public validate = async (options: any = {}): Promise<any> => {
     const { isotopes } = this;
     const validations: any = {};
-    await Promise.all(isotopes.map(async (isotope: Isotope) => {
-      validations[`${isotope.nucleus.machine}`] = await isotope.validate({ ...this.options, ...options });
-    }));
+    await Promise.all(
+      isotopes.map(async (isotope: Isotope) => {
+        validations[`${isotope.nucleus.machine}`] = await isotope.validate({
+          ...this.options,
+          ...options
+        });
+      })
+    );
     return validations;
-  }
+  };
 
   public sanitize = async (options: any = {}): Promise<void> => {
     const { isotopes } = this;
-    await Promise.all(isotopes.map(async (isotope) => {
-      await isotope.sanitize({ ...this.options, ...options });
-    }));
-  }
+    await Promise.all(
+      isotopes.map(async isotope => {
+        await isotope.sanitize({ ...this.options, ...options });
+      })
+    );
+  };
 
-  public dump = async (options: any = {}): Promise<{[s: string]: ValidatorResult}> => {
+  public dump = async (
+    options: any = {}
+  ): Promise<{ [s: string]: ValidatorResult }> => {
     const { isotopes } = this;
     return isotopes.reduce(async (curr: Promise<any>, isotope: Isotope) => {
-      const dumped: any = { ...await curr };
-      dumped[isotope.nucleus.machine] = await isotope.dump({ ...this.options, ...options });
+      const dumped: any = { ...(await curr) };
+      dumped[isotope.nucleus.machine] = await isotope.dump({
+        ...this.options,
+        ...options
+      });
       return dumped;
     }, Promise.resolve({}));
-  }
+  };
 }
 
 export default (args: IsotopesArgs) => new Hydrates(args);

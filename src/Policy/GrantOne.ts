@@ -31,20 +31,38 @@ export class GrantOne implements Policies {
    * @param {any} options
    * @returns {Promise<boolean>}
    */
-  public grant = async ({ isotope, roles, scope, options }: PolicyGrantArgs): Promise<boolean> => {
-    if (this.policies.length === 0) { return true; }
-    const builtScope: string[] = await getMixedResult(_.isArray(scope) ? scope : [ scope ], options);
-    const builtRoles: string[] = await getMixedResult(_.isArray(roles) ? roles : [ roles ], options);
-    return this.policies.reduce(async (flag: Promise<boolean>, policy: Policy) => {
-      const curr: boolean = await flag;
-      return await policy.grant({
-        isotope,
-        roles: builtRoles,
-        scope: builtScope,
-        options: { ...this.options, ...options },
-      }) ? true : curr;
-    }, Promise.resolve(false));
-  }
+  public grant = async ({
+    isotope,
+    roles,
+    scope,
+    options
+  }: PolicyGrantArgs): Promise<boolean> => {
+    if (this.policies.length === 0) {
+      return true;
+    }
+    const builtScope: string[] = await getMixedResult(
+      _.isArray(scope) ? scope : [scope],
+      options
+    );
+    const builtRoles: string[] = await getMixedResult(
+      _.isArray(roles) ? roles : [roles],
+      options
+    );
+    return this.policies.reduce(
+      async (flag: Promise<boolean>, policy: Policy) => {
+        const curr: boolean = await flag;
+        return (await policy.grant({
+          isotope,
+          roles: builtRoles,
+          scope: builtScope,
+          options: { ...this.options, ...options }
+        }))
+          ? true
+          : curr;
+      },
+      Promise.resolve(false)
+    );
+  };
 }
 
 /**
@@ -55,4 +73,5 @@ export class GrantOne implements Policies {
  * @param options
  * @returns {GrantOne}
  */
-export default (policies: Policy[], options: any = {}) => (new GrantOne({ policies, options }));
+export default (policies: Policy[], options: any = {}) =>
+  new GrantOne({ policies, options });

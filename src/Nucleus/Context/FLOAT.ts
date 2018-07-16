@@ -5,10 +5,8 @@ export const FLOAT: Context = {
   code: "float",
   children: false,
   repeater: false,
-  sanitizers: [
-    SimpleSanitizer({ filters: ["float"] }),
-  ],
-  validators: [],
+  sanitizers: [SimpleSanitizer({ filters: ["float"] })],
+  validators: []
 };
 
 export default FLOAT;
