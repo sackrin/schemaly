@@ -3,6 +3,7 @@ import { Reactor } from "../Reactor/Types";
 import { Isotope, IsotopeArgs, Isotopes } from "./Types";
 import { ValidatorResult } from "../Validate/Types";
 import { Hydrates } from "./";
+import {Context} from "../Nucleus/Context/Types";
 
 export class Hydrate implements Isotope {
   public reactor: Reactor;
@@ -24,6 +25,10 @@ export class Hydrate implements Isotope {
     this.value = value;
     this.options = options;
   }
+
+  get machine(): string { return this.nucleus.machine; }
+
+  get context(): Context { return this.nucleus.context; }
 
   public getValue = async (options: any = {}): Promise<any> => {
     const { applyGetters } = this.nucleus;
@@ -89,6 +94,7 @@ export class Hydrate implements Isotope {
           },
         });
         await hydrate.hydrate({ ...this.options, ...options });
+        hydrated.push(hydrate);
       }));
     }
     this.children = hydrated;

@@ -12,18 +12,18 @@ describe("Policy/Allow", (): void => {
     roles: [ "user", "admin" ],
     scope: [ "read", "write" ],
     nuclei: Fields([
-      Field({ machine: "first_name", context: STRING })
-    ])
+      Field({ machine: "first_name", context: STRING }),
+    ]),
   });
 
   const isotope = Hydrate({
     reactor: Reaction({
       atom: fakeAtom,
       roles: [ "user", "admin" ],
-      scope: [ "read", "write" ]
+      scope: [ "read", "write" ],
     }),
     nucleus: fakeAtom.nuclei.nuclei[0],
-    value: "John"
+    value: "John",
   });
 
   it("can have simple roles and scope added", () => {

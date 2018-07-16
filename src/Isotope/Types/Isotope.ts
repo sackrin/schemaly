@@ -14,11 +14,11 @@ export interface Isotope {
   setValue({ value, options }: { value: any, options?: any }): Promise<any>;
   find(criteria: Object | Function): Isotope | undefined;
   filter(criteria: Object | Function): Isotope[];
-  grant(options: any): Promise<boolean>;
-  hydrate(options: any): Promise<void>;
-  sanitize(options: any): Promise<void>;
-  validate(options: any): Promise<ValidatorResult>;
-  dump(options: any): Promise<any>;
+  grant(options?: any): Promise<boolean>;
+  hydrate(options?: any): Promise<void>;
+  sanitize(options?: any): Promise<void>;
+  validate(options?: any): Promise<ValidatorResult>;
+  dump(options?: any): Promise<any>;
 }
 
 export default Isotope;
