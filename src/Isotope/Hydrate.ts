@@ -5,6 +5,10 @@ import { ValidatorResult } from "../Validate/Types";
 import { Hydrates } from "./";
 import { Context } from "../Nucleus/Context/Types";
 
+/**
+ * HYDRATE ISOTOPE
+ * Represents a hydrated nucleus
+ */
 export class Hydrate implements Isotope {
   public reactor: Reactor;
 
