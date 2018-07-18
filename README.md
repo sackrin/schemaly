@@ -33,6 +33,6 @@ The act of applying data to the schema is called a reaction and is handled by Re
 Progress of development can be viewed on the project trello board. https://trello.com/b/SskmstkA/fissionjs
 
 - Create better documentation and examples
-- Adding strict mode at Atom and Nucleus level option to enforce known fields but allow non defined fields as well (strict = off)
+- Adding strict mode (strict = true / false) option at Atom and Nucleus level to enforce known fields but allow non defined fields as well
 - Add ANY context to permit any value within a field
 - Create JSON Schema parser to allow FissionJS to work with JSON schema projects.
