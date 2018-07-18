@@ -35,13 +35,11 @@ export class Hydrates implements Isotopes {
   }
 
   public find = (criteria: Function | Object): Isotope => {
-    const { isotopes } = this;
-    return _.find(isotopes, criteria) as Isotope;
+    return _.find(this.isotopes, criteria) as Isotope;
   };
 
   public filter = (criteria: Function | Object): Isotope[] => {
-    const { isotopes } = this;
-    return _.filter(isotopes, criteria) as Isotope[];
+    return _.filter(this.isotopes, criteria) as Isotope[];
   };
 
   public hydrate = async (options: any = {}): Promise<void> => {

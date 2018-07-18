@@ -1,5 +1,5 @@
 import { Reactor } from "../../Reactor/Types";
-import { Nuclei, Nucleus } from "../../Nucleus/Types";
+import { Nucleus } from "../../Nucleus/Types";
 import { Isotopes } from "./";
 import { ValidatorResult } from "../../Validate/Types";
 import { Context } from "../../Nucleus/Context/Types";
