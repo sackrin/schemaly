@@ -10,7 +10,6 @@ import {
 } from "./Types";
 
 /**
- * SIMPLE VALIDATOR
  * Provides validation using the validatorJS library
  * Recommended to use for simple validation
  * Refer to the validatorJS documentation on valid validation rules
@@ -80,7 +79,6 @@ export class SimpleValidator implements Validator {
 }
 
 /**
- * FACTORY CALLBACK
  * This is the typical way to create a new validator.
  * Should be used in favour of using the primary validator class
  * @param {ValidatorArgs} args

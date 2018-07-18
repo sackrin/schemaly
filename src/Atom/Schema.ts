@@ -3,9 +3,6 @@ import { RolesType, ScopesType } from "../Policy/Types";
 import { Nuclei } from "../Nucleus/Types/Nuclei";
 import { Atom, AtomArgs } from "./Types";
 
-/**
- * ATOM SCHEMA
- */
 export class Schema implements Atom {
   public machine: string;
 

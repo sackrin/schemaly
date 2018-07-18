@@ -1,7 +1,6 @@
 import { Nuclei, Nucleus, NucleiArgs, NucleiType } from "./Types";
 
 /**
- * FIELDS NUCLEI
  * Contains multiple Field instances
  */
 export class Fields implements Nuclei {
@@ -30,7 +29,6 @@ export class Fields implements Nuclei {
 }
 
 /**
- * FACTORY CALLBACK
  * This is the typical way to create a new fields instance.
  * Should be used in favour of using the primary fields class
  * @param {NucleiType} nuclei

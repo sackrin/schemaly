@@ -8,7 +8,6 @@ import {
 } from "./Types";
 
 /**
- * VALIDATE ALL
  * A validators collection which requires --> ALL <-- validators to pass
  * Create validators collections and attach to Nucleus instances
  */
@@ -79,7 +78,6 @@ export class ValidateAll implements Validators {
 }
 
 /**
- * FACTORY CALLBACK
  * This is the typical way to create a new validators.
  * Should be used in favour of using the primary validators class
  * @param {ValidatorsType} validators

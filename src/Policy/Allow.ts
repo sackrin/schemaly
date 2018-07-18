@@ -3,7 +3,6 @@ import { getMixedResult } from "../Utils";
 import { Policy, PolicyArgs, PolicyGrantArgs, RolesType, ScopesType } from "./Types";
 
 /**
- * ALLOW POLICY
  * Use this policy to implicitly grant against roles and scope.
  * ie. new Allow({ roles: ["user", "admin"], scope: ["read", "write"] })
  * You should always define policies while creating your atom schema
@@ -86,7 +85,6 @@ export class Allow implements Policy {
 }
 
 /**
- * FACTORY CALLBACK
  * This is the typical way to create a new policy.
  * Should be used in favour of using the primary policy class
  * @param {PolicyArgs} args

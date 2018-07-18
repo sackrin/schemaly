@@ -12,7 +12,6 @@ import {
 import { Isotope } from "../Isotope/Types";
 
 /**
- * FIELD NUCLEUS
  * A base implementation of the Nucleus field.
  * This class outlines the rules of a field and provides a blueprint to create Isotopes.
  * Contain Nucleus instances within Fields Nuclei instances to create groups of Fields
@@ -229,7 +228,6 @@ export class Field implements Nucleus {
 }
 
 /**
- * FACTORY CALLBACK
  * This is the typical way to create a new field.
  * Should be used in favour of using the primary field class
  * @param {NucleusArgs} args

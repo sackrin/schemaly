@@ -3,7 +3,6 @@ import { getMixedResult } from "../Utils";
 import { Policies, PoliciesArgs, Policy, PolicyGrantArgs } from "./Types";
 
 /**
- * GRANT ALL POLICIES
  * Contains policies and grants only if --> ALL <-- policies return granted
  * To be used when defining policies for nucleus
  * Ensure that at least one DenyPolicy has roles and scope of * for security
@@ -66,7 +65,6 @@ export class GrantAll implements Policies {
 }
 
 /**
- * FACTORY CALLBACK
  * This is the typical way to create a new policy group.
  * Should be used in favour of using the primary policy group class
  * @param {Policy[]} policies

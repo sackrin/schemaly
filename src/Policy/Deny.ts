@@ -3,7 +3,6 @@ import { getMixedResult } from "../Utils";
 import { Policy, PolicyArgs, PolicyGrantArgs, RolesType, ScopesType } from "./Types";
 
 /**
- * DENY POLICY
  * Use this policy to deny grant against roles and scope.
  * ie. new Deny({ roles: ["user", "admin"], scope: ["read", "write"] })
  * You should always define policies while creating your atom schema
@@ -86,7 +85,6 @@ export class Deny implements Policy {
 }
 
 /**
- * FACTORY CALLBACK
  * This is the typical way to create a new policy.
  * Should be used in favour of using the primary policy class
  * @param {PolicyArgs} args

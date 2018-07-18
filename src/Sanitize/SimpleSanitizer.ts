@@ -16,7 +16,6 @@ import {
 } from "./Types";
 
 /**
- * SIMPLE SANITIZER
  * Provides a simple sanitizer with commonly used sanitizers
  * You should generally always at least trim
  * This sanitizer is leveraged by nucleus contexts
@@ -89,7 +88,6 @@ export class SimpleSanitizer implements Sanitizer {
 }
 
 /**
- * FACTORY CALLBACK
  * This is the typical way to create a new sanitizer.
  * Should be used in favour of using the primary sanitizer class
  * @param {SanitizerArgs} args
