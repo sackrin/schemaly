@@ -1,9 +1,9 @@
 {
   "name": "fissionjs",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A simple to use and extendable policy driven JS object schema library",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "clean": "rm -rf lib",
     "build": "tsc",
@@ -13,7 +13,6 @@
     "docs": "typedoc --options ./typedoc.js ./src"
   },
   "files": [
-    "docs",
     "lib"
   ],
   "repository": "git+https://github.com/sackrin/fissionjs.git",
@@ -22,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/sackrin/fissionjs/issues"
   },
-  "homepage": "https://github.com/sackrin/fissionjs#readme",
+  "homepage": "https://fissionjs.com",
   "devDependencies": {
     "@types/chai": "^4.1.4",
     "@types/lodash": "^4.14.110",
