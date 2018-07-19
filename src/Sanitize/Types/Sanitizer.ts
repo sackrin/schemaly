@@ -5,7 +5,7 @@ export interface Sanitizer {
   filters: FiltersType;
   options: any;
   getFilters(options: any): Promise<string>;
-  apply({ value, isotope, ...options }: SanitizerApplyArgs): Promise<any>;
+  apply({ value, effect, ...options }: SanitizerApplyArgs): Promise<any>;
 }
 
 export default Sanitizer;

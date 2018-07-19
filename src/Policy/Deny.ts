@@ -5,9 +5,9 @@ import { Policy, PolicyArgs, PolicyGrantArgs, RolesType, ScopesType } from "./Ty
 /**
  * Use this policy to deny grant against roles and scope.
  * ie. new Deny({ roles: ["user", "admin"], scope: ["read", "write"] })
- * You should always define policies while creating your atom schema
+ * You should always define policies while creating your model schema
  * Should be used within a Policies instance.
- * Use the grant method in order to grant against a provided set of roles, scope and isotope
+ * Use the grant method in order to grant against a provided set of roles, scope and effect
  */
 export class Deny implements Policy {
   public roles: RolesType = [];
@@ -47,14 +47,14 @@ export class Deny implements Policy {
 
   /**
    * Grant Challenge
-   * @param {Isotope} isotope
+   * @param {Effect} effect
    * @param {RoleType | RolesType} roles
    * @param {ScopeType | ScopesType} scope
    * @param {{options?: any} | any} options
    * @returns {Promise<boolean>}
    */
   public grant = async ({
-    isotope,
+    effect,
     roles,
     scope,
     ...options

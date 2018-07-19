@@ -1,10 +1,10 @@
 import { expect } from "chai";
 import SimpleSanitizer from "../SimpleSanitizer";
 import SanitizeAll from "../SanitizeAll";
-import { Hydrate, Isotope } from "../../Isotope";
-import { Schema } from "../../Atom";
-import { Reaction } from "../../Reactor";
-import { Field, Fields, STRING } from "../../Nucleus";
+import { Hydrate, Effect } from "../../Effect";
+import { Schema } from "../../Model";
+import { Collision } from "../../Interact";
+import { Field, Fields, STRING } from "../../Blueprint";
 
 describe("Sanitize/SanitizeAll", () => {
   const mockSanitizeAll = [
@@ -17,21 +17,21 @@ describe("Sanitize/SanitizeAll", () => {
       setTimeout(resolve, 100, "  johnny ");
     });
 
-  const fakeAtom = Schema({
+  const fakeModel = Schema({
     machine: "test",
     roles: ["user", "admin"],
     scope: ["read", "write"],
-    nuclei: Fields([Field({ machine: "first_name", context: STRING })])
+    blueprints: Fields([Field({ machine: "first_name", context: STRING })])
   });
 
-  const fakeIsotope = (options: any = {}) =>
+  const fakeEffect = (options: any = {}) =>
     Hydrate({
-      reactor: Reaction({
-        atom: fakeAtom,
+      collider: Collision({
+        model: fakeModel,
         roles: ["user", "admin"],
         scope: ["read", "write"]
       }),
-      nucleus: fakeAtom.nuclei.nuclei[0],
+      blueprint: fakeModel.blueprints.blueprints[0],
       value: "John",
       ...options
     });
@@ -45,7 +45,7 @@ describe("Sanitize/SanitizeAll", () => {
   it("can sanitize a simple value", () => {
     const sanitizers = SanitizeAll(mockSanitizeAll);
     return sanitizers
-      .apply({ value: " johnny ", isotope: fakeIsotope({}) })
+      .apply({ value: " johnny ", effect: fakeEffect({}) })
       .then(filteredValue => {
         expect(filteredValue).to.equal("JOHNNY");
       })
@@ -57,7 +57,7 @@ describe("Sanitize/SanitizeAll", () => {
   it("can sanitize a simple value with no sanitizes", () => {
     const sanitizers = SanitizeAll([]);
     return sanitizers
-      .apply({ value: "  johnny  ", isotope: fakeIsotope({}) })
+      .apply({ value: "  johnny  ", effect: fakeEffect({}) })
       .then(filteredValue => {
         expect(filteredValue).to.equal("  johnny  ");
       })
@@ -69,7 +69,7 @@ describe("Sanitize/SanitizeAll", () => {
   it("can sanitize a promise value", () => {
     const sanitizers = SanitizeAll(mockSanitizeAll);
     return sanitizers
-      .apply({ value: mockPromiseValue, isotope: fakeIsotope({}) })
+      .apply({ value: mockPromiseValue, effect: fakeEffect({}) })
       .then(filteredValue => {
         expect(filteredValue).to.equal("JOHNNY");
       })

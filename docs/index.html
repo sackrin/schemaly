@@ -71,7 +71,7 @@
 				<pre><code class="lang-javascript">yarn add fissionjs
 </code></pre>
 				<h2 id="quick-start">Quick Start</h2>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { Schema, Fields, Field, STRING, Reaction } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
+				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { Schema, Fields, Field, STRING, Collision } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
 
 <span class="hljs-comment">// Create your data schema</span>
 <span class="hljs-comment">// This is a simple example with only one STRING field</span>
@@ -82,9 +82,9 @@
     scope: [<span class="hljs-string">"r"</span>, <span class="hljs-string">"w"</span>],
     <span class="hljs-comment">// Outline allowed roles</span>
     roles: [<span class="hljs-string">"guest"</span>, <span class="hljs-string">"user"</span>],
-    <span class="hljs-comment">// Outline schema nuclei</span>
+    <span class="hljs-comment">// Outline schema blueprints</span>
     <span class="hljs-comment">// In this case we are adding directly but best to create externally and import</span>
-    nuclei: Fields([
+    blueprints: Fields([
         Field({
             <span class="hljs-attr">machine</span>: <span class="hljs-string">'first_name'</span>,
             <span class="hljs-attr">label</span>: <span class="hljs-string">'First Name'</span>,
@@ -93,24 +93,24 @@
     ])
 });
 
-<span class="hljs-comment">// Create a reactor to handle applying data to the schema</span>
-<span class="hljs-keyword">const</span> reactor = Reaction({
-    <span class="hljs-comment">// Add the profile we are reacting with</span>
-    atom: profile,
-    <span class="hljs-comment">// Add the scope for this reaction</span>
+<span class="hljs-comment">// Create a collider to handle applying data to the schema</span>
+<span class="hljs-keyword">const</span> collider = Collision({
+    <span class="hljs-comment">// Add the profile we are collideing with</span>
+    model: profile,
+    <span class="hljs-comment">// Add the scope for this collide</span>
     scope: [<span class="hljs-string">"r"</span>],
-    <span class="hljs-comment">// Add the roles for this reaction</span>
+    <span class="hljs-comment">// Add the roles for this collide</span>
     roles: [<span class="hljs-string">"guest"</span>]
 });
 
 <span class="hljs-comment">// Apply the data to the schema and dump the values</span>
-reactor
+collider
     .with({
         <span class="hljs-attr">first_name</span>: <span class="hljs-string">"Johnny"</span>,
         <span class="hljs-attr">surname</span>: <span class="hljs-string">"Smith"</span>
     })
-    .react()
-    .then(reactor.dump)
+    .collide()
+    .then(collider.dump)
     .then(<span class="hljs-function"><span class="hljs-params">values</span> =&gt;</span> {
         <span class="hljs-comment">// Returns { first_name: 'Johnny' }</span>
         <span class="hljs-built_in">console</span>.log(values);
@@ -120,12 +120,12 @@ reactor
 				<h2 id="concepts">Concepts</h2>
 				<p>FissionJS has a few concepts for handling schema structure and application of data to schema. There are a number of native classes which implement these concepts such as Field, Fields, Hydrate, Hydrated etc however you have the ability to create your own extensions.</p>
 				<p>The process basically has two parts. First, the outlining of schemas which describe data structure relationships, allowed values and permissions. The second, allows from external data to be injected into the schema to product a hydrated set of objects that have additional information such as sanitized values, validation results and policy driven stripped out data.</p>
-				<p>The act of applying data to the schema is called a reaction and is handled by Reactor classes.</p>
+				<p>The act of applying data to the schema is called a collide and is handled by Interact classes.</p>
 				<ul>
-					<li>Atom: Contains the schema structure in the form of Atom instances and contains allowed roles and scope. You would typically have one Atom representing one thing ie. User, Order etc</li>
-					<li>Nucleus: Contains data about an individual field (ie a name, date of birth etc) and contains validation, sanitization and policy rules governing the field.</li>
-					<li>Reactor: Handles applying data objects to an Atom schema and produces Isotopes.</li>
-					<li>Isotope: Created for each Nucleus that passes policy checks. An isotope contains a hydrated value with the ability to view sanitized values and validation results.</li>
+					<li>Model: Contains the schema structure in the form of Model instances and contains allowed roles and scope. You would typically have one Model representing one thing ie. User, Order etc</li>
+					<li>Blueprint: Contains data about an individual field (ie a name, date of birth etc) and contains validation, sanitization and policy rules governing the field.</li>
+					<li>Interact: Handles applying data objects to an Model schema and produces Effects.</li>
+					<li>Effect: Created for each Blueprint that passes policy checks. An effect contains a hydrated value with the ability to view sanitized values and validation results.</li>
 				</ul>
 				<h2 id="field-policies">Field Policies</h2>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { GrantOne, DenyPolicy, AllowPolicy } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
@@ -149,8 +149,8 @@ Field({
     <span class="hljs-attr">context</span>: STRING
 })
 
-<span class="hljs-keyword">const</span> reactor = Reaction({
-    <span class="hljs-attr">atom</span>: profile,
+<span class="hljs-keyword">const</span> collider = Collision({
+    <span class="hljs-attr">model</span>: profile,
     <span class="hljs-comment">// Change depending on your user's scope</span>
     <span class="hljs-comment">// You can specify one or multiple possible scopes</span>
     scope: [<span class="hljs-string">"r"</span>],
@@ -159,15 +159,15 @@ Field({
     roles: [<span class="hljs-string">"guest"</span>]
 });
 
-reactor
+collider
     .with({
         <span class="hljs-attr">first_name</span>: <span class="hljs-string">"Johnny"</span>
     })
-    .react()
-    .then(reactor.dump)
+    .collide()
+    .then(collider.dump)
     .then(<span class="hljs-function"><span class="hljs-params">values</span> =&gt;</span> {
-        <span class="hljs-comment">// Returns { first_name: 'Johnny' } with reactor scope "r"</span>
-        <span class="hljs-comment">// Returns { } with reactor scope "w"</span>
+        <span class="hljs-comment">// Returns { first_name: 'Johnny' } with collider scope "r"</span>
+        <span class="hljs-comment">// Returns { } with collider scope "w"</span>
         <span class="hljs-built_in">console</span>.log(values);
     });
 
@@ -189,24 +189,24 @@ Field({
     ])
 })
 
-<span class="hljs-comment">// ... Create reactor etc</span>
+<span class="hljs-comment">// ... Create collider etc</span>
 
-reactor
+collider
     .with({
         <span class="hljs-attr">first_name</span>: <span class="hljs-string">"Johnny"</span>,
         <span class="hljs-attr">surname</span>: <span class="hljs-string">"Smith"</span>
     })
-    .react()
-    .then(reactor.validate)
+    .collide()
+    .then(collider.validate)
     .then(<span class="hljs-function">(<span class="hljs-params">{ valid, results }</span>) =&gt;</span> {
         <span class="hljs-comment">// Returns a boolean if validation was successful or not</span>
         <span class="hljs-built_in">console</span>.log(valid);
         <span class="hljs-comment">// Returns a object containing all field validation results</span>
         <span class="hljs-built_in">console</span>.log(results);
         <span class="hljs-comment">// What you want to do with validation results is up to you</span>
-        <span class="hljs-comment">// You could throw an exception or let the reactor continue</span>
+        <span class="hljs-comment">// You could throw an exception or let the collider continue</span>
     })
-    .then(reactor.dump)
+    .then(collider.dump)
     .then(<span class="hljs-function"><span class="hljs-params">values</span> =&gt;</span> {
         <span class="hljs-built_in">console</span>.log(values);
     });
@@ -215,7 +215,7 @@ reactor
 				<p>Progress of development can be viewed on the project trello board. <a href="https://trello.com/b/SskmstkA/fissionjs">https://trello.com/b/SskmstkA/fissionjs</a></p>
 				<ul>
 					<li>Create better documentation and examples</li>
-					<li>Adding strict mode (strict = true / false) option at Atom and Nucleus level to enforce known fields but allow non defined fields as well</li>
+					<li>Adding strict mode (strict = true / false) option at Model and Blueprint level to enforce known fields but allow non defined fields as well</li>
 					<li>Add ANY context to permit any value within a field</li>
 					<li>Create JSON Schema parser to allow FissionJS to work with JSON schema projects.</li>
 				</ul>
@@ -228,70 +228,79 @@ reactor
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_atom_schema_.html">"<wbr>Atom/<wbr>Schema"</a>
+						<a href="modules/_blueprint_context_boolean_.html">"<wbr>Blueprint/<wbr>Context/BOOLEAN"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_atom_types_atom_.html">"<wbr>Atom/<wbr>Types/<wbr>Atom"</a>
+						<a href="modules/_blueprint_context_collection_.html">"<wbr>Blueprint/<wbr>Context/COLLECTION"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_atom_types_atomargs_.html">"<wbr>Atom/<wbr>Types/<wbr>Atom<wbr>Args"</a>
+						<a href="modules/_blueprint_context_container_.html">"<wbr>Blueprint/<wbr>Context/CONTAINER"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_isotope_hydrate_.html">"<wbr>Isotope/<wbr>Hydrate"</a>
+						<a href="modules/_blueprint_context_float_.html">"<wbr>Blueprint/<wbr>Context/FLOAT"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_isotope_hydrates_.html">"<wbr>Isotope/<wbr>Hydrates"</a>
+						<a href="modules/_blueprint_context_int_.html">"<wbr>Blueprint/<wbr>Context/INT"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_isotope_types_isotope_.html">"<wbr>Isotope/<wbr>Types/<wbr>Isotope"</a>
+						<a href="modules/_blueprint_context_string_.html">"<wbr>Blueprint/<wbr>Context/STRING"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_isotope_types_isotopeargs_.html">"<wbr>Isotope/<wbr>Types/<wbr>Isotope<wbr>Args"</a>
+						<a href="modules/_blueprint_context_types_context_.html">"<wbr>Blueprint/<wbr>Context/<wbr>Types/<wbr>Context"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_isotope_types_isotopes_.html">"<wbr>Isotope/<wbr>Types/<wbr>Isotopes"</a>
+						<a href="modules/_blueprint_field_.html">"<wbr>Blueprint/<wbr>Field"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_nucleus_context_boolean_.html">"<wbr>Nucleus/<wbr>Context/BOOLEAN"</a>
+						<a href="modules/_blueprint_fields_.html">"<wbr>Blueprint/<wbr>Fields"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_nucleus_context_collection_.html">"<wbr>Nucleus/<wbr>Context/COLLECTION"</a>
+						<a href="modules/_blueprint_types_blueprint_.html">"<wbr>Blueprint/<wbr>Types/<wbr>Blueprint"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_nucleus_context_container_.html">"<wbr>Nucleus/<wbr>Context/CONTAINER"</a>
+						<a href="modules/_blueprint_types_blueprintargs_.html">"<wbr>Blueprint/<wbr>Types/<wbr>Blueprint<wbr>Args"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_nucleus_context_float_.html">"<wbr>Nucleus/<wbr>Context/FLOAT"</a>
+						<a href="modules/_blueprint_types_blueprints_.html">"<wbr>Blueprint/<wbr>Types/<wbr>Blueprints"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_nucleus_context_int_.html">"<wbr>Nucleus/<wbr>Context/INT"</a>
+						<a href="modules/_blueprint_types_blueprintsargs_.html">"<wbr>Blueprint/<wbr>Types/<wbr>Blueprints<wbr>Args"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_nucleus_context_string_.html">"<wbr>Nucleus/<wbr>Context/STRING"</a>
+						<a href="modules/_blueprint_types_blueprintstype_.html">"<wbr>Blueprint/<wbr>Types/<wbr>Blueprints<wbr>Type"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_nucleus_context_types_context_.html">"<wbr>Nucleus/<wbr>Context/<wbr>Types/<wbr>Context"</a>
+						<a href="modules/_effect_hydrate_.html">"<wbr>Effect/<wbr>Hydrate"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_nucleus_field_.html">"<wbr>Nucleus/<wbr>Field"</a>
+						<a href="modules/_effect_hydrates_.html">"<wbr>Effect/<wbr>Hydrates"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_nucleus_fields_.html">"<wbr>Nucleus/<wbr>Fields"</a>
+						<a href="modules/_effect_types_effect_.html">"<wbr>Effect/<wbr>Types/<wbr>Effect"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_nucleus_types_nuclei_.html">"<wbr>Nucleus/<wbr>Types/<wbr>Nuclei"</a>
+						<a href="modules/_effect_types_effectargs_.html">"<wbr>Effect/<wbr>Types/<wbr>Effect<wbr>Args"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_nucleus_types_nucleiargs_.html">"<wbr>Nucleus/<wbr>Types/<wbr>Nuclei<wbr>Args"</a>
+						<a href="modules/_effect_types_effects_.html">"<wbr>Effect/<wbr>Types/<wbr>Effects"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_nucleus_types_nucleitype_.html">"<wbr>Nucleus/<wbr>Types/<wbr>Nuclei<wbr>Type"</a>
+						<a href="modules/_interact_collision_.html">"<wbr>Interact/<wbr>Collision"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_nucleus_types_nucleus_.html">"<wbr>Nucleus/<wbr>Types/<wbr>Nucleus"</a>
+						<a href="modules/_interact_types_collider_.html">"<wbr>Interact/<wbr>Types/<wbr>Collider"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_nucleus_types_nucleusargs_.html">"<wbr>Nucleus/<wbr>Types/<wbr>Nucleus<wbr>Args"</a>
+						<a href="modules/_interact_types_colliderargs_.html">"<wbr>Interact/<wbr>Types/<wbr>Collider<wbr>Args"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_model_schema_.html">"<wbr>Model/<wbr>Schema"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_model_types_model_.html">"<wbr>Model/<wbr>Types/<wbr>Model"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_model_types_modelargs_.html">"<wbr>Model/<wbr>Types/<wbr>Model<wbr>Args"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_policy_allow_.html">"<wbr>Policy/<wbr>Allow"</a>
@@ -331,15 +340,6 @@ reactor
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_policy_types_scopestype_.html">"<wbr>Policy/<wbr>Types/<wbr>Scopes<wbr>Type"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_reactor_reaction_.html">"<wbr>Reactor/<wbr>Reaction"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_reactor_types_reactor_.html">"<wbr>Reactor/<wbr>Types/<wbr>Reactor"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_reactor_types_reactorargs_.html">"<wbr>Reactor/<wbr>Types/<wbr>Reactor<wbr>Args"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_sanitize_filter_floatfilter_.html">"<wbr>Sanitize/<wbr>Filter/float<wbr>Filter"</a>

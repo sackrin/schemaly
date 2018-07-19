@@ -5,7 +5,7 @@ export interface Policies {
   policies: Policy[];
   options: any;
   grant({
-    isotope,
+    effect,
     roles,
     scope,
     ...options

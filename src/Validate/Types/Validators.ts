@@ -5,7 +5,7 @@ export interface Validators {
   options: any;
   merge(additional: ValidatorsType): void;
   validate({
-    isotope,
+    effect,
     options
   }: ValidatorValidateArgs): Promise<ValidatorResult>;
 }

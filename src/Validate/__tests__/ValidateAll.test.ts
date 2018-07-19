@@ -1,10 +1,10 @@
 import { expect } from "chai";
 import ValidateAll from "../ValidateAll";
 import SimpleValidator from "../SimpleValidator";
-import { Hydrate, Isotope } from "../../Isotope";
-import { Schema } from "../../Atom";
-import { Reaction } from "../../Reactor";
-import { Field, Fields, STRING } from "../../Nucleus";
+import { Hydrate, Effect } from "../../Effect";
+import { Schema } from "../../Model";
+import { Collision } from "../../Interact";
+import { Field, Fields, STRING } from "../../Blueprint";
 
 describe("Validate/ValidateAll", () => {
   const simpleValidateAll = [
@@ -22,21 +22,21 @@ describe("Validate/ValidateAll", () => {
       setTimeout(resolve, 100, "johnny");
     });
 
-  const fakeAtom = Schema({
+  const fakeModel = Schema({
     machine: "test",
     roles: ["user", "admin"],
     scope: ["read", "write"],
-    nuclei: Fields([Field({ machine: "first_name", context: STRING })])
+    blueprints: Fields([Field({ machine: "first_name", context: STRING })])
   });
 
-  const fakeIsotope = (options: any = {}) =>
+  const fakeEffect = (options: any = {}) =>
     Hydrate({
-      reactor: Reaction({
-        atom: fakeAtom,
+      collider: Collision({
+        model: fakeModel,
         roles: ["user", "admin"],
         scope: ["read", "write"]
       }),
-      nucleus: fakeAtom.nuclei.nuclei[0],
+      blueprint: fakeModel.blueprints.blueprints[0],
       value: "John",
       ...options
     });
@@ -50,7 +50,7 @@ describe("Validate/ValidateAll", () => {
   it("can perform validation on a simple value and pass", () => {
     const validators = ValidateAll(simpleValidateAll);
     return validators
-      .validate({ isotope: fakeIsotope({ value: "johnny" }) })
+      .validate({ effect: fakeEffect({ value: "johnny" }) })
       .then(({ valid, messages }) => {
         expect(valid).to.equal(true);
         expect(messages).to.deep.equal([]);
@@ -63,7 +63,7 @@ describe("Validate/ValidateAll", () => {
   it("can perform validation on a simple value and fail", () => {
     const validators = ValidateAll(simpleValidateAll);
     return validators
-      .validate({ isotope: fakeIsotope({ value: "john" }) })
+      .validate({ effect: fakeEffect({ value: "john" }) })
       .then(({ valid, messages }) => {
         expect(valid).to.equal(false);
         expect(messages).to.deep.equal([
@@ -78,7 +78,7 @@ describe("Validate/ValidateAll", () => {
   it("can perform validation on a promise value and pass", () => {
     const validators = ValidateAll(simpleValidateAll);
     return validators
-      .validate({ isotope: fakeIsotope({ value: johnnyByPromise }) })
+      .validate({ effect: fakeEffect({ value: johnnyByPromise }) })
       .then(({ valid, messages }) => {
         expect(valid).to.equal(true);
         expect(messages).to.deep.equal([]);
@@ -91,7 +91,7 @@ describe("Validate/ValidateAll", () => {
   it("can perform validation on a promise value and fail", () => {
     const validators = ValidateAll(simpleValidateAll);
     return validators
-      .validate({ isotope: fakeIsotope({ value: johnByPromise }) })
+      .validate({ effect: fakeEffect({ value: johnByPromise }) })
       .then(({ valid, messages }) => {
         expect(valid).to.equal(false);
         expect(messages).to.deep.equal([

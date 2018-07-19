@@ -1,25 +1,25 @@
 import { expect } from "chai";
-import { Hydrate, Isotope } from "../../Isotope";
+import { Hydrate, Effect } from "../../Effect";
 import DenyPolicy, { Deny } from "../Deny";
-import { Schema } from "../../Atom";
-import { Field, Fields, STRING } from "../../Nucleus";
-import { Reaction } from "../../Reactor";
+import { Schema } from "../../Model";
+import { Field, Fields, STRING } from "../../Blueprint";
+import { Collision } from "../../Interact";
 
 describe("Policy/Deny", (): void => {
-  const fakeAtom = Schema({
+  const fakeModel = Schema({
     machine: "test",
     roles: ["user", "admin"],
     scope: ["read", "write"],
-    nuclei: Fields([Field({ machine: "first_name", context: STRING })])
+    blueprints: Fields([Field({ machine: "first_name", context: STRING })])
   });
 
-  const isotope = Hydrate({
-    reactor: Reaction({
-      atom: fakeAtom,
+  const effect = Hydrate({
+    collider: Collision({
+      model: fakeModel,
       roles: ["user", "admin"],
       scope: ["read", "write"]
     }),
-    nucleus: fakeAtom.nuclei.nuclei[0],
+    blueprint: fakeModel.blueprints.blueprints[0],
     value: "John"
   });
 
@@ -117,7 +117,7 @@ describe("Policy/Deny", (): void => {
   it("can perform a simple grant request and fail", () => {
     const denyRule: Deny = DenyPolicy({ roles: ["user"], scope: ["read"] });
     return denyRule
-      .grant({ isotope, roles: ["user"], scope: ["read"] })
+      .grant({ effect, roles: ["user"], scope: ["read"] })
       .then(result => {
         expect(result).to.deep.equal(false);
       })
@@ -129,7 +129,7 @@ describe("Policy/Deny", (): void => {
   it("can perform a simple grant request and pass for mismatch role", () => {
     const denyRule: Deny = DenyPolicy({ roles: ["user"], scope: ["read"] });
     return denyRule
-      .grant({ isotope, roles: ["admin"], scope: ["read"] })
+      .grant({ effect, roles: ["admin"], scope: ["read"] })
       .then(result => {
         expect(result).to.deep.equal(true);
       })
@@ -141,7 +141,7 @@ describe("Policy/Deny", (): void => {
   it("can perform a simple grant request and pass for mismatch scope", () => {
     const denyRule: Deny = DenyPolicy({ roles: ["user"], scope: ["read"] });
     return denyRule
-      .grant({ isotope, roles: ["user"], scope: ["write"] })
+      .grant({ effect, roles: ["user"], scope: ["write"] })
       .then(result => {
         expect(result).to.deep.equal(true);
       })
@@ -153,7 +153,7 @@ describe("Policy/Deny", (): void => {
   it("can perform a grant request with valid and invalid scope/roles and fail", () => {
     const denyRule: Deny = DenyPolicy({ roles: ["user"], scope: ["read"] });
     return denyRule
-      .grant({ isotope, roles: ["user", "admin"], scope: ["read", "write"] })
+      .grant({ effect, roles: ["user", "admin"], scope: ["read", "write"] })
       .then(result => {
         expect(result).to.deep.equal(false);
       })
@@ -165,7 +165,7 @@ describe("Policy/Deny", (): void => {
   it("can perform a grant with wildcard scope and role rules", () => {
     const denyRule: Deny = DenyPolicy({ roles: ["*"], scope: ["*"] });
     return denyRule
-      .grant({ isotope, roles: ["user"], scope: ["read"] })
+      .grant({ effect, roles: ["user"], scope: ["read"] })
       .then(result => {
         expect(result).to.deep.equal(false);
       })
@@ -189,7 +189,7 @@ describe("Policy/Deny", (): void => {
     });
     return denyRule
       .grant({
-        isotope,
+        effect,
         roles: ["user", rolesPromise],
         scope: ["read", scopePromise]
       })

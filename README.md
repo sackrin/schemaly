@@ -20,7 +20,7 @@ yarn add fissionjs
 ## Quick Start
 
 ```javascript
-import { Schema, Fields, Field, STRING, Reaction } from 'fissionjs';
+import { Schema, Fields, Field, STRING, Collision } from 'fissionjs';
 
 // Create your data schema
 // This is a simple example with only one STRING field
@@ -31,9 +31,9 @@ const profile = Schema({
     scope: ["r", "w"],
     // Outline allowed roles
     roles: ["guest", "user"],
-    // Outline schema nuclei
+    // Outline schema blueprints
     // In this case we are adding directly but best to create externally and import
-    nuclei: Fields([
+    blueprints: Fields([
         Field({
             machine: 'first_name',
             label: 'First Name',
@@ -42,24 +42,24 @@ const profile = Schema({
     ])
 });
 
-// Create a reactor to handle applying data to the schema
-const reactor = Reaction({
-    // Add the profile we are reacting with
-    atom: profile,
-    // Add the scope for this reaction
+// Create a collider to handle applying data to the schema
+const collider = Collision({
+    // Add the profile we are collideing with
+    model: profile,
+    // Add the scope for this collide
     scope: ["r"],
-    // Add the roles for this reaction
+    // Add the roles for this collide
     roles: ["guest"]
 });
 
 // Apply the data to the schema and dump the values
-reactor
+collider
     .with({
         first_name: "Johnny",
         surname: "Smith"
     })
-    .react()
-    .then(reactor.dump)
+    .collide()
+    .then(collider.dump)
     .then(values => {
         // Returns { first_name: 'Johnny' }
         console.log(values);
@@ -72,12 +72,12 @@ FissionJS has a few concepts for handling schema structure and application of da
 
 The process basically has two parts. First, the outlining of schemas which describe data structure relationships, allowed values and permissions. The second, allows from external data to be injected into the schema to product a hydrated set of objects that have additional information such as sanitized values, validation results and policy driven stripped out data.
 
-The act of applying data to the schema is called a reaction and is handled by Reactor classes.
+The act of applying data to the schema is called a collide and is handled by Interact classes.
 
-- Atom: Contains the schema structure in the form of Atom instances and contains allowed roles and scope. You would typically have one Atom representing one thing ie. User, Order etc
-- Nucleus: Contains data about an individual field (ie a name, date of birth etc) and contains validation, sanitization and policy rules governing the field.
-- Reactor: Handles applying data objects to an Atom schema and produces Isotopes.
-- Isotope: Created for each Nucleus that passes policy checks. An isotope contains a hydrated value with the ability to view sanitized values and validation results.
+- Model: Contains the schema structure in the form of Model instances and contains allowed roles and scope. You would typically have one Model representing one thing ie. User, Order etc
+- Blueprint: Contains data about an individual field (ie a name, date of birth etc) and contains validation, sanitization and policy rules governing the field.
+- Interact: Handles applying data objects to an Model schema and produces Effects.
+- Effect: Created for each Blueprint that passes policy checks. An effect contains a hydrated value with the ability to view sanitized values and validation results.
 
 ## Field Policies
 
@@ -103,8 +103,8 @@ Field({
     context: STRING
 })
 
-const reactor = Reaction({
-    atom: profile,
+const collider = Collision({
+    model: profile,
     // Change depending on your user's scope
     // You can specify one or multiple possible scopes
     scope: ["r"],
@@ -113,15 +113,15 @@ const reactor = Reaction({
     roles: ["guest"]
 });
 
-reactor
+collider
     .with({
         first_name: "Johnny"
     })
-    .react()
-    .then(reactor.dump)
+    .collide()
+    .then(collider.dump)
     .then(values => {
-        // Returns { first_name: 'Johnny' } with reactor scope "r"
-        // Returns { } with reactor scope "w"
+        // Returns { first_name: 'Johnny' } with collider scope "r"
+        // Returns { } with collider scope "w"
         console.log(values);
     });
 
@@ -146,24 +146,24 @@ Field({
     ])
 })
 
-// ... Create reactor etc
+// ... Create collider etc
 
-reactor
+collider
     .with({
         first_name: "Johnny",
         surname: "Smith"
     })
-    .react()
-    .then(reactor.validate)
+    .collide()
+    .then(collider.validate)
     .then(({ valid, results }) => {
         // Returns a boolean if validation was successful or not
         console.log(valid);
         // Returns a object containing all field validation results
         console.log(results);
         // What you want to do with validation results is up to you
-        // You could throw an exception or let the reactor continue
+        // You could throw an exception or let the collider continue
     })
-    .then(reactor.dump)
+    .then(collider.dump)
     .then(values => {
         console.log(values);
     });
@@ -173,6 +173,6 @@ reactor
 Progress of development can be viewed on the project trello board. https://trello.com/b/SskmstkA/fissionjs
 
 - Create better documentation and examples
-- Adding strict mode (strict = true / false) option at Atom and Nucleus level to enforce known fields but allow non defined fields as well
+- Adding strict mode (strict = true / false) option at Model and Blueprint level to enforce known fields but allow non defined fields as well
 - Add ANY context to permit any value within a field
 - Create JSON Schema parser to allow FissionJS to work with JSON schema projects.
