@@ -18,7 +18,7 @@ import {
 /**
  * Provides a simple sanitizer with commonly used sanitizers
  * You should generally always at least trim
- * This sanitizer is leveraged by nucleus contexts
+ * This sanitizer is leveraged by blueprint contexts
  */
 export class SimpleSanitizer implements Sanitizer {
   public filters: FiltersType = [];
@@ -48,13 +48,13 @@ export class SimpleSanitizer implements Sanitizer {
   /**
    * Apply Filters To Value
    * @param {any} value
-   * @param {Isotope} isotope
+   * @param {Effect} effect
    * @param {any} options
    * @returns {Promise<any>}
    */
   public apply = async ({
     value,
-    isotope,
+    effect,
     options
   }: SanitizerApplyArgs): Promise<any> => {
     const filters: string = await this.getFilters(options);

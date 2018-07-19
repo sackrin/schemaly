@@ -1,4 +1,4 @@
-import { Context } from "../../Nucleus/Context/Types";
+import { Context } from "../../Blueprint/Context/Types";
 
 export interface ValidatorResult {
   machine?: string;

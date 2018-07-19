@@ -1,9 +1,9 @@
 import { expect } from "chai";
 import SimpleSanitizer from "../SimpleSanitizer";
-import { Hydrate, Isotope } from "../../Isotope";
-import { Schema } from "../../Atom";
-import { Reaction } from "../../Reactor";
-import { Field, Fields, STRING } from "../../Nucleus";
+import { Hydrate, Effect } from "../../Effect";
+import { Schema } from "../../Model";
+import { Collision } from "../../Interact";
+import { Field, Fields, STRING } from "../../Blueprint";
 
 describe("Santize/SimpleSanitizer", () => {
   const simplePromiseRule = () =>
@@ -16,21 +16,21 @@ describe("Santize/SimpleSanitizer", () => {
       setTimeout(resolve, 100, "  johnny ");
     });
 
-  const fakeAtom = Schema({
+  const fakeModel = Schema({
     machine: "test",
     roles: ["user", "admin"],
     scope: ["read", "write"],
-    nuclei: Fields([Field({ machine: "first_name", context: STRING })])
+    blueprints: Fields([Field({ machine: "first_name", context: STRING })])
   });
 
-  const fakeIsotope = (options: any = {}) =>
+  const fakeEffect = (options: any = {}) =>
     Hydrate({
-      reactor: Reaction({
-        atom: fakeAtom,
+      collider: Collision({
+        model: fakeModel,
         roles: ["user", "admin"],
         scope: ["read", "write"]
       }),
-      nucleus: fakeAtom.nuclei.nuclei[0],
+      blueprint: fakeModel.blueprints.blueprints[0],
       value: "John",
       ...options
     });
@@ -62,7 +62,7 @@ describe("Santize/SimpleSanitizer", () => {
     return sanitizer
       .apply({
         value: " johnny ",
-        isotope: fakeIsotope()
+        effect: fakeEffect()
       })
       .then(sanitized => {
         expect(sanitized).to.equal("JOHNNY");
@@ -73,7 +73,7 @@ describe("Santize/SimpleSanitizer", () => {
     const filters = ["trim|upper_case"];
     const sanitizer = SimpleSanitizer({ filters });
     return sanitizer
-      .apply({ value: mockPromiseValue, isotope: fakeIsotope() })
+      .apply({ value: mockPromiseValue, effect: fakeEffect() })
       .then(sanitized => {
         expect(sanitized).to.equal("JOHNNY");
       });
@@ -83,7 +83,7 @@ describe("Santize/SimpleSanitizer", () => {
     const filters = ["trim"];
     const sanitizer = SimpleSanitizer({ filters });
     return sanitizer
-      .apply({ value: " johnny ", isotope: fakeIsotope() })
+      .apply({ value: " johnny ", effect: fakeEffect() })
       .then(sanitized => {
         expect(sanitized).to.equal("johnny");
       });
@@ -93,7 +93,7 @@ describe("Santize/SimpleSanitizer", () => {
     const filters = ["upper_case"];
     const sanitizer = SimpleSanitizer({ filters });
     return sanitizer
-      .apply({ value: "johnny", isotope: fakeIsotope() })
+      .apply({ value: "johnny", effect: fakeEffect() })
       .then(sanitized => {
         expect(sanitized).to.equal("JOHNNY");
       });
@@ -103,7 +103,7 @@ describe("Santize/SimpleSanitizer", () => {
     const filters = ["lower_case"];
     const sanitizer = SimpleSanitizer({ filters });
     return sanitizer
-      .apply({ value: "JOHNNY", isotope: fakeIsotope() })
+      .apply({ value: "JOHNNY", effect: fakeEffect() })
       .then(sanitized => {
         expect(sanitized).to.equal("johnny");
       });
@@ -113,7 +113,7 @@ describe("Santize/SimpleSanitizer", () => {
     const filters = ["invalidSanitizer"];
     const sanitizer = SimpleSanitizer({ filters });
     return sanitizer
-      .apply({ value: "johnny", isotope: fakeIsotope() })
+      .apply({ value: "johnny", effect: fakeEffect() })
       .then(sanitized => {
         expect(sanitized).to.equal("johnny");
       });

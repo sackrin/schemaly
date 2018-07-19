@@ -1,8 +1,8 @@
-import { Isotope } from "../../Isotope/Types";
+import { Effect } from "../../Effect/Types";
 
 export interface SanitizerApplyArgs {
   value: any;
-  isotope: Isotope;
+  effect: Effect;
   options?: any;
 }
 

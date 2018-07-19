@@ -6,7 +6,7 @@ export interface Validator {
   options: any;
   getRules(options: any): Promise<string>;
   validate({
-    isotope,
+    effect,
     options
   }: ValidatorValidateArgs): Promise<ValidatorResult>;
 }

@@ -4,7 +4,7 @@ import { getMixedResult } from "../Utils";
 
 /**
  * Contains policies and grants only if --> ONE <-- policy return granted
- * To be used when defining policies for nucleus
+ * To be used when defining policies for blueprint
  * Ensure that at least one DenyPolicy has roles and scope of * for security
  */
 export class GrantOne implements Policies {
@@ -24,14 +24,14 @@ export class GrantOne implements Policies {
   /**
    * Grant Challenge
    * Must be compatible with individual policy grant checks
-   * @param {Isotope} isotope
+   * @param {Effect} effect
    * @param {RoleType | RolesType} roles
    * @param {ScopeType | ScopesType} scope
    * @param {any} options
    * @returns {Promise<boolean>}
    */
   public grant = async ({
-    isotope,
+    effect,
     roles,
     scope,
     options
@@ -51,7 +51,7 @@ export class GrantOne implements Policies {
       async (flag: Promise<boolean>, policy: Policy) => {
         const curr: boolean = await flag;
         return (await policy.grant({
-          isotope,
+          effect,
           roles: builtRoles,
           scope: builtScope,
           options: { ...this.options, ...options }

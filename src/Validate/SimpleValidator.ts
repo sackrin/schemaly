@@ -42,27 +42,27 @@ export class SimpleValidator implements Validator {
 
   /**
    * Validate Value
-   * Values are provided within a hydrated Isotope
-   * @param {Isotope} isotope
+   * Values are provided within a hydrated Effect
+   * @param {Effect} effect
    * @param {any} options
    * @returns {Promise<ValidatorResult>}
    */
   public validate = async ({
-    isotope,
+    effect,
     options = {}
   }: ValidatorValidateArgs): Promise<ValidatorResult> => {
-    const value = await isotope.getValue();
+    const value = await effect.getValue();
     const usingRules: string = await this.getRules({
-      options: { ...options, isotope }
+      options: { ...options, effect }
     });
     const usingValue: any = !_.isFunction(value)
       ? value
       : await value({
-          isotope,
+          effect,
           options: {
             ...this.options,
             ...options,
-            isotope
+            effect
           }
         });
     const validation = new ValidatorJS(

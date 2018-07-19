@@ -21,14 +21,14 @@ export class SanitizeAll implements Sanitizers {
 
   public apply = async ({
     value,
-    isotope,
+    effect,
     options = {}
   }: SanitizerApplyArgs): Promise<any> => {
     if (this.sanitizers.length === 0) {
       return Promise.resolve(value);
     }
     return this.sanitizers.reduce(async (curr, sanitizer) => {
-      return sanitizer.apply({ value: await curr, isotope, options });
+      return sanitizer.apply({ value: await curr, effect, options });
     }, Promise.resolve(value));
   };
 }

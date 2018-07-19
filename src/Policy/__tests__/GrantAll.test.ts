@@ -1,25 +1,25 @@
 import { expect } from "chai";
-import { Hydrate, Isotope } from "../../Isotope";
+import { Hydrate, Effect } from "../../Effect";
 import { GrantAll, DenyPolicy, AllowPolicy } from "../";
-import { Schema } from "../../Atom";
-import { Field, Fields, STRING } from "../../Nucleus";
-import { Reaction } from "../../Reactor";
+import { Schema } from "../../Model";
+import { Field, Fields, STRING } from "../../Blueprint";
+import { Collision } from "../../Interact";
 
 describe("Policy/GrantAll", (): void => {
-  const fakeAtom = Schema({
+  const fakeModel = Schema({
     machine: "test",
     roles: ["user", "admin"],
     scope: ["read", "write"],
-    nuclei: Fields([Field({ machine: "first_name", context: STRING })])
+    blueprints: Fields([Field({ machine: "first_name", context: STRING })])
   });
 
-  const isotope = Hydrate({
-    reactor: Reaction({
-      atom: fakeAtom,
+  const effect = Hydrate({
+    collider: Collision({
+      model: fakeModel,
       roles: ["user", "admin"],
       scope: ["read", "write"]
     }),
-    nucleus: fakeAtom.nuclei.nuclei[0],
+    blueprint: fakeModel.blueprints.blueprints[0],
     value: "John"
   });
 
@@ -70,7 +70,7 @@ describe("Policy/GrantAll", (): void => {
   it("perform a pass grant test with no policies", () => {
     const policyGroup = GrantAll([]);
     return policyGroup
-      .grant({ isotope, roles: ["user"], scope: ["write"] })
+      .grant({ effect, roles: ["user"], scope: ["write"] })
       .then(result => {
         expect(result).to.equal(true);
       })
@@ -82,7 +82,7 @@ describe("Policy/GrantAll", (): void => {
   it("perform a simple pass grant", () => {
     const policyGroup = GrantAll(simplePolicies);
     return policyGroup
-      .grant({ isotope, roles: ["user"], scope: ["write"] })
+      .grant({ effect, roles: ["user"], scope: ["write"] })
       .then(result => {
         expect(result).to.equal(true);
       })
@@ -94,7 +94,7 @@ describe("Policy/GrantAll", (): void => {
   it("perform a mixed pass grant", () => {
     const policyGroup = GrantAll(complexPolicies);
     return policyGroup
-      .grant({ isotope, roles: ["user"], scope: ["write"] })
+      .grant({ effect, roles: ["user"], scope: ["write"] })
       .then(result => {
         expect(result).to.equal(true);
       })
@@ -106,7 +106,7 @@ describe("Policy/GrantAll", (): void => {
   it("perform a simple denied grant", () => {
     const policyGroup = GrantAll(simplePolicies);
     return policyGroup
-      .grant({ isotope, roles: ["member"], scope: ["write"] })
+      .grant({ effect, roles: ["member"], scope: ["write"] })
       .then(result => {
         expect(result).to.equal(false);
       })
@@ -118,7 +118,7 @@ describe("Policy/GrantAll", (): void => {
   it("perform a mixed denied grant", () => {
     const policyGroup = GrantAll(complexPolicies);
     return policyGroup
-      .grant({ isotope, roles: ["member"], scope: ["write"] })
+      .grant({ effect, roles: ["member"], scope: ["write"] })
       .then(result => {
         expect(result).to.equal(false);
       })

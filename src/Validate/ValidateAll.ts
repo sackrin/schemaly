@@ -9,7 +9,7 @@ import {
 
 /**
  * A validators collection which requires --> ALL <-- validators to pass
- * Create validators collections and attach to Nucleus instances
+ * Create validators collections and attach to Blueprint instances
  */
 export class ValidateAll implements Validators {
   public validators: ValidatorsType = [];
@@ -28,7 +28,7 @@ export class ValidateAll implements Validators {
   /**
    * Merge Validator Rules
    * Used to add new validator rules to the existing collection
-   * Also used by Nucleus contexts to influence Isotopes
+   * Also used by Blueprint contexts to influence Effects
    * @param {ValidatorsType} additional
    */
   public merge = (additional: ValidatorsType): void => {
@@ -37,14 +37,14 @@ export class ValidateAll implements Validators {
 
   /**
    * Validate Value
-   * Values are provided within a hydrated Isotope. Hydrated Isotope will be tested against all
+   * Values are provided within a hydrated Effect. Hydrated Effect will be tested against all
    * contained validators. This validator requires --> ALL <-- validators to pass in order to validate
-   * @param {Isotope} isotope
+   * @param {Effect} effect
    * @param {any} options
    * @returns {Promise<ValidatorResult>}
    */
   public validate = async ({
-    isotope,
+    effect,
     options = {}
   }: ValidatorValidateArgs): Promise<ValidatorResult> => {
     const { validators } = this;
@@ -59,7 +59,7 @@ export class ValidateAll implements Validators {
       async (curr: Promise<ValidatorResult>, validator: Validator) => {
         const result = await curr;
         const validationCheck = await validator.validate({
-          isotope,
+          effect,
           ...options
         });
         return {

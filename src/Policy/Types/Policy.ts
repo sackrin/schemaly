@@ -6,7 +6,7 @@ export interface Policy {
   options: Object;
   getRoles(options: Object): Promise<string[]>;
   getScope(options: Object): Promise<string[]>;
-  grant({ isotope, roles, scope, options }: PolicyGrantArgs): Promise<boolean>;
+  grant({ effect, roles, scope, options }: PolicyGrantArgs): Promise<boolean>;
 }
 
 export default Policy;
