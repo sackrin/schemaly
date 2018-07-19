@@ -1,6 +1,6 @@
 {
   "name": "fissionjs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple to use and extendable policy driven JS object schema library",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

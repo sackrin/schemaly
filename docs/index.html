@@ -70,6 +70,53 @@
 				<p>or by using yarn</p>
 				<pre><code class="lang-javascript">yarn add fissionjs
 </code></pre>
+				<h2 id="quick-start">Quick Start</h2>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { Schema, Fields, Field, STRING, Reaction } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
+
+<span class="hljs-comment">// Create your data schema</span>
+<span class="hljs-comment">// This is a simple example with only one STRING field</span>
+<span class="hljs-comment">// You can create complex fields with child fields (CONTAINER) or multiple groups of child fields (COLLECTION)</span>
+<span class="hljs-keyword">const</span> profile = Schema({
+    <span class="hljs-attr">machine</span>: <span class="hljs-string">"profile"</span>,
+    <span class="hljs-comment">// Outline allowed scopes</span>
+    scope: [<span class="hljs-string">"r"</span>, <span class="hljs-string">"w"</span>],
+    <span class="hljs-comment">// Outline allowed roles</span>
+    roles: [<span class="hljs-string">"guest"</span>, <span class="hljs-string">"user"</span>],
+    <span class="hljs-comment">// Outline schema nuclei</span>
+    <span class="hljs-comment">// In this case we are adding directly but best to create externally and import</span>
+    nuclei: Fields([
+        Field({
+            <span class="hljs-attr">machine</span>: <span class="hljs-string">'first_name'</span>,
+            <span class="hljs-attr">label</span>: <span class="hljs-string">'First Name'</span>,
+            <span class="hljs-attr">context</span>: STRING
+        })
+    ])
+});
+
+<span class="hljs-comment">// Create a reactor to handle applying data to the schema</span>
+<span class="hljs-keyword">const</span> reactor = Reaction({
+    <span class="hljs-comment">// Add the profile we are reacting with</span>
+    atom: profile,
+    <span class="hljs-comment">// Add the scope for this reaction</span>
+    scope: [<span class="hljs-string">"r"</span>],
+    <span class="hljs-comment">// Add the roles for this reaction</span>
+    roles: [<span class="hljs-string">"guest"</span>]
+});
+
+<span class="hljs-comment">// Apply the data to the schema and dump the values</span>
+reactor
+    .with({
+        <span class="hljs-attr">first_name</span>: <span class="hljs-string">"Johnny"</span>,
+        <span class="hljs-attr">surname</span>: <span class="hljs-string">"Smith"</span>
+    })
+    .react()
+    .then(reactor.dump)
+    .then(<span class="hljs-function"><span class="hljs-params">values</span> =&gt;</span> {
+        <span class="hljs-comment">// Returns { first_name: 'Johnny' }</span>
+        <span class="hljs-built_in">console</span>.log(values);
+});
+
+</code></pre>
 				<h2 id="concepts">Concepts</h2>
 				<p>FissionJS has a few concepts for handling schema structure and application of data to schema. There are a number of native classes which implement these concepts such as Field, Fields, Hydrate, Hydrated etc however you have the ability to create your own extensions.</p>
 				<p>The process basically has two parts. First, the outlining of schemas which describe data structure relationships, allowed values and permissions. The second, allows from external data to be injected into the schema to product a hydrated set of objects that have additional information such as sanitized values, validation results and policy driven stripped out data.</p>
@@ -80,6 +127,90 @@
 					<li>Reactor: Handles applying data objects to an Atom schema and produces Isotopes.</li>
 					<li>Isotope: Created for each Nucleus that passes policy checks. An isotope contains a hydrated value with the ability to view sanitized values and validation results.</li>
 				</ul>
+				<h2 id="field-policies">Field Policies</h2>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { GrantOne, DenyPolicy, AllowPolicy } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
+
+<span class="hljs-comment">// ... wrapped in schema</span>
+Field({
+    <span class="hljs-attr">machine</span>: <span class="hljs-string">'first_name'</span>,
+    <span class="hljs-attr">label</span>: <span class="hljs-string">'First Name'</span>,
+    <span class="hljs-comment">// GrantOne checks for a single policy to return grant</span>
+    <span class="hljs-comment">// Typically you only need one policy to grant</span>
+    <span class="hljs-comment">// You can use GrantAll to enforce an all policies grant</span>
+    policies: GrantOne([
+        <span class="hljs-comment">// Deny all roles and scope by default</span>
+        <span class="hljs-comment">// This ensures that only the rules below can grant and nothing slips through</span>
+        DenyPolicy({ <span class="hljs-attr">roles</span>: [<span class="hljs-string">"*"</span>], <span class="hljs-attr">scope</span>: [<span class="hljs-string">"*"</span>]}),
+        <span class="hljs-comment">// We want both guest and user to be able to "r" this field</span>
+        AllowPolicy({ <span class="hljs-attr">roles</span>: [<span class="hljs-string">"guest"</span>, <span class="hljs-string">"user"</span>], <span class="hljs-attr">scope</span>: [<span class="hljs-string">"r"</span>] }),
+        <span class="hljs-comment">// We want only the user to be able to "w" this field</span>
+        AllowPolicy({ <span class="hljs-attr">roles</span>: [<span class="hljs-string">"user"</span>], <span class="hljs-attr">scope</span>: [<span class="hljs-string">"w"</span>] })
+    ]),
+    <span class="hljs-attr">context</span>: STRING
+})
+
+<span class="hljs-keyword">const</span> reactor = Reaction({
+    <span class="hljs-attr">atom</span>: profile,
+    <span class="hljs-comment">// Change depending on your user's scope</span>
+    <span class="hljs-comment">// You can specify one or multiple possible scopes</span>
+    scope: [<span class="hljs-string">"r"</span>],
+    <span class="hljs-comment">// Change depending on your user's role</span>
+    <span class="hljs-comment">// You can specify one or multiple possible roles</span>
+    roles: [<span class="hljs-string">"guest"</span>]
+});
+
+reactor
+    .with({
+        <span class="hljs-attr">first_name</span>: <span class="hljs-string">"Johnny"</span>
+    })
+    .react()
+    .then(reactor.dump)
+    .then(<span class="hljs-function"><span class="hljs-params">values</span> =&gt;</span> {
+        <span class="hljs-comment">// Returns { first_name: 'Johnny' } with reactor scope "r"</span>
+        <span class="hljs-comment">// Returns { } with reactor scope "w"</span>
+        <span class="hljs-built_in">console</span>.log(values);
+    });
+
+</code></pre>
+				<h2 id="field-validation">Field Validation</h2>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { ValidateAll, SimpleValidator } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
+
+<span class="hljs-comment">// ... wrapped in schema</span>
+Field({
+    <span class="hljs-attr">machine</span>: <span class="hljs-string">'first_name'</span>,
+    <span class="hljs-attr">label</span>: <span class="hljs-string">'First Name'</span>,
+    <span class="hljs-attr">context</span>: STRING,
+    <span class="hljs-comment">// ValidateAll will check to ensure all validators return valid</span>
+    <span class="hljs-comment">// You can create your own Validators container if you like</span>
+    validators: ValidateAll([
+        <span class="hljs-comment">// SimpleValidator uses the skaterdav85/validatorjs library</span>
+        <span class="hljs-comment">// You can create your own or stack multiple validators here</span>
+        SimpleValidator({ <span class="hljs-attr">rules</span>: [<span class="hljs-string">'required|alpha'</span>] })
+    ])
+})
+
+<span class="hljs-comment">// ... Create reactor etc</span>
+
+reactor
+    .with({
+        <span class="hljs-attr">first_name</span>: <span class="hljs-string">"Johnny"</span>,
+        <span class="hljs-attr">surname</span>: <span class="hljs-string">"Smith"</span>
+    })
+    .react()
+    .then(reactor.validate)
+    .then(<span class="hljs-function">(<span class="hljs-params">{ valid, results }</span>) =&gt;</span> {
+        <span class="hljs-comment">// Returns a boolean if validation was successful or not</span>
+        <span class="hljs-built_in">console</span>.log(valid);
+        <span class="hljs-comment">// Returns a object containing all field validation results</span>
+        <span class="hljs-built_in">console</span>.log(results);
+        <span class="hljs-comment">// What you want to do with validation results is up to you</span>
+        <span class="hljs-comment">// You could throw an exception or let the reactor continue</span>
+    })
+    .then(reactor.dump)
+    .then(<span class="hljs-function"><span class="hljs-params">values</span> =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(values);
+    });
+</code></pre>
 				<h2 id="notable-todos">Notable ToDos</h2>
 				<p>Progress of development can be viewed on the project trello board. <a href="https://trello.com/b/SskmstkA/fissionjs">https://trello.com/b/SskmstkA/fissionjs</a></p>
 				<ul>
