@@ -126,6 +126,12 @@ describe("Policy/Deny", (): void => {
       });
   });
 
+  it("can throw exception if no scope or roles are passed", () => {
+    expect(() => {
+      DenyPolicy({ roles: [], scope: [] });
+    }).to.throw('POLICY_NEEDS_SCOPE_AND_ROLES');
+  });
+
   it("can perform a simple grant request and pass for mismatch role", () => {
     const denyRule: Deny = DenyPolicy({ roles: ["user"], scope: ["read"] });
     return denyRule

@@ -4,6 +4,7 @@ export interface Policy {
   roles: RolesType;
   scope: ScopesType;
   options: Object;
+  verify(): void;
   getRoles(options: Object): Promise<string[]>;
   getScope(options: Object): Promise<string[]>;
   grant({ effect, roles, scope, options }: PolicyGrantArgs): Promise<boolean>;

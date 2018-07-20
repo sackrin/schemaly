@@ -25,7 +25,22 @@ export class Allow implements Policy {
     this.roles = _.isArray(roles) ? roles : [roles];
     this.scope = _.isArray(scope) ? scope : [scope];
     this.options = options;
+    this.verify();
   }
+
+  /**
+   * Checks to ensure that roles and scope have been correctly provided
+   */
+  public verify = (): void => {
+    if (
+      !_.isArray(this.roles) ||
+      !_.isArray(this.scope) ||
+      this.roles.length < 1 ||
+      this.scope.length < 1
+    ) {
+      throw new Error("POLICY_NEEDS_SCOPE_AND_ROLES");
+    }
+  };
 
   /**
    * Get Constructed Roles
@@ -59,6 +74,7 @@ export class Allow implements Policy {
     scope,
     ...options
   }: PolicyGrantArgs): Promise<boolean> => {
+    this.verify();
     const forRoles: string[] = await getMixedResult(this.roles, options);
     const againstRoles: string[] = await getMixedResult(
       _.isArray(roles) ? roles : [roles],
