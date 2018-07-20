@@ -44,7 +44,7 @@ const profile = Schema({
 
 // Create a collider to handle applying data to the schema
 const collider = Collision({
-    // Add the profile we are collideing with
+    // Add the profile we are colliding with
     model: profile,
     // Add the scope for this collide
     scope: ["r"],
@@ -79,9 +79,10 @@ The act of applying data to the schema is called a collide and is handled by Int
 - Interact: Handles applying data objects to an Model schema and produces Effects.
 - Effect: Created for each Blueprint that passes policy checks. An effect contains a hydrated value with the ability to view sanitized values and validation results.
 
-## Field Policies
+## Blueprint Policies
 
 ```javascript
+// Import on top of earlier dependencies etc
 import { GrantOne, DenyPolicy, AllowPolicy } from 'fissionjs';
 
 // ... wrapped in schema
@@ -127,9 +128,52 @@ collider
 
 ```
 
-## Field Validation
+## Blueprint Sanitization
 
 ```javascript
+// Import on top of earlier dependencies etc
+import { SanitizeAll, SimpleSanitizer } from 'fissionjs';
+
+// ... wrapped in schema
+Field({
+    machine: 'first_name',
+    label: 'First Name',
+    context: STRING,
+    // You can add sanitizers using the SanitizeAll class
+    // Sanitizers should be run after hydration
+    // If you want to just format the output and not effect the value you should use getters
+    // You can stack sanitizers to apply sanitizing layers
+    // Sanitizers can be async so you can sanitize against api endpoints if you like
+    sanitizers: SanitizeAll([
+        // A simple sanitizer is bundled with fissionjs
+        // It allows your to do basic sanitization
+        // It is probably a good idea to create your own
+        SimpleSanitizer({ filters: ['trim|upper_case'] })
+    ])
+})
+
+// ... Create collider etc
+
+collider
+    .with({
+        // Add some spaces and make lowercase
+        first_name: "johnny  "
+    })
+    .collide()
+    // Sanitize the data after hydration
+    .then(collider.sanitize)
+    .then(collider.dump)
+    .then(values => {
+        // Removed spaces and converts to uppercase
+        // Returns { first_name: 'JOHHNY' }
+        console.log(values);
+    });
+```
+
+## Blueprint Validation
+
+```javascript
+// Import on top of earlier dependencies etc
 import { ValidateAll, SimpleValidator } from 'fissionjs';
 
 // ... wrapped in schema
@@ -167,6 +211,118 @@ collider
     .then(values => {
         console.log(values);
     });
+```
+
+## Container Blueprints
+
+```javascript
+// Import on top of earlier dependencies etc
+import { CONTAINER } from 'fissionjs';
+
+// ... wrapped in schema
+Field({
+    machine: 'name',
+    label: 'Name',
+    // CONTAINER context allows for child blueprints
+    context: CONTAINER,
+    // You can now add a blueprints property
+    // All blueprints must be wrapped in a Blueprints class
+    // In this case we are using the bundled Fields class
+    blueprints: Fields([
+        // Add your child fields
+        // There is no limit to nesting so can add more container and collection fields
+        Field({
+            machine: 'title',
+            label: 'Title',
+            context: STRING
+        }),
+        Field({
+            machine: 'first_name',
+            label: 'First Name',
+            context: STRING
+        }),
+        Field({
+            machine: 'surname',
+            label: 'Surname',
+            context: STRING
+        })
+    ])
+})
+
+// ... Create collider etc
+
+collider
+    .with({
+        // Name data can now be passed inside a name property
+        name: {
+            title: 'Mr',
+            first_name: 'Johnny',
+            surname: 'Smith'
+        }
+    })
+    .collide()
+    .then(collider.dump)
+    .then(values => {
+        // Returns { name: { title: 'Mr', first_name: 'Johnny', surname: 'Smith' } }
+        console.log(values);
+    });
+```
+
+## Collection Blueprints
+
+```javascript
+// Import on top of earlier dependencies etc
+import { COLLECTION, BOOLEAN } from 'fissionjs';
+
+// ... wrapped in schema
+Field({
+    machine: 'emails',
+    label: 'Emails',
+    // COLLECTION context allows for child blueprints
+    context: COLLECTION,
+    // Like container fields you can now use the blueprints property
+    // Collections allow for multiple groups of child fields
+    // This is useful for lists of data like emails, addresses etc
+    blueprints: Fields([
+        Field({
+            machine: 'address',
+            label: 'Address',
+            context: STRING
+        }),
+        Field({
+            machine: 'is_primary',
+            label: 'Primary',
+            context: BOOLEAN
+        })
+    ])
+})
+
+// ... Create collider etc
+
+collider
+    .with({
+        // emails needs to pass an array of value groups
+        // Each value will be treated as an individual container
+        emails: [
+            {
+                address: 'johnny@example.com',
+                is_primary: false
+            },
+            {
+                address: 'johnny@work.com',
+                is_primary: true
+            }
+        ]
+    })
+    .collide()
+    .then(collider.dump)
+    .then(values => {
+        // { emails:
+        //    [ { address: 'johnny@example.com', is_primary: false },
+        //        { address: 'johnny@work.com', is_primary: true } ] }
+        console.log(values);
+    });
+
 ```
 
 ## Notable ToDos

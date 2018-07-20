@@ -95,7 +95,7 @@
 
 <span class="hljs-comment">// Create a collider to handle applying data to the schema</span>
 <span class="hljs-keyword">const</span> collider = Collision({
-    <span class="hljs-comment">// Add the profile we are collideing with</span>
+    <span class="hljs-comment">// Add the profile we are colliding with</span>
     model: profile,
     <span class="hljs-comment">// Add the scope for this collide</span>
     scope: [<span class="hljs-string">"r"</span>],
@@ -127,8 +127,9 @@ collider
 					<li>Interact: Handles applying data objects to an Model schema and produces Effects.</li>
 					<li>Effect: Created for each Blueprint that passes policy checks. An effect contains a hydrated value with the ability to view sanitized values and validation results.</li>
 				</ul>
-				<h2 id="field-policies">Field Policies</h2>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { GrantOne, DenyPolicy, AllowPolicy } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
+				<h2 id="blueprint-policies">Blueprint Policies</h2>
+				<pre><code class="lang-javascript"><span class="hljs-comment">// Import on top of earlier dependencies etc</span>
+<span class="hljs-keyword">import</span> { GrantOne, DenyPolicy, AllowPolicy } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
 
 <span class="hljs-comment">// ... wrapped in schema</span>
 Field({
@@ -172,8 +173,48 @@ collider
     });
 
 </code></pre>
-				<h2 id="field-validation">Field Validation</h2>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { ValidateAll, SimpleValidator } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
+				<h2 id="blueprint-sanitization">Blueprint Sanitization</h2>
+				<pre><code class="lang-javascript"><span class="hljs-comment">// Import on top of earlier dependencies etc</span>
+<span class="hljs-keyword">import</span> { SanitizeAll, SimpleSanitizer } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
+
+<span class="hljs-comment">// ... wrapped in schema</span>
+Field({
+    <span class="hljs-attr">machine</span>: <span class="hljs-string">'first_name'</span>,
+    <span class="hljs-attr">label</span>: <span class="hljs-string">'First Name'</span>,
+    <span class="hljs-attr">context</span>: STRING,
+    <span class="hljs-comment">// You can add sanitizers using the SanitizeAll class</span>
+    <span class="hljs-comment">// Sanitizers should be run after hydration</span>
+    <span class="hljs-comment">// If you want to just format the output and not effect the value you should use getters</span>
+    <span class="hljs-comment">// You can stack sanitizers to apply sanitizing layers</span>
+    <span class="hljs-comment">// Sanitizers can be async so you can sanitize against api endpoints if you like</span>
+    sanitizers: SanitizeAll([
+        <span class="hljs-comment">// A simple sanitizer is bundled with fissionjs</span>
+        <span class="hljs-comment">// It allows your to do basic sanitization</span>
+        <span class="hljs-comment">// It is probably a good idea to create your own</span>
+        SimpleSanitizer({ <span class="hljs-attr">filters</span>: [<span class="hljs-string">'trim|upper_case'</span>] })
+    ])
+})
+
+<span class="hljs-comment">// ... Create collider etc</span>
+
+collider
+    .with({
+        <span class="hljs-comment">// Add some spaces and make lowercase</span>
+        first_name: <span class="hljs-string">"johnny  "</span>
+    })
+    .collide()
+    <span class="hljs-comment">// Sanitize the data after hydration</span>
+    .then(collider.sanitize)
+    .then(collider.dump)
+    .then(<span class="hljs-function"><span class="hljs-params">values</span> =&gt;</span> {
+        <span class="hljs-comment">// Removed spaces and converts to uppercase</span>
+        <span class="hljs-comment">// Returns { first_name: 'JOHHNY' }</span>
+        <span class="hljs-built_in">console</span>.log(values);
+    });
+</code></pre>
+				<h2 id="blueprint-validation">Blueprint Validation</h2>
+				<pre><code class="lang-javascript"><span class="hljs-comment">// Import on top of earlier dependencies etc</span>
+<span class="hljs-keyword">import</span> { ValidateAll, SimpleValidator } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
 
 <span class="hljs-comment">// ... wrapped in schema</span>
 Field({
@@ -210,6 +251,112 @@ collider
     .then(<span class="hljs-function"><span class="hljs-params">values</span> =&gt;</span> {
         <span class="hljs-built_in">console</span>.log(values);
     });
+</code></pre>
+				<h2 id="container-blueprints">Container Blueprints</h2>
+				<pre><code class="lang-javascript"><span class="hljs-comment">// Import on top of earlier dependencies etc</span>
+<span class="hljs-keyword">import</span> { CONTAINER } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
+
+<span class="hljs-comment">// ... wrapped in schema</span>
+Field({
+    <span class="hljs-attr">machine</span>: <span class="hljs-string">'name'</span>,
+    <span class="hljs-attr">label</span>: <span class="hljs-string">'Name'</span>,
+    <span class="hljs-comment">// CONTAINER context allows for child blueprints</span>
+    context: CONTAINER,
+    <span class="hljs-comment">// You can now add a blueprints property</span>
+    <span class="hljs-comment">// All blueprints must be wrapped in a Blueprints class</span>
+    <span class="hljs-comment">// In this case we are using the bundled Fields class</span>
+    blueprints: Fields([
+        <span class="hljs-comment">// Add your child fields</span>
+        <span class="hljs-comment">// There is no limit to nesting so can add more container and collection fields</span>
+        Field({
+            <span class="hljs-attr">machine</span>: <span class="hljs-string">'title'</span>,
+            <span class="hljs-attr">label</span>: <span class="hljs-string">'Title'</span>,
+            <span class="hljs-attr">context</span>: STRING
+        }),
+        Field({
+            <span class="hljs-attr">machine</span>: <span class="hljs-string">'first_name'</span>,
+            <span class="hljs-attr">label</span>: <span class="hljs-string">'First Name'</span>,
+            <span class="hljs-attr">context</span>: STRING
+        }),
+        Field({
+            <span class="hljs-attr">machine</span>: <span class="hljs-string">'surname'</span>,
+            <span class="hljs-attr">label</span>: <span class="hljs-string">'Surname'</span>,
+            <span class="hljs-attr">context</span>: STRING
+        })
+    ])
+})
+
+<span class="hljs-comment">// ... Create collider etc</span>
+
+collider
+    .with({
+        <span class="hljs-comment">// Name data can now be passed inside a name property</span>
+        name: {
+            <span class="hljs-attr">title</span>: <span class="hljs-string">'Mr'</span>,
+            <span class="hljs-attr">first_name</span>: <span class="hljs-string">'Johnny'</span>,
+            <span class="hljs-attr">surname</span>: <span class="hljs-string">'Smith'</span>
+        }
+    })
+    .collide()
+    .then(collider.dump)
+    .then(<span class="hljs-function"><span class="hljs-params">values</span> =&gt;</span> {
+        <span class="hljs-comment">// Returns { name: { title: 'Mr', first_name: 'Johnny', surname: 'Smith' } }</span>
+        <span class="hljs-built_in">console</span>.log(values);
+    });
+</code></pre>
+				<h2 id="collection-blueprints">Collection Blueprints</h2>
+				<pre><code class="lang-javascript"><span class="hljs-comment">// Import on top of earlier dependencies etc</span>
+<span class="hljs-keyword">import</span> { COLLECTION, BOOLEAN } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
+
+<span class="hljs-comment">// ... wrapped in schema</span>
+Field({
+    <span class="hljs-attr">machine</span>: <span class="hljs-string">'emails'</span>,
+    <span class="hljs-attr">label</span>: <span class="hljs-string">'Emails'</span>,
+    <span class="hljs-comment">// COLLECTION context allows for child blueprints</span>
+    context: COLLECTION,
+    <span class="hljs-comment">// Like container fields you can now use the blueprints property</span>
+    <span class="hljs-comment">// Collections allow for multiple groups of child fields</span>
+    <span class="hljs-comment">// This is useful for lists of data like emails, addresses etc</span>
+    blueprints: Fields([
+        Field({
+            <span class="hljs-attr">machine</span>: <span class="hljs-string">'address'</span>,
+            <span class="hljs-attr">label</span>: <span class="hljs-string">'Address'</span>,
+            <span class="hljs-attr">context</span>: STRING
+        }),
+        Field({
+            <span class="hljs-attr">machine</span>: <span class="hljs-string">'is_primary'</span>,
+            <span class="hljs-attr">label</span>: <span class="hljs-string">'Primary'</span>,
+            <span class="hljs-attr">context</span>: BOOLEAN
+        })
+    ])
+})
+
+<span class="hljs-comment">// ... Create collider etc</span>
+
+collider
+    .with({
+        <span class="hljs-comment">// emails needs to pass an array of value groups</span>
+        <span class="hljs-comment">// Each value will be treated as an individual container</span>
+        emails: [
+            {
+                <span class="hljs-attr">address</span>: <span class="hljs-string">'johnny@example.com'</span>,
+                <span class="hljs-attr">is_primary</span>: <span class="hljs-literal">false</span>
+            },
+            {
+                <span class="hljs-attr">address</span>: <span class="hljs-string">'johnny@work.com'</span>,
+                <span class="hljs-attr">is_primary</span>: <span class="hljs-literal">true</span>
+            }
+        ]
+    })
+    .collide()
+    .then(collider.dump)
+    .then(<span class="hljs-function"><span class="hljs-params">values</span> =&gt;</span> {
+        <span class="hljs-comment">// { emails:</span>
+        <span class="hljs-comment">//    [ { address: 'johnny@example.com', is_primary: false },</span>
+        <span class="hljs-comment">//        { address: 'johnny@work.com', is_primary: true } ] }</span>
+        <span class="hljs-built_in">console</span>.log(values);
+    });
+
 </code></pre>
 				<h2 id="notable-todos">Notable ToDos</h2>
 				<p>Progress of development can be viewed on the project trello board. <a href="https://trello.com/b/SskmstkA/fissionjs">https://trello.com/b/SskmstkA/fissionjs</a></p>
