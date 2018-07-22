@@ -36,8 +36,6 @@ collider
         first_name: "johnny  "
     })
     .collide()
-    // Sanitize the data after hydration
-    .then(collider.sanitize)
     .then(collider.dump)
     .then(values => {
         // Removed spaces and converts to uppercase
