@@ -124,6 +124,58 @@ describe("Effect/Hydrates", () => {
       });
   });
 
+  it("can hydrate using default values", () => {
+    const fakeHydrates = getHydrates({
+      blueprints: Fields([
+        Field({ context: STRING, machine: "first_name", label: "First Name", defaultValue: "Andrew" }),
+        Field({ context: STRING, machine: "last_name", label: "Last Name", defaultValue: "Richards" }),
+        Field({
+          context: CONTAINER,
+          machine: "company",
+          label: "Company",
+          blueprints: Fields([
+            Field({ context: STRING, machine: "name", label: "Company Name" })
+          ]),
+          defaultValue: {
+            name: "Acme Co"
+          }
+        }),
+        Field({
+          context: COLLECTION,
+          machine: "emails",
+          label: "Emails",
+          blueprints: Fields([
+            Field({ context: STRING, machine: "label", label: "Label" }),
+            Field({ context: STRING, machine: "address", label: "Address" })
+          ]),
+          defaultValue: () => ([
+            {
+              label: "Test Email",
+              address: "example@default.com"
+            }
+          ])
+        })
+      ]),
+      value: {}
+    });
+    return fakeHydrates
+      .hydrate()
+      .then(() => {
+        expect(fakeHydrates.find({ machine: "first_name" })).to.not.be.undefined;
+        expect(fakeHydrates.find({ machine: "last_name" })).to.not.be.undefined;
+        expect(fakeHydrates.find({ machine: "company" }).find({ machine: "name" })).to.not.be.undefined;
+        expect(fakeHydrates.find({ machine: "emails" }).find({ machine: "address" })).to.not.be.undefined;
+        expect(
+          fakeHydrates
+            .find({ machine: "emails" })
+            .filter({ machine: "address" })
+        ).to.have.length(1);
+      })
+      .catch(msg => {
+        throw new Error(msg);
+      });
+  });
+
   it("can not error when a child bearing blueprint has no children", () => {
     const fakeHydrates = getHydrates({
       blueprints: Fields([

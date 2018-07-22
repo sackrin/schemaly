@@ -57,6 +57,8 @@ describe("Effect/Hydrate", (): void => {
       context: STRING,
       machine: "first_name",
       label: "First Name",
+      description: "The first name of a user",
+      tags: ["person", "profile", "name"],
       policies: GrantOne([
         DenyPolicy({ roles: ["member"], scope: ["read", "write"] }),
         AllowPolicy({ roles: ["user", "admin"], scope: ["read", "write"] })
@@ -225,6 +227,10 @@ describe("Effect/Hydrate", (): void => {
       ...mockSingleParams,
       options: { testing: true }
     });
+    expect(effect.machine).to.equal("first_name");
+    expect(effect.context).to.equal(STRING);
+    expect(effect.description).to.equal("The first name of a user");
+    expect(effect.tags).to.deep.equal(["person", "profile", "name"]);
     expect(effect.blueprint).to.deep.equal(mockSingleParams.blueprint);
     expect(effect.value).to.equal("johnny");
     expect(effect.options).to.deep.equal({ testing: true });
