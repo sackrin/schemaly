@@ -104,6 +104,8 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_blueprint_field_.field.html#blueprints" class="tsd-kind-icon">blueprints</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_blueprint_field_.field.html#context" class="tsd-kind-icon">context</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_blueprint_field_.field.html#defaultvalue" class="tsd-kind-icon">default<wbr>Value</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_blueprint_field_.field.html#description" class="tsd-kind-icon">description</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_blueprint_field_.field.html#getters" class="tsd-kind-icon">getters</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_blueprint_field_.field.html#label" class="tsd-kind-icon">label</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_blueprint_field_.field.html#machine" class="tsd-kind-icon">machine</a></li>
@@ -112,6 +114,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_blueprint_field_.field.html#policies" class="tsd-kind-icon">policies</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_blueprint_field_.field.html#sanitizers" class="tsd-kind-icon">sanitizers</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_blueprint_field_.field.html#setters" class="tsd-kind-icon">setters</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_blueprint_field_.field.html#tags" class="tsd-kind-icon">tags</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_blueprint_field_.field.html#validators" class="tsd-kind-icon">validators</a></li>
 							</ul>
 						</section>
@@ -120,6 +123,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_blueprint_field_.field.html#applygetters" class="tsd-kind-icon">apply<wbr>Getters</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_blueprint_field_.field.html#applysetters" class="tsd-kind-icon">apply<wbr>Setters</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_blueprint_field_.field.html#getdefault" class="tsd-kind-icon">get<wbr>Default</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_blueprint_field_.field.html#grant" class="tsd-kind-icon">grant</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_blueprint_field_.field.html#sanitize" class="tsd-kind-icon">sanitize</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_blueprint_field_.field.html#setblueprints" class="tsd-kind-icon">set<wbr>Blueprints</a></li>
@@ -143,7 +147,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L41">Blueprint/Field.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L48">Blueprint/Field.ts:48</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -170,7 +174,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#blueprints">blueprints</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L25">Blueprint/Field.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L30">Blueprint/Field.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -181,7 +185,29 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#context">context</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L21">Blueprint/Field.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L22">Blueprint/Field.ts:22</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="defaultvalue" class="tsd-anchor"></a>
+					<h3>default<wbr>Value</h3>
+					<div class="tsd-signature tsd-kind-icon">default<wbr>Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#defaultvalue">defaultValue</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L28">Blueprint/Field.ts:28</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="description" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> description</h3>
+					<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#description">description</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L48">Blueprint/Field.ts:48</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -192,7 +218,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#getters">getters</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L37">Blueprint/Field.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L42">Blueprint/Field.ts:42</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -203,7 +229,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#label">label</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L39">Blueprint/Field.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L44">Blueprint/Field.ts:44</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -214,7 +240,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#machine">machine</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L23">Blueprint/Field.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L24">Blueprint/Field.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -225,7 +251,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#options">options</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L33">Blueprint/Field.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L38">Blueprint/Field.ts:38</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -236,7 +262,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#parent">parent</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L41">Blueprint/Field.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L46">Blueprint/Field.ts:46</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -247,7 +273,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#policies">policies</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L27">Blueprint/Field.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L32">Blueprint/Field.ts:32</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -258,7 +284,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#sanitizers">sanitizers</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L29">Blueprint/Field.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L34">Blueprint/Field.ts:34</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -269,7 +295,18 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#setters">setters</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L35">Blueprint/Field.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L40">Blueprint/Field.ts:40</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="tags" class="tsd-anchor"></a>
+					<h3>tags</h3>
+					<div class="tsd-signature tsd-kind-icon">tags<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#tags">tags</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L26">Blueprint/Field.ts:26</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -280,7 +317,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#validators">validators</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L31">Blueprint/Field.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L36">Blueprint/Field.ts:36</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -297,7 +334,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L186">Blueprint/Field.ts:186</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L208">Blueprint/Field.ts:208</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -329,7 +366,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L212">Blueprint/Field.ts:212</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L234">Blueprint/Field.ts:234</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -353,6 +390,31 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getdefault" class="tsd-anchor"></a>
+					<h3>get<wbr>Default</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Default<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L140">Blueprint/Field.ts:140</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<ul class="tsd-parameters">
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="grant" class="tsd-anchor"></a>
 					<h3>grant</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -362,7 +424,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L130">Blueprint/Field.ts:130</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L152">Blueprint/Field.ts:152</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -392,7 +454,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L167">Blueprint/Field.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L189">Blueprint/Field.ts:189</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -424,7 +486,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#setblueprints">setBlueprints</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L90">Blueprint/Field.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L108">Blueprint/Field.ts:108</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -448,7 +510,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#setsanitizers">setSanitizers</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L102">Blueprint/Field.ts:102</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L120">Blueprint/Field.ts:120</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -472,7 +534,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#setvalidators">setValidators</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L112">Blueprint/Field.ts:112</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L130">Blueprint/Field.ts:130</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -495,7 +557,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/b99f967/src/Blueprint/Field.ts#L149">Blueprint/Field.ts:149</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/73fbd2c/src/Blueprint/Field.ts#L171">Blueprint/Field.ts:171</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -545,6 +607,12 @@
 								<a href="_blueprint_field_.field.html#context" class="tsd-kind-icon">context</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_blueprint_field_.field.html#defaultvalue" class="tsd-kind-icon">default<wbr>Value</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_blueprint_field_.field.html#description" class="tsd-kind-icon">description</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_blueprint_field_.field.html#getters" class="tsd-kind-icon">getters</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
@@ -569,6 +637,9 @@
 								<a href="_blueprint_field_.field.html#setters" class="tsd-kind-icon">setters</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_blueprint_field_.field.html#tags" class="tsd-kind-icon">tags</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_blueprint_field_.field.html#validators" class="tsd-kind-icon">validators</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -576,6 +647,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_blueprint_field_.field.html#applysetters" class="tsd-kind-icon">apply<wbr>Setters</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_blueprint_field_.field.html#getdefault" class="tsd-kind-icon">get<wbr>Default</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_blueprint_field_.field.html#grant" class="tsd-kind-icon">grant</a>
