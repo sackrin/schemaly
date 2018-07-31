@@ -5,6 +5,7 @@ import {
   CONTAINER,
   Field,
   Fields,
+  Poly,
   Blueprint,
   STRING
 } from "../../Blueprint";
@@ -216,6 +217,79 @@ describe("Effect/Hydrate", (): void => {
         label: "Home Address",
         address: "test1@example.com",
         secret: "notseethis"
+      }
+    ]
+  };
+
+  const mockPolyParams = {
+    collide: {
+      scope: ["read"],
+      roles: ["user"]
+    },
+    blueprint: Field({
+      context: COLLECTION,
+      machine: "emails",
+      label: "Emails",
+      policies: GrantOne([
+        DenyPolicy({ roles: ["member"], scope: ["read", "write"] }),
+        AllowPolicy({ roles: ["user", "admin"], scope: ["read", "write"] })
+      ]),
+      blueprints: Poly()
+      .variation({
+        blueprints: Fields([
+          Field({
+            machine: "label",
+            context: STRING,
+            label: "Email Label"
+          }),
+          Field({
+            machine: "address",
+            context: STRING,
+            label: "Email Address"
+          })
+        ]),
+        matchers: [
+          ["address"]
+        ]
+      })
+      .variation({
+        blueprints: Fields([
+          Field({
+            machine: "label",
+            context: STRING,
+            label: "Location Label"
+          }),
+          Field({
+            machine: "street",
+            context: STRING,
+            label: "Location Street"
+          }),
+          Field({
+            machine: "suburb",
+            context: STRING,
+            label: "Location Suburb"
+          }),
+          Field({
+            machine: "country",
+            context: STRING,
+            label: "Location Country"
+          })
+        ]),
+        matchers: [
+          ["street"]
+        ]
+      })
+    }),
+    value: [
+      {
+        label: "Home Address",
+        address: "test1@example.com",
+      },
+      {
+        label: "Street Address",
+        street: "18 Example Street",
+        suburb: "Exampleville",
+        country: "Example-a-stan"
       }
     ]
   };
@@ -637,5 +711,33 @@ describe("Effect/Hydrate", (): void => {
       .catch(msg => {
         throw new Error(msg);
       });
+  });
+
+  it("can hydrate an effect using polymorphic fields", () => {
+    const fakeEffect = getHydrate({ ...mockPolyParams });
+    return fakeEffect
+    .hydrate()
+    .then(() => {
+      expect(fakeEffect.filter({ machine: "address" })).to.have.length(1);
+      expect(fakeEffect.filter({ machine: "street" })).to.have.length(1);
+    })
+    .then(fakeEffect.dump)
+    .then(dumped => {
+      expect(dumped).to.deep.equal([
+        {
+          label: 'Home Address',
+          address: 'test1@example.com'
+        },
+        {
+          label: 'Street Address',
+          street: '18 Example Street',
+          suburb: 'Exampleville',
+          country: 'Example-a-stan'
+        }
+      ]);
+    })
+    .catch(msg => {
+      throw new Error(msg);
+    });
   });
 });

@@ -1,16 +1,23 @@
 import _ from 'lodash';
-import { Polymorphic, Variation } from './Types';
+import {Blueprint, Polymorphic, Variation} from './Types';
 import Blueprints from "./Types/Blueprints";
+import Fields from "./Fields";
 
 export class Poly implements Polymorphic {
 
   public variations: Variation[] = [];
+
+  public parent?: Blueprint;
 
   public options: any;
 
   constructor(options: any = {}) {
     this.options = options;
   }
+
+  public setParent = (parent: Blueprint): void => {
+    this.parent = parent;
+  };
 
   public variation = ({ blueprints, matchers }: Variation): this => {
     this.variations.push({
@@ -20,12 +27,12 @@ export class Poly implements Polymorphic {
     return this;
   };
 
-  public resolve = (values: any): undefined | Blueprints => {
-    return this.variations.reduce((curr: Blueprints | undefined, possibility) => {
+  public resolve = (values: any): Blueprints => {
+    return this.variations.reduce((curr: Blueprints, possibility) => {
       const { matchers, blueprints } = possibility;
       const decide = _.isFunction(matchers) ? matchers(values) : this.properties(matchers, values) ;
       return decide ? blueprints : curr;
-    }, undefined);
+    }, Fields([]));
   };
 
   public properties = (matchers: any, values: any): boolean => {

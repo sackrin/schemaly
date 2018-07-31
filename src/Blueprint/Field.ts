@@ -1,7 +1,7 @@
 import { GrantAll, PolicyGrantArgs, Policies } from "../Policy";
 import Fields from "./Fields";
 import { Context } from "./Context";
-import { Blueprint, Blueprints, BlueprintArgs } from "./Types";
+import { Blueprint, Blueprints, BlueprintArgs, Polymorphic } from "./Types";
 import { Sanitizers, SanitizeAll, SanitizerApplyArgs } from "../Sanitize";
 import {
   ValidateAll,
@@ -22,7 +22,7 @@ export class Field implements Blueprint {
 
   public machine: string;
 
-  public blueprints: Blueprints = Fields([]);
+  public blueprints: Blueprints | Polymorphic = Fields([]);
 
   public policies: Policies = GrantAll([]);
 
@@ -87,7 +87,7 @@ export class Field implements Blueprint {
     this.setValidators(validators);
   }
 
-  public setBlueprints = (blueprints?: Blueprints): void => {
+  public setBlueprints = (blueprints?: Blueprints | Polymorphic): void => {
     if (!blueprints) {
       return;
     }

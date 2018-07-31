@@ -6,6 +6,7 @@ export interface Blueprints {
   options: any;
   setParent(parent: Blueprint): void;
   all(): BlueprintsType;
+  resolve(values: any): this;
 }
 
 export default Blueprints;

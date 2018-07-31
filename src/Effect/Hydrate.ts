@@ -1,4 +1,4 @@
-import { Blueprint } from "../Blueprint/Types";
+import { Blueprint, Polymorphic } from "../Blueprint/Types";
 import { Collider } from "../Interact/Types";
 import { Effect, EffectArgs, Effects } from "./Types";
 import { ValidatorResult } from "../Validate/Types";
@@ -92,6 +92,7 @@ export class Hydrate implements Effect {
       blueprint: { context, blueprints },
       value
     } = this;
+
     if ((context.children || context.repeater) && !blueprints) {
       return;
     }
@@ -100,7 +101,7 @@ export class Hydrate implements Effect {
       const hydrate = Hydrates({
         parent: this,
         collider,
-        blueprints,
+        blueprints: blueprints.resolve(value),
         values: value,
         options: {
           ...this.options,
@@ -115,7 +116,7 @@ export class Hydrate implements Effect {
           const hydrate = Hydrates({
             parent: this,
             collider,
-            blueprints,
+            blueprints: blueprints.resolve(childValue),
             values: childValue,
             options: {
               ...this.options,

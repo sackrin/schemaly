@@ -7,7 +7,7 @@ import {
   Validators,
   ValidatorValidateArgs
 } from "../../Validate/Types";
-import { Blueprints } from "./";
+import { Blueprints, Polymorphic } from "./";
 import { Effect } from "../../Effect/Types";
 
 export interface Blueprint {
@@ -15,7 +15,7 @@ export interface Blueprint {
   machine: string;
   label?: string;
   parent?: Blueprint;
-  blueprints: Blueprints;
+  blueprints: Blueprints | Polymorphic;
   options: any;
   policies: Policies;
   sanitizers: Sanitizers;

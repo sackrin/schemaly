@@ -26,6 +26,8 @@ export class Fields implements Blueprints {
   };
 
   public all = (): BlueprintsType => this.blueprints;
+
+  public resolve = (values: any): this => (this);
 }
 
 /**

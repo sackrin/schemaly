@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SanitizeAll | fissionjs</title>
+	<title>Poly | fissionjs</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,13 +52,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_sanitize_sanitizeall_.html">&quot;Sanitize/SanitizeAll&quot;</a>
+					<a href="../modules/_blueprint_poly_.html">&quot;Blueprint/Poly&quot;</a>
 				</li>
 				<li>
-					<a href="_sanitize_sanitizeall_.sanitizeall.html">SanitizeAll</a>
+					<a href="_blueprint_poly_.poly.html">Poly</a>
 				</li>
 			</ul>
-			<h1>Class SanitizeAll</h1>
+			<h1>Class Poly</h1>
 		</div>
 	</div>
 </header>
@@ -69,14 +69,14 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">SanitizeAll</span>
+						<span class="target">Poly</span>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><span class="tsd-signature-type">Sanitizers</span></li>
+					<li><span class="tsd-signature-type">Polymorphic</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -86,21 +86,24 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_sanitize_sanitizeall_.sanitizeall.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_blueprint_poly_.poly.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_sanitize_sanitizeall_.sanitizeall.html#options" class="tsd-kind-icon">options</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_sanitize_sanitizeall_.sanitizeall.html#sanitizers" class="tsd-kind-icon">sanitizers</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_blueprint_poly_.poly.html#options" class="tsd-kind-icon">options</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_blueprint_poly_.poly.html#parent" class="tsd-kind-icon">parent</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_blueprint_poly_.poly.html#variations" class="tsd-kind-icon">variations</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_sanitize_sanitizeall_.sanitizeall.html#apply" class="tsd-kind-icon">apply</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_sanitize_sanitizeall_.sanitizeall.html#merge" class="tsd-kind-icon">merge</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_blueprint_poly_.poly.html#properties" class="tsd-kind-icon">properties</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_blueprint_poly_.poly.html#resolve" class="tsd-kind-icon">resolve</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_blueprint_poly_.poly.html#setparent" class="tsd-kind-icon">set<wbr>Parent</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_blueprint_poly_.poly.html#variation" class="tsd-kind-icon">variation</a></li>
 							</ul>
 						</section>
 					</div>
@@ -112,24 +115,22 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Sanitize<wbr>All<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_sanitize_sanitizeall_.sanitizeall.html" class="tsd-signature-type">SanitizeAll</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Poly<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_blueprint_poly_.poly.html" class="tsd-signature-type">Poly</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/c370f69/src/Sanitize/SanitizeAll.ts#L11">Sanitize/SanitizeAll.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/c370f69/src/Blueprint/Poly.ts#L12">Blueprint/Poly.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">object</span></h5>
-									<ul class="tsd-parameters">
-									</ul>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_sanitize_sanitizeall_.sanitizeall.html" class="tsd-signature-type">SanitizeAll</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_blueprint_poly_.poly.html" class="tsd-signature-type">Poly</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -142,17 +143,27 @@
 					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/c370f69/src/Sanitize/SanitizeAll.ts#L11">Sanitize/SanitizeAll.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/c370f69/src/Blueprint/Poly.ts#L12">Blueprint/Poly.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="sanitizers" class="tsd-anchor"></a>
-					<h3>sanitizers</h3>
-					<div class="tsd-signature tsd-kind-icon">sanitizers<span class="tsd-signature-symbol">:</span> <a href="../modules/_sanitize_types_sanitizerstype_.html#sanitizerstype" class="tsd-signature-type">SanitizersType</a><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+					<a name="parent" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> parent</h3>
+					<div class="tsd-signature tsd-kind-icon">parent<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html" class="tsd-signature-type">Blueprint</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/c370f69/src/Sanitize/SanitizeAll.ts#L9">Sanitize/SanitizeAll.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/c370f69/src/Blueprint/Poly.ts#L10">Blueprint/Poly.ts:10</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="variations" class="tsd-anchor"></a>
+					<h3>variations</h3>
+					<div class="tsd-signature tsd-kind-icon">variations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Variation</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/c370f69/src/Blueprint/Poly.ts#L8">Blueprint/Poly.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -160,16 +171,88 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="apply" class="tsd-anchor"></a>
-					<h3>apply</h3>
+					<a name="properties" class="tsd-anchor"></a>
+					<h3>properties</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">apply<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">properties<span class="tsd-signature-symbol">(</span>matchers<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/c370f69/src/Sanitize/SanitizeAll.ts#L22">Sanitize/SanitizeAll.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/c370f69/src/Blueprint/Poly.ts#L38">Blueprint/Poly.ts:38</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>matchers: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>values: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="resolve" class="tsd-anchor"></a>
+					<h3>resolve</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">resolve<span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_blueprint_types_blueprints_.blueprints.html" class="tsd-signature-type">Blueprints</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/c370f69/src/Blueprint/Poly.ts#L30">Blueprint/Poly.ts:30</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>values: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_blueprint_types_blueprints_.blueprints.html" class="tsd-signature-type">Blueprints</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setparent" class="tsd-anchor"></a>
+					<h3>set<wbr>Parent</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Parent<span class="tsd-signature-symbol">(</span>parent<span class="tsd-signature-symbol">: </span><a href="../interfaces/_blueprint_types_blueprint_.blueprint.html" class="tsd-signature-type">Blueprint</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/c370f69/src/Blueprint/Poly.ts#L18">Blueprint/Poly.ts:18</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>parent: <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html" class="tsd-signature-type">Blueprint</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="variation" class="tsd-anchor"></a>
+					<h3>variation</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">variation<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/c370f69/src/Blueprint/Poly.ts#L22">Blueprint/Poly.ts:22</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -180,30 +263,7 @@
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="merge" class="tsd-anchor"></a>
-					<h3>merge</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">merge<span class="tsd-signature-symbol">(</span>additional<span class="tsd-signature-symbol">: </span><a href="../modules/_sanitize_types_sanitizerstype_.html#sanitizerstype" class="tsd-signature-type">SanitizersType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/c370f69/src/Sanitize/SanitizeAll.ts#L18">Sanitize/SanitizeAll.ts:18</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>additional: <a href="../modules/_sanitize_types_sanitizerstype_.html#sanitizerstype" class="tsd-signature-type">SanitizersType</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -216,7 +276,7 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_sanitize_sanitizeall_.html">"<wbr>Sanitize/<wbr>Sanitize<wbr>All"</a>
+						<a href="../modules/_blueprint_poly_.html">"<wbr>Blueprint/<wbr>Poly"</a>
 					</li>
 				</ul>
 			</nav>
@@ -225,22 +285,31 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_sanitize_sanitizeall_.sanitizeall.html" class="tsd-kind-icon">Sanitize<wbr>All</a>
+						<a href="_blueprint_poly_.poly.html" class="tsd-kind-icon">Poly</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_sanitize_sanitizeall_.sanitizeall.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="_blueprint_poly_.poly.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_sanitize_sanitizeall_.sanitizeall.html#options" class="tsd-kind-icon">options</a>
+								<a href="_blueprint_poly_.poly.html#options" class="tsd-kind-icon">options</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_sanitize_sanitizeall_.sanitizeall.html#sanitizers" class="tsd-kind-icon">sanitizers</a>
+								<a href="_blueprint_poly_.poly.html#parent" class="tsd-kind-icon">parent</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_blueprint_poly_.poly.html#variations" class="tsd-kind-icon">variations</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_sanitize_sanitizeall_.sanitizeall.html#apply" class="tsd-kind-icon">apply</a>
+								<a href="_blueprint_poly_.poly.html#properties" class="tsd-kind-icon">properties</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_sanitize_sanitizeall_.sanitizeall.html#merge" class="tsd-kind-icon">merge</a>
+								<a href="_blueprint_poly_.poly.html#resolve" class="tsd-kind-icon">resolve</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_blueprint_poly_.poly.html#setparent" class="tsd-kind-icon">set<wbr>Parent</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_blueprint_poly_.poly.html#variation" class="tsd-kind-icon">variation</a>
 							</li>
 						</ul>
 					</li>

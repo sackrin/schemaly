@@ -2,7 +2,7 @@ import { expect } from "chai";
 import Poly from "../Poly";
 import {Fields, Field, STRING } from "../index";
 
-describe.only('Blueprint/Poly', () => {
+describe('Blueprint/Poly', () => {
   const fakeEmailFields = (options: any = {}) => ({
     blueprints: Fields([
       Field({ machine: "email", context: STRING }),
@@ -97,7 +97,7 @@ describe.only('Blueprint/Poly', () => {
       first_name: 'Johnny',
       surname: 'Smith'
     });
-    expect(decision).to.be.undefined;
+    expect(decision.all()).to.deep.equal([]);
   });
 
   it('can make the correct decision when provided with no matching property and value matchers', () => {
@@ -117,7 +117,7 @@ describe.only('Blueprint/Poly', () => {
       suburb: 'Exampleville',
       country: 'Not Existastan'
     });
-    expect(decision).to.be.undefined;
+    expect(decision.all()).to.deep.equal([]);
   });
 
   it('can make the correct decision when provided with no matching callback matchers', () => {
@@ -137,6 +137,6 @@ describe.only('Blueprint/Poly', () => {
       suburb: 'Exampleville',
       country: 'Not Existastan'
     });
-    expect(decision).to.be.undefined;
+    expect(decision.all()).to.deep.equal([]);
   });
 });
