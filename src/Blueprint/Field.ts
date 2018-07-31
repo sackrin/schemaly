@@ -24,7 +24,10 @@ export class Field implements Blueprint {
   public machine: string;
 
   public tags: string[] = [];
+
   public defaultValue: any;
+
+  public blueprints: Blueprints | Polymorphic = Fields([]);
 
   public policies: Policies = GrantAll([]);
 

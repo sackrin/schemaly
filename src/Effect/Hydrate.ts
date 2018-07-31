@@ -4,6 +4,7 @@ import { Effect, EffectArgs, Effects } from "./Types";
 import { ValidatorResult } from "../Validate/Types";
 import { Hydrates } from "./";
 import { Context } from "../Blueprint/Context/Types";
+import { Blueprint } from "../Blueprint/Types";
 
 /**
  * Represents a hydrated blueprint
