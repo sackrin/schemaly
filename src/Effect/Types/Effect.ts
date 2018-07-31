@@ -13,6 +13,8 @@ export interface Effect {
   options: any;
   machine: string;
   context: Context;
+  description?: string;
+  tags?: string[];
   getValue(options?: any): Promise<any>;
   setValue({ value, options }: { value: any; options?: any }): Promise<any>;
   find(criteria: Object | Function): Effect | undefined;

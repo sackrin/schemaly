@@ -46,8 +46,9 @@ export class Hydrates implements Effects {
     const { collider, blueprints, effects, values } = this;
     await Promise.all(
       blueprints.all().map(async blueprint => {
-        const value = _.get(values, blueprint.machine);
+        const value = _.get(values, blueprint.machine) !== undefined ? _.get(values, blueprint.machine) : await blueprint.getDefault();
         const effect = Hydrate({ collider, blueprint, value, parent: this });
+        await effect.sanitize({ ...this.options, ...options });
         const grantCheck = await effect.grant({ ...this.options, ...options });
         if (grantCheck) {
           await effect.hydrate({ ...this.options, ...options });

@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { GrantAll, PolicyGrantArgs, Policies } from "../Policy";
 import Fields from "./Fields";
 import { Context } from "./Context";
@@ -22,7 +23,8 @@ export class Field implements Blueprint {
 
   public machine: string;
 
-  public blueprints: Blueprints | Polymorphic = Fields([]);
+  public tags: string[] = [];
+  public defaultValue: any;
 
   public policies: Policies = GrantAll([]);
 
@@ -40,11 +42,16 @@ export class Field implements Blueprint {
 
   public parent?: Blueprint;
 
+  public description?: string;
+
   /**
    * @param {Context} context
    * @param {string} machine
    * @param {string} label
+   * @param description
+   * @param tags
    * @param {Blueprint} parent
+   * @param defaultValue
    * @param {Blueprints} blueprints
    * @param {Function[]} getters
    * @param {Function[]} setters
@@ -57,7 +64,10 @@ export class Field implements Blueprint {
     context,
     machine,
     label,
+    description,
+    tags,
     parent,
+    defaultValue,
     blueprints,
     getters,
     setters,
@@ -69,7 +79,12 @@ export class Field implements Blueprint {
     this.context = context;
     this.machine = machine;
     this.label = label;
+    this.description = description;
+    this.defaultValue = defaultValue;
     this.parent = parent;
+    if (tags) {
+      this.tags = tags;
+    }
     if (policies) {
       this.policies = policies;
     }
@@ -117,6 +132,10 @@ export class Field implements Blueprint {
       validators.merge(context.validators);
       this.validators = validators;
     }
+  };
+
+  public getDefault = async (options = {}): Promise<any> => {
+    return _.isFunction(this.defaultValue) ? this.defaultValue() : this.defaultValue ;
   };
 
   /**

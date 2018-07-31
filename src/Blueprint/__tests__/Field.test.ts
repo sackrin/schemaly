@@ -39,6 +39,9 @@ describe("Blueprint/Field", (): void => {
     context: STRING,
     machine: "first_name",
     label: "First Name",
+    description: "A field representing a person's first name",
+    tags: ["person", "name"],
+    defaultValue: "Ben",
     policies: GrantOne([
       DenyPolicy({ roles: ["member"], scope: ["read", "write"] }),
       AllowPolicy({ roles: ["user", "admin"], scope: ["read", "write"] })
@@ -64,6 +67,9 @@ describe("Blueprint/Field", (): void => {
     expect(blueprint.context).to.deep.equal(STRING);
     expect(blueprint.machine).to.equal("first_name");
     expect(blueprint.label).to.equal("First Name");
+    expect(blueprint.description).to.equal("A field representing a person's first name");
+    expect(blueprint.tags).to.deep.equal(["person", "name"]);
+    expect(blueprint.defaultValue).to.equal("Ben");
     expect(blueprint.options).to.deep.equal({ test: true });
     expect(blueprint.policies).to.equal(fakeArgs.policies);
     expect(blueprint.sanitizers).to.equal(fakeArgs.sanitizers);

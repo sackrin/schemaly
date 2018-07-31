@@ -1,4 +1,4 @@
-import { Blueprint, Polymorphic } from "../Blueprint/Types";
+import _ from 'lodash';
 import { Collider } from "../Interact/Types";
 import { Effect, EffectArgs, Effects } from "./Types";
 import { ValidatorResult } from "../Validate/Types";
@@ -35,6 +35,14 @@ export class Hydrate implements Effect {
 
   get context(): Context {
     return this.blueprint.context;
+  }
+
+  get description(): string | undefined {
+    return this.blueprint.description;
+  }
+
+  get tags(): string[] | undefined {
+    return this.blueprint.tags;
   }
 
   public getValue = async (options: any = {}): Promise<any> => {
@@ -110,7 +118,7 @@ export class Hydrate implements Effect {
       });
       await hydrate.hydrate({ ...this.options, ...options });
       hydrated.push(hydrate);
-    } else if (context.children && context.repeater) {
+    } else if (context.children && context.repeater && _.isArray(value)) {
       await Promise.all(
         value.map(async (childValue: any) => {
           const hydrate = Hydrates({

@@ -1,3 +1,3 @@
-export const upperCaseFilter = (value: any) => value.toString().toUpperCase();
+export const upperCaseFilter = (value: any) => value !== undefined ? value.toString().toUpperCase() : undefined;
 
 export default upperCaseFilter;

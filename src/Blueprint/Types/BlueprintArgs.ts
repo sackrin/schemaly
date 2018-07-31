@@ -8,7 +8,10 @@ export interface BlueprintArgs {
   machine: string;
   context: Context;
   label?: string;
+  description?: string;
+  tags?: string[];
   parent?: Blueprint;
+  defaultValue?: any;
   blueprints?: Blueprints | Polymorphic;
   getters?: Function[];
   setters?: Function[];

@@ -79,6 +79,52 @@ The act of applying data to the schema is called a collide and is handled by Int
 - Interact: Handles applying data objects to an Model schema and produces Effects.
 - Effect: Created for each Blueprint that passes policy checks. An effect contains a hydrated value with the ability to view sanitized values and validation results.
 
+## Blueprint
+
+```javascript
+Field({
+    // machine: A safe blueprint name with alpha and underscores
+    machine: 'first_name',
+    // label[OPTIONAL]: A human readable name for the blueprint
+    label: 'First Name',
+    // context: outlines what data to expect and rules to apply during hydration
+    context: STRING,
+    // tags[OPTIONAL]: a method of classifying blueprints for your own usage
+    tags: ["person", "name"],
+    // description[OPTIONAL]: additional field for adding your intention for this blueprint
+    description: "Adds a first name field which contains the person's first name",
+    // defaultValue[OPTIONAL]: provides a default value or value giving callback if none was provided
+    defaultValue: "Johnny",
+    // blueprints[OPTIONAL]: add child blueprints if the context permits [OPTIONAL]
+    blueprints: Fields([
+      // ... child blueprints
+    ]),
+    // policies[OPTIONAL]: adds scope and role access control to the blueprint [OPTIONAL]
+    // if the policies do not return a grant then blueprint will not appear in hydrated set
+    policies: GrantOne([
+      // ... governing policies
+    ]),
+    // sanitizers[OPTIONAL]: adds value sanitizers which will automatically be applied during hydration [OPTIONAL]
+    sanitizers: SanitizeAll([
+      // ... sanitizers
+    ]),
+    // validators[OPTIONAL]: adds value validation 
+    validators: ValidateAll([
+      // ... validators
+    ]),
+    // setters[OPTIONAL]: a way to intercept values as they are set into a hydrate and apply any filtering or conversion
+    setters: [
+      // ... setter callbacks
+    ],
+    // getters[OPTIONAL]: a way to intercept values as they are get from a hydrate and apply any filtering or conversion
+    getters: [
+      // ... getter callbacks
+    ],
+    // options[OPTIONAL]: add any optional data you want passed as options
+    options: {}
+})
+```
+
 ## Blueprint Policies
 
 ```javascript
@@ -160,8 +206,7 @@ collider
         first_name: "johnny  "
     })
     .collide()
-    // Sanitize the data after hydration
-    .then(collider.sanitize)
+    // Sanitizers will automatically be applied during hydration
     .then(collider.dump)
     .then(values => {
         // Removed spaces and converts to uppercase

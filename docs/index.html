@@ -127,6 +127,49 @@ collider
 					<li>Interact: Handles applying data objects to an Model schema and produces Effects.</li>
 					<li>Effect: Created for each Blueprint that passes policy checks. An effect contains a hydrated value with the ability to view sanitized values and validation results.</li>
 				</ul>
+				<h2 id="blueprint">Blueprint</h2>
+				<pre><code class="lang-javascript">Field({
+    <span class="hljs-comment">// machine: A safe blueprint name with alpha and underscores</span>
+    machine: <span class="hljs-string">'first_name'</span>,
+    <span class="hljs-comment">// label[OPTIONAL]: A human readable name for the blueprint</span>
+    label: <span class="hljs-string">'First Name'</span>,
+    <span class="hljs-comment">// context: outlines what data to expect and rules to apply during hydration</span>
+    context: STRING,
+    <span class="hljs-comment">// tags[OPTIONAL]: a method of classifying blueprints for your own usage</span>
+    tags: [<span class="hljs-string">"person"</span>, <span class="hljs-string">"name"</span>],
+    <span class="hljs-comment">// description[OPTIONAL]: additional field for adding your intention for this blueprint</span>
+    description: <span class="hljs-string">"Adds a first name field which contains the person's first name"</span>,
+    <span class="hljs-comment">// defaultValue[OPTIONAL]: provides a default value or value giving callback if none was provided</span>
+    defaultValue: <span class="hljs-string">"Johnny"</span>,
+    <span class="hljs-comment">// blueprints[OPTIONAL]: add child blueprints if the context permits [OPTIONAL]</span>
+    blueprints: Fields([
+      <span class="hljs-comment">// ... child blueprints</span>
+    ]),
+    <span class="hljs-comment">// policies[OPTIONAL]: adds scope and role access control to the blueprint [OPTIONAL]</span>
+    <span class="hljs-comment">// if the policies do not return a grant then blueprint will not appear in hydrated set</span>
+    policies: GrantOne([
+      <span class="hljs-comment">// ... governing policies</span>
+    ]),
+    <span class="hljs-comment">// sanitizers[OPTIONAL]: adds value sanitizers which will automatically be applied during hydration [OPTIONAL]</span>
+    sanitizers: SanitizeAll([
+      <span class="hljs-comment">// ... sanitizers</span>
+    ]),
+    <span class="hljs-comment">// validators[OPTIONAL]: adds value validation </span>
+    validators: ValidateAll([
+      <span class="hljs-comment">// ... validators</span>
+    ]),
+    <span class="hljs-comment">// setters[OPTIONAL]: a way to intercept values as they are set into a hydrate and apply any filtering or conversion</span>
+    setters: [
+      <span class="hljs-comment">// ... setter callbacks</span>
+    ],
+    <span class="hljs-comment">// getters[OPTIONAL]: a way to intercept values as they are get from a hydrate and apply any filtering or conversion</span>
+    getters: [
+      <span class="hljs-comment">// ... getter callbacks</span>
+    ],
+    <span class="hljs-comment">// options[OPTIONAL]: add any optional data you want passed as options</span>
+    options: {}
+})
+</code></pre>
 				<h2 id="blueprint-policies">Blueprint Policies</h2>
 				<pre><code class="lang-javascript"><span class="hljs-comment">// Import on top of earlier dependencies etc</span>
 <span class="hljs-keyword">import</span> { GrantOne, DenyPolicy, AllowPolicy } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
@@ -203,8 +246,7 @@ collider
         first_name: <span class="hljs-string">"johnny  "</span>
     })
     .collide()
-    <span class="hljs-comment">// Sanitize the data after hydration</span>
-    .then(collider.sanitize)
+    <span class="hljs-comment">// Sanitizers will automatically be applied during hydration</span>
     .then(collider.dump)
     .then(<span class="hljs-function"><span class="hljs-params">values</span> =&gt;</span> {
         <span class="hljs-comment">// Removed spaces and converts to uppercase</span>

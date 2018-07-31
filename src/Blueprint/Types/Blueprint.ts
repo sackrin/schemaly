@@ -14,7 +14,10 @@ export interface Blueprint {
   context: Context;
   machine: string;
   label?: string;
+  description?: string;
+  tags?: string[];
   parent?: Blueprint;
+  defaultValue?: any;
   blueprints: Blueprints | Polymorphic;
   options: any;
   policies: Policies;
@@ -25,6 +28,7 @@ export interface Blueprint {
   setBlueprints(blueprints?: Blueprints): void;
   setSanitizers(sanitizers?: Sanitizers): void;
   setValidators(validators?: Validators): void;
+  getDefault(options?: any): Promise<any>;
   grant({ effect, scope, roles, options }: PolicyGrantArgs): Promise<boolean>;
   validate({
     effect,

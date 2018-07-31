@@ -58,6 +58,8 @@ describe("Effect/Hydrate", (): void => {
       context: STRING,
       machine: "first_name",
       label: "First Name",
+      description: "The first name of a user",
+      tags: ["person", "profile", "name"],
       policies: GrantOne([
         DenyPolicy({ roles: ["member"], scope: ["read", "write"] }),
         AllowPolicy({ roles: ["user", "admin"], scope: ["read", "write"] })
@@ -299,6 +301,10 @@ describe("Effect/Hydrate", (): void => {
       ...mockSingleParams,
       options: { testing: true }
     });
+    expect(effect.machine).to.equal("first_name");
+    expect(effect.context).to.equal(STRING);
+    expect(effect.description).to.equal("The first name of a user");
+    expect(effect.tags).to.deep.equal(["person", "profile", "name"]);
     expect(effect.blueprint).to.deep.equal(mockSingleParams.blueprint);
     expect(effect.value).to.equal("johnny");
     expect(effect.options).to.deep.equal({ testing: true });
@@ -335,11 +341,11 @@ describe("Effect/Hydrate", (): void => {
         expect(fakeEffect.find({ machine: "secret" })).to.be.undefined;
         expect(fakeEffect.find({ machine: "first_name" })).to.have.property(
           "value",
-          "Toby"
+          "TOBY"
         );
         expect(fakeEffect.find({ machine: "surname" })).to.have.property(
           "value",
-          "Smith"
+          "SMITH"
         );
       })
       .catch(msg => {
@@ -369,12 +375,12 @@ describe("Effect/Hydrate", (): void => {
         expect(fakeEffect.find({ machine: "first_name" })).to.not.be.undefined;
         expect(fakeEffect.find({ machine: "first_name" })).to.have.property(
           "value",
-          "Toby"
+          "TOBY"
         );
         expect(fakeEffect.find({ machine: "surname" })).to.not.be.undefined;
         expect(fakeEffect.find({ machine: "surname" })).to.have.property(
           "value",
-          "Smith"
+          "SMITH"
         );
         expect(fakeEffect.find({ machine: "secret" })).to.be.undefined;
         expect(fakeEffect.find({ machine: "notexists" })).to.be.undefined;
@@ -392,12 +398,12 @@ describe("Effect/Hydrate", (): void => {
         expect(fakeEffect.find({ machine: "label" })).to.not.be.undefined;
         expect(fakeEffect.find({ machine: "label" })).to.have.property(
           "value",
-          "Home Address"
+          "HOME ADDRESS"
         );
         expect(fakeEffect.find({ machine: "address" })).to.not.be.undefined;
         expect(fakeEffect.find({ machine: "address" })).to.have.property(
           "value",
-          "test1@example.com"
+          "TEST1@EXAMPLE.COM"
         );
         expect(fakeEffect.find({ machine: "secret" })).to.be.undefined;
         expect(fakeEffect.find({ machine: "notexists" })).to.be.undefined;
@@ -415,11 +421,11 @@ describe("Effect/Hydrate", (): void => {
         expect(fakeEffect.filter({ machine: "first_name" })).to.have.length(1);
         expect(
           fakeEffect.filter({ machine: "first_name" })[0]
-        ).to.have.property("value", "Toby");
+        ).to.have.property("value", "TOBY");
         expect(fakeEffect.filter({ machine: "surname" })).to.have.length(1);
         expect(fakeEffect.filter({ machine: "surname" })[0]).to.have.property(
           "value",
-          "Smith"
+          "SMITH"
         );
         expect(fakeEffect.filter({ machine: "secret" })).to.have.length(0);
         expect(fakeEffect.filter({ machine: "notexists" })).to.have.length(0);
@@ -437,12 +443,12 @@ describe("Effect/Hydrate", (): void => {
         expect(fakeEffect.filter({ machine: "label" })).to.have.length(2);
         expect(fakeEffect.filter({ machine: "label" })[0]).to.have.property(
           "value",
-          "Home Address"
+          "HOME ADDRESS"
         );
         expect(fakeEffect.filter({ machine: "address" })).to.have.length(2);
         expect(fakeEffect.filter({ machine: "address" })[0]).to.have.property(
           "value",
-          "test1@example.com"
+          "TEST1@EXAMPLE.COM"
         );
         expect(fakeEffect.filter({ machine: "secret" })).to.have.length(0);
         expect(fakeEffect.filter({ machine: "notexists" })).to.have.length(0);
@@ -459,7 +465,6 @@ describe("Effect/Hydrate", (): void => {
     });
     return fakeEffect
       .hydrate()
-      .then(fakeEffect.sanitize)
       .then(() => {
         expect(fakeEffect.value, "JOHNSTON");
       })
@@ -478,7 +483,6 @@ describe("Effect/Hydrate", (): void => {
     });
     return fakeEffect
       .hydrate()
-      .then(fakeEffect.sanitize)
       .then(() => {
         expect(fakeEffect.find({ machine: "first_name" })).to.have.property(
           "value",
@@ -510,7 +514,6 @@ describe("Effect/Hydrate", (): void => {
     });
     return fakeEffect
       .hydrate()
-      .then(fakeEffect.sanitize)
       .then(() => {
         expect(fakeEffect.filter({ machine: "label" })[0]).to.have.property(
           "value",
@@ -682,8 +685,8 @@ describe("Effect/Hydrate", (): void => {
       .then(fakeEffect.dump)
       .then(dumped => {
         expect(dumped).to.deep.equal({
-          first_name: "Toby",
-          surname: "Smith"
+          first_name: "TOBY",
+          surname: "SMITH"
         });
       })
       .catch(msg => {
@@ -699,12 +702,12 @@ describe("Effect/Hydrate", (): void => {
       .then(dumped => {
         expect(dumped).to.deep.equal([
           {
-            label: "Home Address",
-            address: "test1@example.com"
+            label: "HOME ADDRESS",
+            address: "TEST1@EXAMPLE.COM"
           },
           {
-            label: "Home Address",
-            address: "test1@example.com"
+            label: "HOME ADDRESS",
+            address: "TEST1@EXAMPLE.COM"
           }
         ]);
       })
