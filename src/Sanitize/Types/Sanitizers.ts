@@ -1,9 +1,9 @@
-import { SanitizerApplyArgs, SanitizersType } from "./";
+import { SanitizerApplyArgs, Sanitizer } from "./";
 
 interface Sanitizers {
-  sanitizers: SanitizersType;
+  sanitizers: Sanitizer[];
   options: any;
-  merge(additional: SanitizersType): void;
+  merge(additional: Sanitizer[]): void;
   apply({ value, effect, options }: SanitizerApplyArgs): Promise<any>;
 }
 

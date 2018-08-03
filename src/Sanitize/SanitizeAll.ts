@@ -1,12 +1,12 @@
 import {
-  SanitizersType,
   SanitizerApplyArgs,
   SanitizersArgs,
+  Sanitizer,
   Sanitizers
 } from "./Types";
 
 export class SanitizeAll implements Sanitizers {
-  public sanitizers: SanitizersType = [];
+  public sanitizers: Sanitizer[] = [];
 
   public options: any = {};
 
@@ -15,7 +15,7 @@ export class SanitizeAll implements Sanitizers {
     this.options = options;
   }
 
-  public merge = (additional: SanitizersType): void => {
+  public merge = (additional: Sanitizer[]): void => {
     this.sanitizers = [...additional, ...this.sanitizers];
   };
 
@@ -33,5 +33,5 @@ export class SanitizeAll implements Sanitizers {
   };
 }
 
-export default (sanitizers: SanitizersType, options: any = {}): SanitizeAll =>
+export default (sanitizers: Sanitizer[], options: any = {}): SanitizeAll =>
   new SanitizeAll({ sanitizers, options });

@@ -1,7 +1,7 @@
-import { SanitizersType } from "./index";
+import Sanitizer from "./Sanitizer";
 
 interface SanitizersArgs {
-  sanitizers: SanitizersType;
+  sanitizers: Sanitizer[];
   options?: any;
 }
 
