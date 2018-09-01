@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>GrantOne | fissionjs</title>
+	<title>OneOfValidator | fissionjs</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,13 +52,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_policy_grantone_.html">&quot;Policy/GrantOne&quot;</a>
+					<a href="../modules/_validate_oneofvalidator_.html">&quot;Validate/OneOfValidator&quot;</a>
 				</li>
 				<li>
-					<a href="_policy_grantone_.grantone.html">GrantOne</a>
+					<a href="_validate_oneofvalidator_.oneofvalidator.html">OneOfValidator</a>
 				</li>
 			</ul>
-			<h1>Class GrantOne</h1>
+			<h1>Class OneOfValidator</h1>
 		</div>
 	</div>
 </header>
@@ -68,9 +68,9 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Contains policies and grants only if --&gt; ONE &lt;-- policy return granted
-							To be used when defining policies for blueprint
-						Ensure that at least one DenyPolicy has roles and scope of * for security</p>
+						<p>Provides one of validation
+							Recommended to use to validate against a list of accepted values
+						Validation rules, such as this, should be used within a Validators instance</p>
 					</div>
 				</div>
 			</section>
@@ -78,14 +78,14 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">GrantOne</span>
+						<span class="target">OneOfValidator</span>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/_policy_types_policies_.policies.html" class="tsd-signature-type">Policies</a></li>
+					<li><a href="../interfaces/_validate_types_validator_.validator.html" class="tsd-signature-type">Validator</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -95,20 +95,21 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_policy_grantone_.grantone.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_validate_oneofvalidator_.oneofvalidator.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_policy_grantone_.grantone.html#options" class="tsd-kind-icon">options</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_policy_grantone_.grantone.html#policies" class="tsd-kind-icon">policies</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_validate_oneofvalidator_.oneofvalidator.html#options" class="tsd-kind-icon">options</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_validate_oneofvalidator_.oneofvalidator.html#rules" class="tsd-kind-icon">rules</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_policy_grantone_.grantone.html#grant" class="tsd-kind-icon">grant</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_validate_oneofvalidator_.oneofvalidator.html#getrules" class="tsd-kind-icon">get<wbr>Rules</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_validate_oneofvalidator_.oneofvalidator.html#validate" class="tsd-kind-icon">validate</a></li>
 							</ul>
 						</section>
 					</div>
@@ -120,13 +121,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Grant<wbr>One<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_policy_grantone_.grantone.html" class="tsd-signature-type">GrantOne</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>One<wbr>OfValidator<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_validate_oneofvalidator_.oneofvalidator.html" class="tsd-signature-type">OneOfValidator</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/d21f5d4/src/Policy/GrantOne.ts#L13">Policy/GrantOne.ts:13</a></li>
+									<li>Defined in Validate/OneOfValidator.ts:19</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -139,7 +140,7 @@
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_policy_grantone_.grantone.html" class="tsd-signature-type">GrantOne</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_validate_oneofvalidator_.oneofvalidator.html" class="tsd-signature-type">OneOfValidator</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -151,20 +152,20 @@
 					<h3>options</h3>
 					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/_policy_types_policies_.policies.html">Policies</a>.<a href="../interfaces/_policy_types_policies_.policies.html#options">options</a></p>
+						<p>Implementation of <a href="../interfaces/_validate_types_validator_.validator.html">Validator</a>.<a href="../interfaces/_validate_types_validator_.validator.html#options">options</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/d21f5d4/src/Policy/GrantOne.ts#L13">Policy/GrantOne.ts:13</a></li>
+							<li>Defined in Validate/OneOfValidator.ts:19</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="policies" class="tsd-anchor"></a>
-					<h3>policies</h3>
-					<div class="tsd-signature tsd-kind-icon">policies<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_policy_types_policy_.policy.html" class="tsd-signature-type">Policy</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+					<a name="rules" class="tsd-anchor"></a>
+					<h3>rules</h3>
+					<div class="tsd-signature tsd-kind-icon">rules<span class="tsd-signature-symbol">:</span> <a href="../modules/_validate_types_rulestype_.html#rulestype" class="tsd-signature-type">RulesType</a><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/_policy_types_policies_.policies.html">Policies</a>.<a href="../interfaces/_policy_types_policies_.policies.html#policies">policies</a></p>
+						<p>Implementation of <a href="../interfaces/_validate_types_validator_.validator.html">Validator</a>.<a href="../interfaces/_validate_types_validator_.validator.html#rules">rules</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/d21f5d4/src/Policy/GrantOne.ts#L11">Policy/GrantOne.ts:11</a></li>
+							<li>Defined in Validate/OneOfValidator.ts:17</li>
 						</ul>
 					</aside>
 				</section>
@@ -172,22 +173,54 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="grant" class="tsd-anchor"></a>
-					<h3>grant</h3>
+					<a name="getrules" class="tsd-anchor"></a>
+					<h3>get<wbr>Rules</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">grant<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Rules<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_validate_types_validator_.validator.html">Validator</a>.<a href="../interfaces/_validate_types_validator_.validator.html#getrules">getRules</a></p>
+								<ul>
+									<li>Defined in Validate/OneOfValidator.ts:34</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get Constructed Rules</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="validate" class="tsd-anchor"></a>
+					<h3>validate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">validate<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_validate_types_validatorresult_.validatorresult.html" class="tsd-signature-type">ValidatorResult</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/fissionjs/blob/d21f5d4/src/Policy/GrantOne.ts#L33">Policy/GrantOne.ts:33</a></li>
+									<li>Defined in Validate/OneOfValidator.ts:45</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Grant Challenge
-									Must be compatible with individual policy grant checks</p>
+									<p>Validate Value</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -198,7 +231,7 @@
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_validate_types_validatorresult_.validatorresult.html" class="tsd-signature-type">ValidatorResult</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -211,7 +244,7 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_policy_grantone_.html">"<wbr>Policy/<wbr>Grant<wbr>One"</a>
+						<a href="../modules/_validate_oneofvalidator_.html">"<wbr>Validate/<wbr>One<wbr>OfValidator"</a>
 					</li>
 				</ul>
 			</nav>
@@ -220,19 +253,22 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_policy_grantone_.grantone.html" class="tsd-kind-icon">Grant<wbr>One</a>
+						<a href="_validate_oneofvalidator_.oneofvalidator.html" class="tsd-kind-icon">One<wbr>OfValidator</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_policy_grantone_.grantone.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="_validate_oneofvalidator_.oneofvalidator.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_policy_grantone_.grantone.html#options" class="tsd-kind-icon">options</a>
+								<a href="_validate_oneofvalidator_.oneofvalidator.html#options" class="tsd-kind-icon">options</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_policy_grantone_.grantone.html#policies" class="tsd-kind-icon">policies</a>
+								<a href="_validate_oneofvalidator_.oneofvalidator.html#rules" class="tsd-kind-icon">rules</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_policy_grantone_.grantone.html#grant" class="tsd-kind-icon">grant</a>
+								<a href="_validate_oneofvalidator_.oneofvalidator.html#getrules" class="tsd-kind-icon">get<wbr>Rules</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_validate_oneofvalidator_.oneofvalidator.html#validate" class="tsd-kind-icon">validate</a>
 							</li>
 						</ul>
 					</li>

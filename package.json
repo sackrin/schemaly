@@ -1,6 +1,6 @@
 {
   "name": "fissionjs",
-  "version": "1.1.9",
+  "version": "1.2.0",
   "description": "A simple to use and extendable policy driven JS object schema library",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -29,6 +29,7 @@
     "@types/validatorjs": "^3.7.1",
     "chai": "^4.1.2",
     "mocha": "^5.1.1",
+    "prettier": "^1.14.2",
     "ts-node": "^7.0.0",
     "tslint": "^5.10.0",
     "tslint-config-prettier": "^1.13.0",
