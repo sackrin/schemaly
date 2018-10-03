@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>fissionjs</title>
+	<title>schemaly</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">fissionjs</a>
+					<a href="index.html" class="title">schemaly</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -52,7 +52,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> fissionjs</h1>
+			<h1> schemaly</h1>
 		</div>
 	</div>
 </header>
@@ -60,18 +60,18 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="fissionjs">FissionJS</h1>
+				<h1 id="schemaly">Schemaly</h1>
 				<p>This library is designed to help work with data objects by providing structure, validation, sanitization and policy driven access control. Situations where you may need this functionality include retrieving data from a database and restricting what the output should contain using user roles and scope. Processing request data from an unknown source and stripping out unexpected or unauthorised values. Creating universal data models to share on your client and server side projects to allow for shared sanitization + validation. A mixture of the previous examples to lock down and regulate data for serving, receiving and storing data. </p>
 				<p>Pretty much you can use this library to provide client side model and validation functionality and/or as a middleware to your node api REST or GraphQL endpoints.</p>
 				<h2 id="installation">Installation</h2>
 				<p>Install by using npm </p>
-				<pre><code class="lang-javascript">npm install --save fissionjs
+				<pre><code class="lang-javascript">npm install --save schemaly
 </code></pre>
 				<p>or by using yarn</p>
-				<pre><code class="lang-javascript">yarn add fissionjs
+				<pre><code class="lang-javascript">yarn add schemaly
 </code></pre>
 				<h2 id="quick-start">Quick Start</h2>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { Schema, Fields, Field, STRING, Collision } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
+				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { Schema, Fields, Field, STRING, Collision } <span class="hljs-keyword">from</span> <span class="hljs-string">'schemaly'</span>;
 
 <span class="hljs-comment">// Create your data schema</span>
 <span class="hljs-comment">// This is a simple example with only one STRING field</span>
@@ -118,7 +118,7 @@ collider
 
 </code></pre>
 				<h2 id="concepts">Concepts</h2>
-				<p>FissionJS has a few concepts for handling schema structure and application of data to schema. There are a number of native classes which implement these concepts such as Field, Fields, Hydrate, Hydrated etc however you have the ability to create your own extensions.</p>
+				<p>Schemaly has a few concepts for handling schema structure and application of data to schema. There are a number of native classes which implement these concepts such as Field, Fields, Hydrate, Hydrated etc however you have the ability to create your own extensions.</p>
 				<p>The process basically has two parts. First, the outlining of schemas which describe data structure relationships, allowed values and permissions. The second, allows from external data to be injected into the schema to product a hydrated set of objects that have additional information such as sanitized values, validation results and policy driven stripped out data.</p>
 				<p>The act of applying data to the schema is called a collide and is handled by Interact classes.</p>
 				<ul>
@@ -172,7 +172,7 @@ collider
 </code></pre>
 				<h2 id="blueprint-policies">Blueprint Policies</h2>
 				<pre><code class="lang-javascript"><span class="hljs-comment">// Import on top of earlier dependencies etc</span>
-<span class="hljs-keyword">import</span> { GrantOne, DenyPolicy, AllowPolicy } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
+<span class="hljs-keyword">import</span> { GrantOne, DenyPolicy, AllowPolicy } <span class="hljs-keyword">from</span> <span class="hljs-string">'schemaly'</span>;
 
 <span class="hljs-comment">// ... wrapped in schema</span>
 Field({
@@ -218,7 +218,7 @@ collider
 </code></pre>
 				<h2 id="blueprint-sanitization">Blueprint Sanitization</h2>
 				<pre><code class="lang-javascript"><span class="hljs-comment">// Import on top of earlier dependencies etc</span>
-<span class="hljs-keyword">import</span> { SanitizeAll, SimpleSanitizer } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
+<span class="hljs-keyword">import</span> { SanitizeAll, SimpleSanitizer } <span class="hljs-keyword">from</span> <span class="hljs-string">'schemaly'</span>;
 
 <span class="hljs-comment">// ... wrapped in schema</span>
 Field({
@@ -231,7 +231,7 @@ Field({
     <span class="hljs-comment">// You can stack sanitizers to apply sanitizing layers</span>
     <span class="hljs-comment">// Sanitizers can be async so you can sanitize against api endpoints if you like</span>
     sanitizers: SanitizeAll([
-        <span class="hljs-comment">// A simple sanitizer is bundled with fissionjs</span>
+        <span class="hljs-comment">// A simple sanitizer is bundled with schemaly</span>
         <span class="hljs-comment">// It allows your to do basic sanitization</span>
         <span class="hljs-comment">// It is probably a good idea to create your own</span>
         SimpleSanitizer({ <span class="hljs-attr">filters</span>: [<span class="hljs-string">'trim|upper_case'</span>] })
@@ -256,7 +256,7 @@ collider
 </code></pre>
 				<h2 id="blueprint-validation">Blueprint Validation</h2>
 				<pre><code class="lang-javascript"><span class="hljs-comment">// Import on top of earlier dependencies etc</span>
-<span class="hljs-keyword">import</span> { ValidateAll, SimpleValidator } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
+<span class="hljs-keyword">import</span> { ValidateAll, SimpleValidator } <span class="hljs-keyword">from</span> <span class="hljs-string">'schemaly'</span>;
 
 <span class="hljs-comment">// ... wrapped in schema</span>
 Field({
@@ -296,7 +296,7 @@ collider
 </code></pre>
 				<h2 id="container-blueprints">Container Blueprints</h2>
 				<pre><code class="lang-javascript"><span class="hljs-comment">// Import on top of earlier dependencies etc</span>
-<span class="hljs-keyword">import</span> { CONTAINER } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
+<span class="hljs-keyword">import</span> { CONTAINER } <span class="hljs-keyword">from</span> <span class="hljs-string">'schemaly'</span>;
 
 <span class="hljs-comment">// ... wrapped in schema</span>
 Field({
@@ -348,7 +348,7 @@ collider
 </code></pre>
 				<h2 id="collection-blueprints">Collection Blueprints</h2>
 				<pre><code class="lang-javascript"><span class="hljs-comment">// Import on top of earlier dependencies etc</span>
-<span class="hljs-keyword">import</span> { COLLECTION, BOOLEAN } <span class="hljs-keyword">from</span> <span class="hljs-string">'fissionjs'</span>;
+<span class="hljs-keyword">import</span> { COLLECTION, BOOLEAN } <span class="hljs-keyword">from</span> <span class="hljs-string">'schemaly'</span>;
 
 <span class="hljs-comment">// ... wrapped in schema</span>
 Field({
@@ -401,12 +401,12 @@ collider
 
 </code></pre>
 				<h2 id="notable-todos">Notable ToDos</h2>
-				<p>Progress of development can be viewed on the project trello board. <a href="https://trello.com/b/SskmstkA/fissionjs">https://trello.com/b/SskmstkA/fissionjs</a></p>
+				<p>Progress of development can be viewed on the project trello board. <a href="https://trello.com/b/SskmstkA/schemaly">https://trello.com/b/SskmstkA/schemaly</a></p>
 				<ul>
 					<li>Create better documentation and examples</li>
 					<li>Adding strict mode (strict = true / false) option at Model and Blueprint level to enforce known fields but allow non defined fields as well</li>
 					<li>Add ANY context to permit any value within a field</li>
-					<li>Create JSON Schema parser to allow FissionJS to work with JSON schema projects.</li>
+					<li>Create JSON Schema parser to allow Schemaly to work with JSON schema projects.</li>
 				</ul>
 			</div>
 		</div>

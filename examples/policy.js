@@ -1,4 +1,4 @@
-import { Schema, Fields, Field, STRING, Collision, GrantOne, DenyPolicy, AllowPolicy } from 'fissionjs';
+import { Schema, Fields, Field, STRING, Collision, GrantOne, DenyPolicy, AllowPolicy } from 'schemaly';
 
 const profile = Schema({
     machine: "profile",

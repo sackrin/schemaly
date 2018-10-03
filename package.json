@@ -1,5 +1,5 @@
 {
-  "name": "fissionjs",
+  "name": "schemaly",
   "version": "1.2.1",
   "description": "A simple to use and extendable policy driven JS object schema library",
   "main": "lib/index.js",
@@ -15,13 +15,13 @@
   "files": [
     "lib"
   ],
-  "repository": "git+https://github.com/sackrin/fissionjs.git",
+  "repository": "git+https://github.com/sackrin/schemaly.git",
   "author": "Hilary Osborne",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sackrin/fissionjs/issues"
+    "url": "https://github.com/sackrin/schemaly/issues"
   },
-  "homepage": "https://fissionjs.com",
+  "homepage": "https://schemaly.com",
   "devDependencies": {
     "@types/chai": "^4.1.4",
     "@types/lodash": "^4.14.110",

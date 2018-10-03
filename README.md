@@ -1,4 +1,4 @@
-# FissionJS
+# Schemaly
 
 This library is designed to help work with data objects by providing structure, validation, sanitization and policy driven access control. Situations where you may need this functionality include retrieving data from a database and restricting what the output should contain using user roles and scope. Processing request data from an unknown source and stripping out unexpected or unauthorised values. Creating universal data models to share on your client and server side projects to allow for shared sanitization + validation. A mixture of the previous examples to lock down and regulate data for serving, receiving and storing data. 
 
@@ -9,18 +9,18 @@ Pretty much you can use this library to provide client side model and validation
 Install by using npm 
 
 ```javascript
-npm install --save fissionjs
+npm install --save schemaly
 ```
 
 or by using yarn
 ```javascript
-yarn add fissionjs
+yarn add schemaly
 ```
 
 ## Quick Start
 
 ```javascript
-import { Schema, Fields, Field, STRING, Collision } from 'fissionjs';
+import { Schema, Fields, Field, STRING, Collision } from 'schemaly';
 
 // Create your data schema
 // This is a simple example with only one STRING field
@@ -68,7 +68,7 @@ collider
 ```
 
 ## Concepts
-FissionJS has a few concepts for handling schema structure and application of data to schema. There are a number of native classes which implement these concepts such as Field, Fields, Hydrate, Hydrated etc however you have the ability to create your own extensions.
+Schemaly has a few concepts for handling schema structure and application of data to schema. There are a number of native classes which implement these concepts such as Field, Fields, Hydrate, Hydrated etc however you have the ability to create your own extensions.
 
 The process basically has two parts. First, the outlining of schemas which describe data structure relationships, allowed values and permissions. The second, allows from external data to be injected into the schema to product a hydrated set of objects that have additional information such as sanitized values, validation results and policy driven stripped out data.
 
@@ -129,7 +129,7 @@ Field({
 
 ```javascript
 // Import on top of earlier dependencies etc
-import { GrantOne, DenyPolicy, AllowPolicy } from 'fissionjs';
+import { GrantOne, DenyPolicy, AllowPolicy } from 'schemaly';
 
 // ... wrapped in schema
 Field({
@@ -178,7 +178,7 @@ collider
 
 ```javascript
 // Import on top of earlier dependencies etc
-import { SanitizeAll, SimpleSanitizer } from 'fissionjs';
+import { SanitizeAll, SimpleSanitizer } from 'schemaly';
 
 // ... wrapped in schema
 Field({
@@ -191,7 +191,7 @@ Field({
     // You can stack sanitizers to apply sanitizing layers
     // Sanitizers can be async so you can sanitize against api endpoints if you like
     sanitizers: SanitizeAll([
-        // A simple sanitizer is bundled with fissionjs
+        // A simple sanitizer is bundled with schemaly
         // It allows your to do basic sanitization
         // It is probably a good idea to create your own
         SimpleSanitizer({ filters: ['trim|upper_case'] })
@@ -219,7 +219,7 @@ collider
 
 ```javascript
 // Import on top of earlier dependencies etc
-import { ValidateAll, SimpleValidator } from 'fissionjs';
+import { ValidateAll, SimpleValidator } from 'schemaly';
 
 // ... wrapped in schema
 Field({
@@ -262,7 +262,7 @@ collider
 
 ```javascript
 // Import on top of earlier dependencies etc
-import { CONTAINER } from 'fissionjs';
+import { CONTAINER } from 'schemaly';
 
 // ... wrapped in schema
 Field({
@@ -317,7 +317,7 @@ collider
 
 ```javascript
 // Import on top of earlier dependencies etc
-import { COLLECTION, BOOLEAN } from 'fissionjs';
+import { COLLECTION, BOOLEAN } from 'schemaly';
 
 // ... wrapped in schema
 Field({
@@ -371,9 +371,9 @@ collider
 ```
 
 ## Notable ToDos
-Progress of development can be viewed on the project trello board. https://trello.com/b/SskmstkA/fissionjs
+Progress of development can be viewed on the project trello board. https://trello.com/b/SskmstkA/schemaly
 
 - Create better documentation and examples
 - Adding strict mode (strict = true / false) option at Model and Blueprint level to enforce known fields but allow non defined fields as well
 - Add ANY context to permit any value within a field
-- Create JSON Schema parser to allow FissionJS to work with JSON schema projects.
+- Create JSON Schema parser to allow Schemaly to work with JSON schema projects.

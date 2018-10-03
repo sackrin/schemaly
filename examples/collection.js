@@ -1,4 +1,4 @@
-import { Schema, Fields, Field, COLLECTION, BOOLEAN, STRING, Collision } from 'fissionjs';
+import { Schema, Fields, Field, COLLECTION, BOOLEAN, STRING, Collision } from 'schemaly';
 
 const profile = Schema({
     machine: "profile",

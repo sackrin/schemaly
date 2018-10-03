@@ -1,4 +1,4 @@
-import { Schema, Fields, Field, CONTAINER, STRING, Collision } from 'fissionjs';
+import { Schema, Fields, Field, CONTAINER, STRING, Collision } from 'schemaly';
 
 const profile = Schema({
     machine: "profile",

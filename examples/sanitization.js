@@ -1,4 +1,4 @@
-import { Schema, Fields, Field, STRING, Collision, SanitizeAll, SimpleSanitizer } from 'fissionjs';
+import { Schema, Fields, Field, STRING, Collision, SanitizeAll, SimpleSanitizer } from 'schemaly';
 
 const profile = Schema({
     machine: "profile",
@@ -15,7 +15,7 @@ const profile = Schema({
             // You can stack sanitizers to apply sanitizing layers
             // Sanitizers can be async so you can sanitize against api endpoints if you like
             sanitizers: SanitizeAll([
-                // A simple sanitizer is bundled with fissionjs
+                // A simple sanitizer is bundled with schemaly
                 // It allows your to do basic sanitization
                 // It is probably a good idea to create your own
                 SimpleSanitizer({ filters: ['trim|upper_case'] })

@@ -1,4 +1,4 @@
-import { Schema, Fields, Field, STRING, Collision } from 'fissionjs';
+import { Schema, Fields, Field, STRING, Collision } from 'schemaly';
 
 // Create your data schema
 // This is a simple example with only one STRING field

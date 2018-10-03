@@ -1,4 +1,4 @@
-import { Schema, Fields, Field, STRING, ValidateAll, SimpleValidator, Collision } from 'fissionjs';
+import { Schema, Fields, Field, STRING, ValidateAll, SimpleValidator, Collision } from 'schemaly';
 
 const profile = Schema({
     machine: "profile",
