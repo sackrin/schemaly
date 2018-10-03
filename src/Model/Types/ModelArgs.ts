@@ -1,5 +1,6 @@
 import { Blueprints } from "../../Blueprint/Types/Blueprints";
 import { RolesType, ScopesType } from "../../Policy/Types";
+import { Options } from '../../Common';
 
 interface ModelArgs {
   machine: string;
@@ -7,7 +8,7 @@ interface ModelArgs {
   blueprints: Blueprints;
   roles: RolesType;
   scope: ScopesType;
-  options?: any;
+  options?: Options;
 }
 
 export default ModelArgs;

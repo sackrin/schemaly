@@ -29,7 +29,7 @@ export interface Blueprint {
   setSanitizers(sanitizers?: Sanitizers): void;
   setValidators(validators?: Validators): void;
   getDefault(options?: any): Promise<any>;
-  grant({ effect, scope, roles, options }: PolicyGrantArgs): Promise<boolean>;
+  grant({ scope, roles, options }: PolicyGrantArgs): Promise<boolean>;
   validate({
     effect,
     options

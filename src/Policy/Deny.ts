@@ -7,6 +7,7 @@ import {
   RolesType,
   ScopesType
 } from "./Types";
+import { Options } from '../Common';
 
 /**
  * Use this policy to deny grant against roles and scope.
@@ -20,12 +21,12 @@ export class Deny implements Policy {
 
   public scope: ScopesType = [];
 
-  public options: any = {};
+  public options: Options = {};
 
   /**
    * @param {RoleType | RolesType} roles
    * @param {ScopeType | ScopesType} scope
-   * @param {any} options
+   * @param {Options} options
    */
   constructor({ roles, scope, options = {} }: PolicyArgs) {
     this.roles = _.isArray(roles) ? roles : [roles];
@@ -53,7 +54,7 @@ export class Deny implements Policy {
    * @param options
    * @returns {Promise<string[]>}
    */
-  public getRoles = async (options: any = {}): Promise<string[]> => {
+  public getRoles = async (options: Options = {}): Promise<string[]> => {
     return getMixedResult(this.roles, { ...this.options, ...options });
   };
 
@@ -62,20 +63,18 @@ export class Deny implements Policy {
    * @param options
    * @returns {Promise<string[]>}
    */
-  public getScope = async (options: any = {}): Promise<string[]> => {
+  public getScope = async (options: Options = {}): Promise<string[]> => {
     return getMixedResult(this.scope, { ...this.options, ...options });
   };
 
   /**
    * Grant Challenge
-   * @param {Effect} effect
    * @param {RoleType | RolesType} roles
    * @param {ScopeType | ScopesType} scope
-   * @param {{options?: any} | any} options
+   * @param {{options?: Options} | Options} options
    * @returns {Promise<boolean>}
    */
   public grant = async ({
-    effect,
     roles,
     scope,
     ...options

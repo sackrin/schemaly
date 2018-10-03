@@ -2,6 +2,7 @@ import { RolesType, ScopesType } from "../../Policy/Types";
 import { Model } from "../../Model/Types";
 import { Effects } from "../../Effect/Types";
 import { ValidatorResult } from "../../Validate/Types";
+import { Options } from '../../Common/Types';
 
 export interface Collider {
   model: Model;
@@ -9,15 +10,15 @@ export interface Collider {
   roles: RolesType;
   effects?: Effects;
   values?: any;
-  options?: any;
+  options?: Options;
   with(values: any): this;
   and({ values, ids }: { values: any; ids?: string[] }): this;
-  collide(options?: any): Promise<this>;
-  sanitize(options: any): Promise<this>;
+  collide(options?: Options): Promise<this>;
+  sanitize(options: Options): Promise<this>;
   validate(
-    options: any
+    options: Options
   ): Promise<{ valid: boolean; results: { [s: string]: ValidatorResult } }>;
-  dump(options: any): Promise<any>;
+  dump(): Promise<any>;
 }
 
 export default Collider;

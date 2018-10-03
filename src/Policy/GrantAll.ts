@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { getMixedResult } from "../Utils";
 import { Policies, PoliciesArgs, Policy, PolicyGrantArgs } from "./Types";
+import { Options } from '../Common';
 
 /**
  * Contains policies and grants only if --> ALL <-- policies return granted
@@ -10,11 +11,11 @@ import { Policies, PoliciesArgs, Policy, PolicyGrantArgs } from "./Types";
 export class GrantAll implements Policies {
   public policies: Policy[] = [];
 
-  public options: any = {};
+  public options: Options = {};
 
   /**
    * @param {Policy[]} policies
-   * @param {any} options
+   * @param {Options} options
    */
   constructor({ policies, options = {} }: PoliciesArgs) {
     this.policies = policies;
@@ -24,14 +25,12 @@ export class GrantAll implements Policies {
   /**
    * Grant Challenge
    * Must be compatible with individual policy grant checks
-   * @param {Effect} effect
    * @param {RoleType | RolesType} roles
    * @param {ScopeType | ScopesType} scope
-   * @param {any} options
+   * @param {Options} options
    * @returns {Promise<boolean>}
    */
   public grant = async ({
-    effect,
     roles,
     scope,
     options
@@ -51,7 +50,6 @@ export class GrantAll implements Policies {
       async (flag: Promise<boolean>, policy: Policy) => {
         const curr: boolean = await flag;
         return (await policy.grant({
-          effect,
           roles: builtRoles,
           scope: builtScope,
           options: { ...this.options, ...options }
@@ -71,5 +69,5 @@ export class GrantAll implements Policies {
  * @param options
  * @returns {GrantAll}
  */
-export default (policies: Policy[], options: any = {}) =>
+export default (policies: Policy[], options: Options = {}) =>
   new GrantAll({ policies, options });

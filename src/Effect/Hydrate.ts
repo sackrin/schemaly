@@ -5,6 +5,7 @@ import { ValidatorResult } from "../Validate/Types";
 import { Hydrates } from "./";
 import { Context } from "../Blueprint/Context/Types";
 import { Blueprint } from "../Blueprint/Types";
+import { Options } from '../Common';
 
 /**
  * Represents a hydrated blueprint
@@ -20,7 +21,7 @@ export class Hydrate implements Effect {
 
   public children: Effects[] = [];
 
-  public options: any = {};
+  public options: Options = {};
 
   constructor({ parent, collider, blueprint, value, options = {} }: EffectArgs) {
     this.collider = collider;
@@ -88,7 +89,6 @@ export class Hydrate implements Effect {
     const { grant } = this.blueprint;
     const { scope, roles } = this.collider;
     return grant({
-      effect: this,
       scope,
       roles,
       options: { ...this.options, ...options }

@@ -1,8 +1,9 @@
 import { Policy } from "./";
+import { Options } from '../../Common/Types';
 
 export interface PoliciesArgs {
   policies: Policy[];
-  options?: any;
+  options?: Options;
 }
 
 export default PoliciesArgs;

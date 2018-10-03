@@ -1,28 +1,7 @@
 import { expect } from "chai";
-import { Hydrate } from "../../Effect";
 import AllowPolicy, { Allow } from "../Allow";
-import { Collision } from "../../Interact";
-import { Field, Fields, STRING } from "../../Blueprint";
-import { Schema } from "../../Model";
 
 describe("Policy/Allow", (): void => {
-  const fakeModel = Schema({
-    machine: "test",
-    roles: ["user", "admin"],
-    scope: ["read", "write"],
-    blueprints: Fields([Field({ machine: "first_name", context: STRING })])
-  });
-
-  const effect = Hydrate({
-    collider: Collision({
-      model: fakeModel,
-      roles: ["user", "admin"],
-      scope: ["read", "write"]
-    }),
-    blueprint: fakeModel.blueprints.blueprints[0],
-    value: "John"
-  });
-
   it("can have simple roles and scope added", () => {
     const allowRule: Allow = AllowPolicy({
       roles: ["user", "admin"],
@@ -115,7 +94,7 @@ describe("Policy/Allow", (): void => {
   it("can perform a simple grant request and pass", () => {
     const allowRule: Allow = AllowPolicy({ roles: ["user"], scope: ["read"] });
     return allowRule
-      .grant({ effect, roles: ["user"], scope: ["read"] })
+      .grant({ roles: ["user"], scope: ["read"] })
       .then(result => {
         expect(result).to.equal(true);
       })
@@ -133,7 +112,7 @@ describe("Policy/Allow", (): void => {
   it("can perform a simple grant request and fail for mismatch role", () => {
     const allowRule: Allow = AllowPolicy({ roles: ["user"], scope: ["read"] });
     return allowRule
-      .grant({ effect, roles: ["admin"], scope: ["read"] })
+      .grant({ roles: ["admin"], scope: ["read"] })
       .then(result => {
         expect(result).to.equal(false);
       })
@@ -145,7 +124,7 @@ describe("Policy/Allow", (): void => {
   it("can perform a simple grant request and fail for mismatch scope", () => {
     const allowRule: Allow = AllowPolicy({ roles: ["user"], scope: ["read"] });
     return allowRule
-      .grant({ effect, roles: ["user"], scope: ["write"] })
+      .grant({ roles: ["user"], scope: ["write"] })
       .then(result => {
         expect(result).to.equal(false);
       })
@@ -157,7 +136,7 @@ describe("Policy/Allow", (): void => {
   it("can perform a grant request with valid and invalid scope/roles and pass", () => {
     const allowRule: Allow = AllowPolicy({ roles: ["user"], scope: ["read"] });
     return allowRule
-      .grant({ effect, roles: ["user", "admin"], scope: ["read", "write"] })
+      .grant({ roles: ["user", "admin"], scope: ["read", "write"] })
       .then(result => {
         expect(result).to.equal(true);
       })
@@ -169,7 +148,7 @@ describe("Policy/Allow", (): void => {
   it("can perform a grant with wildcard scope and role rules", () => {
     const allowRule: Allow = AllowPolicy({ roles: ["*"], scope: ["*"] });
     return allowRule
-      .grant({ effect, roles: ["user"], scope: ["read"] })
+      .grant({ roles: ["user"], scope: ["read"] })
       .then(result => {
         expect(result).to.equal(true);
       })
@@ -193,7 +172,6 @@ describe("Policy/Allow", (): void => {
     });
     return allowRule
       .grant({
-        effect,
         roles: ["user", rolesPromise],
         scope: ["read", scopePromise]
       })

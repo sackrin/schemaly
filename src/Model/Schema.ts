@@ -2,6 +2,7 @@ import { Fields } from "../Blueprint";
 import { RolesType, ScopesType } from "../Policy/Types";
 import { Blueprints } from "../Blueprint/Types/Blueprints";
 import { Model, ModelArgs } from "./Types";
+import { Options } from '../Common';
 
 export class Schema implements Model {
   public machine: string;
@@ -14,7 +15,7 @@ export class Schema implements Model {
 
   public scope: ScopesType = [];
 
-  public options: any = {};
+  public options: Options = {};
 
   /**
    * @param {string} machine
@@ -22,7 +23,7 @@ export class Schema implements Model {
    * @param {ScopesType} scope
    * @param {string} label
    * @param {Blueprints} blueprints
-   * @param {any} options
+   * @param {Options} options
    */
   constructor({
     machine,

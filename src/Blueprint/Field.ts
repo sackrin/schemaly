@@ -11,6 +11,7 @@ import {
   ValidatorValidateArgs
 } from "../Validate";
 import { Effect } from "../Effect/Types";
+import { Options } from '../Common';
 
 /**
  * A base implementation of the Blueprint field.
@@ -35,7 +36,7 @@ export class Field implements Blueprint {
 
   public validators: Validators = ValidateAll([]);
 
-  public options: any = {};
+  public options: Options = {};
 
   public setters: Function[] = [];
 
@@ -143,14 +144,12 @@ export class Field implements Blueprint {
 
   /**
    * Grant Challenge
-   * @param {Effect} effect
    * @param {ScopeType | ScopesType} scope
    * @param {RoleType | RolesType} roles
    * @param {any} options
    * @returns {Promise<boolean>}
    */
   public grant = async ({
-    effect,
     scope,
     roles,
     options = {}
@@ -159,7 +158,7 @@ export class Field implements Blueprint {
     if (!policies) {
       return true;
     }
-    return policies.grant({ effect, scope, roles, options });
+    return policies.grant({ scope, roles, options });
   };
 
   /**

@@ -178,9 +178,8 @@ describe("Blueprint/Field", (): void => {
 
   it("can perform a successful grant check against provided policies", () => {
     const fakeField = Field(fakeArgs);
-    const fakeEffect = getEffect({ value: "Jennifer" });
     return fakeField
-      .grant({ effect: fakeEffect, scope: ["read"], roles: ["user"] })
+      .grant({ scope: ["read"], roles: ["user"] })
       .then(result => {
         expect(result).to.equal(true);
       })
@@ -191,9 +190,8 @@ describe("Blueprint/Field", (): void => {
 
   it("can perform an unsuccessful grant check against provided policies", () => {
     const fakeField = Field(fakeArgs);
-    const fakeEffect = getEffect({ value: "Jennifer" });
     return fakeField
-      .grant({ effect: fakeEffect, scope: ["read"], roles: ["member"] })
+      .grant({ scope: ["read"], roles: ["member"] })
       .then(result => {
         expect(result).to.equal(false);
       })

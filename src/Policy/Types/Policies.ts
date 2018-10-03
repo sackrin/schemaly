@@ -1,11 +1,11 @@
-import { Policy } from "./";
-import PolicyGrantArgs from "./PolicyGrantArgs";
+import { Policy } from './';
+import PolicyGrantArgs from './PolicyGrantArgs';
+import { Options } from '../../Common';
 
 export interface Policies {
   policies: Policy[];
-  options: any;
+  options: Options;
   grant({
-    effect,
     roles,
     scope,
     ...options
