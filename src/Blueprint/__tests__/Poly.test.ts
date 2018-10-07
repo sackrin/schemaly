@@ -28,35 +28,35 @@ describe('Blueprint/Poly', () => {
 
   it('can create a Polyr with variations', () => {
     const fakerPoly = Poly()
-    .variation(fakeAddressFields())
-    .variation(fakeEmailFields());
-    expect(fakerPoly.variations).to.have.length(2);
-    expect(fakerPoly.variations[0]).to.have.property('blueprints');
-    expect(fakerPoly.variations[0]).to.have.property('matchers');
-    expect(fakerPoly.variations[1]).to.have.property('blueprints');
-    expect(fakerPoly.variations[1]).to.have.property('matchers');
+    .type(fakeAddressFields())
+    .type(fakeEmailFields());
+    expect(fakerPoly.types).to.have.length(2);
+    expect(fakerPoly.types[0]).to.have.property('blueprints');
+    expect(fakerPoly.types[0]).to.have.property('matchers');
+    expect(fakerPoly.types[1]).to.have.property('blueprints');
+    expect(fakerPoly.types[1]).to.have.property('matchers');
   });
 
   it('can make the correct decision when provided with simple property matchers', () => {
     const fakerPoly = Poly()
-    .variation(fakeAddressFields())
-    .variation(fakeEmailFields());
+    .type(fakeAddressFields())
+    .type(fakeEmailFields());
     const decision = fakerPoly.resolve({
       street: '20 Example Street',
       suburb: 'Exampleville',
       country: 'Not Existastan'
     });
-    expect(decision).to.equal(fakerPoly.variations[0].blueprints);
+    expect(decision).to.equal(fakerPoly.types[0].blueprints);
   });
 
   it('can make the correct decision when provided with property and value matchers', () => {
     const fakerPoly = Poly()
-    .variation(fakeAddressFields({
+    .type(fakeAddressFields({
       matchers: [
         ["street", "20 Example Street"]
       ]
     }))
-    .variation(fakeEmailFields({
+    .type(fakeEmailFields({
       matchers: [
         ["email", "example@blah.com"]
       ]
@@ -66,17 +66,17 @@ describe('Blueprint/Poly', () => {
       suburb: 'Exampleville',
       country: 'Not Existastan'
     });
-    expect(decision).to.equal(fakerPoly.variations[0].blueprints);
+    expect(decision).to.equal(fakerPoly.types[0].blueprints);
   });
 
   it('can make the correct decision when provided with callback matchers', () => {
     const fakerPoly = Poly()
-    .variation(fakeAddressFields({
+    .type(fakeAddressFields({
       matchers: (values: any) => {
         return values.street && values.street === '20 Example Street'
       }
     }))
-    .variation(fakeEmailFields({
+    .type(fakeEmailFields({
       matchers: (values: any) => {
         return values.email && values.email === 'example@blah.com'
       }
@@ -86,13 +86,13 @@ describe('Blueprint/Poly', () => {
       suburb: 'Exampleville',
       country: 'Not Existastan'
     });
-    expect(decision).to.equal(fakerPoly.variations[0].blueprints);
+    expect(decision).to.equal(fakerPoly.types[0].blueprints);
   });
 
   it('can make the correct decision when provided with no matching simple property matchers', () => {
     const fakerPoly = Poly()
-    .variation(fakeAddressFields())
-    .variation(fakeEmailFields());
+    .type(fakeAddressFields())
+    .type(fakeEmailFields());
     const decision = fakerPoly.resolve({
       first_name: 'Johnny',
       surname: 'Smith'
@@ -102,12 +102,12 @@ describe('Blueprint/Poly', () => {
 
   it('can make the correct decision when provided with no matching property and value matchers', () => {
     const fakerPoly = Poly()
-    .variation(fakeAddressFields({
+    .type(fakeAddressFields({
       matchers: [
         ["street", "18 Example Street"]
       ]
     }))
-    .variation(fakeEmailFields({
+    .type(fakeEmailFields({
       matchers: [
         ["email", "example@blah.com"]
       ]
@@ -122,12 +122,12 @@ describe('Blueprint/Poly', () => {
 
   it('can make the correct decision when provided with no matching callback matchers', () => {
     const fakerPoly = Poly()
-    .variation(fakeAddressFields({
+    .type(fakeAddressFields({
       matchers: (values: any) => {
         return values.street && values.street === '12 Example Street'
       }
     }))
-    .variation(fakeEmailFields({
+    .type(fakeEmailFields({
       matchers: (values: any) => {
         return values.email && values.email === 'example@blah.com'
       }

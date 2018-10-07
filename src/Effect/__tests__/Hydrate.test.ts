@@ -237,7 +237,8 @@ describe("Effect/Hydrate", (): void => {
         AllowPolicy({ roles: ["user", "admin"], scope: ["read", "write"] })
       ]),
       blueprints: Poly()
-      .variation({
+      .type({
+        machine: 'email',
         blueprints: Fields([
           Field({
             machine: "label",
@@ -254,7 +255,8 @@ describe("Effect/Hydrate", (): void => {
           ["address"]
         ]
       })
-      .variation({
+      .type({
+        machine: 'physical',
         blueprints: Fields([
           Field({
             machine: "label",

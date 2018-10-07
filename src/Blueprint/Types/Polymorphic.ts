@@ -1,12 +1,13 @@
-import Variation from "./Variation";
+import PolyType from "./PolyType";
 import Blueprints from "./Blueprints";
 import { Blueprint } from "./index";
 
 interface Polymorphic {
   parent?: Blueprint;
-  variations: Variation[];
+  types: PolyType[];
   options: any;
-  variation({ blueprints, matchers }: Variation): this;
+  type({ machine, blueprints, matchers }: PolyType): this;
+  or({ machine, blueprints, matchers }: PolyType): this;
   setParent(parent: Blueprint): void;
   resolve(values: any): Blueprints;
 }
