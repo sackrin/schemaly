@@ -48,14 +48,18 @@ export class Poly implements Polymorphic {
   };
 
   public resolve = (values: any): Blueprints => {
-    return this.types.reduce((curr: Blueprints, possibility) => {
-      const { matchers, blueprints } = possibility;
+    return this.resolveType(values).blueprints;
+  };
+
+  public resolveType = (values: any): PolyType => {
+    return this.types.reduce((curr: PolyType, possibility) => {
+      const { matchers } = possibility;
       const decide = _.isFunction(matchers)
         ? matchers(values)
         : this.properties(matchers, values);
-      return decide ? blueprints : curr;
-    }, Fields([]));
-  };
+      return decide ? possibility : curr;
+    }, { machine: '', blueprints: Fields([]), matchers: []});
+  }
 
   public properties = (matchers: any, values: any): boolean => {
     if (matchers.reduce.length === 0) {

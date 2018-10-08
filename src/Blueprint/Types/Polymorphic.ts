@@ -10,6 +10,7 @@ interface Polymorphic {
   or({ machine, blueprints, matchers }: PolyType): this;
   setParent(parent: Blueprint): void;
   resolve(values: any): Blueprints;
+  resolveType(values: any): PolyType;
 }
 
 export default Polymorphic;
