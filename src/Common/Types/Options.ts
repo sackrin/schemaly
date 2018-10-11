@@ -1,3 +1,3 @@
-type Options = Object;
+type Options = any;
 
 export default Options;
