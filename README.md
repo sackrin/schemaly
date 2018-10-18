@@ -369,11 +369,3 @@ collider
     });
 
 ```
-
-## Notable ToDos
-Progress of development can be viewed on the project trello board. https://trello.com/b/SskmstkA/schemaly
-
-- Create better documentation and examples
-- Adding strict mode (strict = true / false) option at Model and Blueprint level to enforce known fields but allow non defined fields as well
-- Add ANY context to permit any value within a field
-- Create JSON Schema parser to allow Schemaly to work with JSON schema projects.
