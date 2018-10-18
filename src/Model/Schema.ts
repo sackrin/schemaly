@@ -5,6 +5,7 @@ import { Model, ModelArgs } from './Types';
 import { Options } from '../Common';
 import { Collider } from '../Interact/Types';
 import { Collision } from '../Interact';
+import { ValidatorResult } from '../Validate/Types';
 
 export class Schema implements Model {
   public machine: string;
@@ -49,7 +50,30 @@ export class Schema implements Model {
    * @param values
    * @param options
    */
-  public collide = async ({
+  public collide = ({
+    roles,
+    scope,
+    options
+  }: {
+    roles: RoleType[];
+    scope: ScopeType[];
+    options: Options;
+  }): Collider => {
+    return Collision({
+      model: this,
+      scope,
+      roles,
+      options
+    });
+  };
+
+  /**
+   * @param roles
+   * @param scope
+   * @param values
+   * @param options
+   */
+  public handle = async ({
     roles,
     scope,
     values,
@@ -59,15 +83,19 @@ export class Schema implements Model {
     scope: ScopeType[];
     values: any;
     options: Options;
-  }): Promise<Collider> => {
-    return Collision({
-      model: this,
-      scope,
+  }): Promise<{ [k: string]: any } | ValidatorResult> => {
+    const collision = await this.collide({
       roles,
+      scope,
       options
-    })
-      .with(values)
-      .collide();
+    });
+    await collision.with(values).collide();
+    await collision.sanitize(options);
+    const validated = await collision.validate(options);
+    if (!validated.valid) {
+      return validated;
+    }
+    return collision.dump();
   };
 }
 
