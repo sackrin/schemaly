@@ -8,7 +8,8 @@
     "strict": true,
     "alwaysStrict": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "strictFunctionTypes": false
   },
   "include": [
     "src/**/*.ts"

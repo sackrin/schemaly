@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Field | schemaly</title>
-	<meta name="description" content="">
+	<meta name="description" content="Documentation for schemaly">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -141,13 +141,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Field<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_blueprint_field_.field.html" class="tsd-signature-type">Field</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Field<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>blueprints<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_blueprint_types_blueprints_.blueprints.html" class="tsd-signature-type">Blueprints</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Polymorphic</span><span class="tsd-signature-symbol">; </span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/_blueprint_context_types_context_.context.html" class="tsd-signature-type">Context</a><span class="tsd-signature-symbol">; </span>defaultValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>getters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>label<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>machine<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>parent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_blueprint_types_blueprint_.blueprint.html" class="tsd-signature-type">Blueprint</a><span class="tsd-signature-symbol">; </span>policies<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_policy_types_policies_.policies.html" class="tsd-signature-type">Policies</a><span class="tsd-signature-symbol">; </span>sanitizers<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Sanitizers</span><span class="tsd-signature-symbol">; </span>setters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>tags<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>validators<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_validate_types_validators_.validators.html" class="tsd-signature-type">Validators</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_blueprint_field_.field.html" class="tsd-signature-type">Field</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L49">Blueprint/Field.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L49">Blueprint/Field.ts:49</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -155,8 +155,52 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">object</span></h5>
+									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>blueprints<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_blueprint_types_blueprints_.blueprints.html" class="tsd-signature-type">Blueprints</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Polymorphic</span><span class="tsd-signature-symbol">; </span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/_blueprint_context_types_context_.context.html" class="tsd-signature-type">Context</a><span class="tsd-signature-symbol">; </span>defaultValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>getters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>label<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>machine<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>parent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_blueprint_types_blueprint_.blueprint.html" class="tsd-signature-type">Blueprint</a><span class="tsd-signature-symbol">; </span>policies<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_policy_types_policies_.policies.html" class="tsd-signature-type">Policies</a><span class="tsd-signature-symbol">; </span>sanitizers<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Sanitizers</span><span class="tsd-signature-symbol">; </span>setters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>tags<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>validators<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_validate_types_validators_.validators.html" class="tsd-signature-type">Validators</a><span class="tsd-signature-symbol"> }</span></h5>
 									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5>blueprints<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_blueprint_types_blueprints_.blueprints.html" class="tsd-signature-type">Blueprints</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Polymorphic</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/_blueprint_context_types_context_.context.html" class="tsd-signature-type">Context</a></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>default<wbr>Value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>getters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>label<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>machine<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
+											<div class="tsd-comment tsd-typography">
+											</div>
+										</li>
+										<li class="tsd-parameter">
+											<h5>parent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_blueprint_types_blueprint_.blueprint.html" class="tsd-signature-type">Blueprint</a></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>policies<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_policy_types_policies_.policies.html" class="tsd-signature-type">Policies</a></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>sanitizers<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Sanitizers</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>setters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>tags<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>validators<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_validate_types_validators_.validators.html" class="tsd-signature-type">Validators</a></h5>
+										</li>
 									</ul>
 								</li>
 							</ul>
@@ -170,11 +214,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="blueprints" class="tsd-anchor"></a>
 					<h3>blueprints</h3>
-					<div class="tsd-signature tsd-kind-icon">blueprints<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_blueprint_types_blueprints_.blueprints.html" class="tsd-signature-type">Blueprints</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Polymorphic</span><span class="tsd-signature-symbol"> =&nbsp;Fields([])</span></div>
+					<div class="tsd-signature tsd-kind-icon">blueprints<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_blueprint_types_blueprints_.blueprints.html" class="tsd-signature-type">Blueprints</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Polymorphic</span><span class="tsd-signature-symbol"> = Fields([])</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#blueprints">blueprints</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L31">Blueprint/Field.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L31">Blueprint/Field.ts:31</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -185,7 +229,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#context">context</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L23">Blueprint/Field.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L23">Blueprint/Field.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -196,7 +240,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#defaultvalue">defaultValue</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L29">Blueprint/Field.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L29">Blueprint/Field.ts:29</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -207,18 +251,18 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#description">description</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L49">Blueprint/Field.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L49">Blueprint/Field.ts:49</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="getters" class="tsd-anchor"></a>
 					<h3>getters</h3>
-					<div class="tsd-signature tsd-kind-icon">getters<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">getters<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#getters">getters</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L43">Blueprint/Field.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L43">Blueprint/Field.ts:43</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -229,7 +273,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#label">label</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L45">Blueprint/Field.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L45">Blueprint/Field.ts:45</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -240,7 +284,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#machine">machine</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L25">Blueprint/Field.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L25">Blueprint/Field.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -251,7 +295,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#options">options</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L39">Blueprint/Field.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L39">Blueprint/Field.ts:39</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -262,62 +306,62 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#parent">parent</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L47">Blueprint/Field.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L47">Blueprint/Field.ts:47</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="policies" class="tsd-anchor"></a>
 					<h3>policies</h3>
-					<div class="tsd-signature tsd-kind-icon">policies<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_policy_types_policies_.policies.html" class="tsd-signature-type">Policies</a><span class="tsd-signature-symbol"> =&nbsp;GrantAll([])</span></div>
+					<div class="tsd-signature tsd-kind-icon">policies<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_policy_types_policies_.policies.html" class="tsd-signature-type">Policies</a><span class="tsd-signature-symbol"> = GrantAll([])</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#policies">policies</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L33">Blueprint/Field.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L33">Blueprint/Field.ts:33</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="sanitizers" class="tsd-anchor"></a>
 					<h3>sanitizers</h3>
-					<div class="tsd-signature tsd-kind-icon">sanitizers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Sanitizers</span><span class="tsd-signature-symbol"> =&nbsp;SanitizeAll([])</span></div>
+					<div class="tsd-signature tsd-kind-icon">sanitizers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Sanitizers</span><span class="tsd-signature-symbol"> = SanitizeAll([])</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#sanitizers">sanitizers</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L35">Blueprint/Field.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L35">Blueprint/Field.ts:35</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="setters" class="tsd-anchor"></a>
 					<h3>setters</h3>
-					<div class="tsd-signature tsd-kind-icon">setters<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">setters<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#setters">setters</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L41">Blueprint/Field.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L41">Blueprint/Field.ts:41</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="tags" class="tsd-anchor"></a>
 					<h3>tags</h3>
-					<div class="tsd-signature tsd-kind-icon">tags<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">tags<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#tags">tags</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L27">Blueprint/Field.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L27">Blueprint/Field.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="validators" class="tsd-anchor"></a>
 					<h3>validators</h3>
-					<div class="tsd-signature tsd-kind-icon">validators<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_validate_types_validators_.validators.html" class="tsd-signature-type">Validators</a><span class="tsd-signature-symbol"> =&nbsp;ValidateAll([])</span></div>
+					<div class="tsd-signature tsd-kind-icon">validators<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_validate_types_validators_.validators.html" class="tsd-signature-type">Validators</a><span class="tsd-signature-symbol"> = ValidateAll([])</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#validators">validators</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L37">Blueprint/Field.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L37">Blueprint/Field.ts:37</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -328,13 +372,13 @@
 					<a name="applygetters" class="tsd-anchor"></a>
 					<h3>apply<wbr>Getters</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">apply<wbr>Getters<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">apply<wbr>Getters<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>effect<span class="tsd-signature-symbol">: </span><a href="../interfaces/_effect_types_effect_.effect.html" class="tsd-signature-type">Effect</a><span class="tsd-signature-symbol">; </span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L207">Blueprint/Field.ts:207</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L207">Blueprint/Field.ts:207</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -347,8 +391,14 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">object</span></h5>
+									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>effect<span class="tsd-signature-symbol">: </span><a href="../interfaces/_effect_types_effect_.effect.html" class="tsd-signature-type">Effect</a><span class="tsd-signature-symbol">; </span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></h5>
 									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5>effect<span class="tsd-signature-symbol">: </span><a href="../interfaces/_effect_types_effect_.effect.html" class="tsd-signature-type">Effect</a></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
+										</li>
 									</ul>
 								</li>
 							</ul>
@@ -360,13 +410,13 @@
 					<a name="applysetters" class="tsd-anchor"></a>
 					<h3>apply<wbr>Setters</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">apply<wbr>Setters<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">apply<wbr>Setters<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>effect<span class="tsd-signature-symbol">: </span><a href="../interfaces/_effect_types_effect_.effect.html" class="tsd-signature-type">Effect</a><span class="tsd-signature-symbol">; </span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L233">Blueprint/Field.ts:233</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L233">Blueprint/Field.ts:233</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -380,8 +430,14 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">object</span></h5>
+									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>effect<span class="tsd-signature-symbol">: </span><a href="../interfaces/_effect_types_effect_.effect.html" class="tsd-signature-type">Effect</a><span class="tsd-signature-symbol">; </span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></h5>
 									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5>effect<span class="tsd-signature-symbol">: </span><a href="../interfaces/_effect_types_effect_.effect.html" class="tsd-signature-type">Effect</a></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
+										</li>
 									</ul>
 								</li>
 							</ul>
@@ -393,19 +449,19 @@
 					<a name="getdefault" class="tsd-anchor"></a>
 					<h3>get<wbr>Default</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Default<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Default<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L141">Blueprint/Field.ts:141</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L141">Blueprint/Field.ts:141</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> = {}</span></h5>
 									<ul class="tsd-parameters">
 									</ul>
 								</li>
@@ -418,13 +474,13 @@
 					<a name="grant" class="tsd-anchor"></a>
 					<h3>grant</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">grant<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">grant<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>roles<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>scope<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L152">Blueprint/Field.ts:152</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L152">Blueprint/Field.ts:152</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -435,8 +491,17 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">object</span></h5>
+									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>roles<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>scope<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></h5>
 									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>roles<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>scope<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
+										</li>
 									</ul>
 								</li>
 							</ul>
@@ -448,13 +513,13 @@
 					<a name="sanitize" class="tsd-anchor"></a>
 					<h3>sanitize</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">sanitize<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">sanitize<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>effect<span class="tsd-signature-symbol">: </span><a href="../interfaces/_effect_types_effect_.effect.html" class="tsd-signature-type">Effect</a><span class="tsd-signature-symbol">; </span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L188">Blueprint/Field.ts:188</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L188">Blueprint/Field.ts:188</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -466,8 +531,17 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">object</span></h5>
+									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>effect<span class="tsd-signature-symbol">: </span><a href="../interfaces/_effect_types_effect_.effect.html" class="tsd-signature-type">Effect</a><span class="tsd-signature-symbol">; </span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></h5>
 									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5>effect<span class="tsd-signature-symbol">: </span><a href="../interfaces/_effect_types_effect_.effect.html" class="tsd-signature-type">Effect</a></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
+										</li>
 									</ul>
 								</li>
 							</ul>
@@ -485,7 +559,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L109">Blueprint/Field.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L109">Blueprint/Field.ts:109</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -509,7 +583,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#setsanitizers">setSanitizers</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L121">Blueprint/Field.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L121">Blueprint/Field.ts:121</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -533,7 +607,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_blueprint_types_blueprint_.blueprint.html">Blueprint</a>.<a href="../interfaces/_blueprint_types_blueprint_.blueprint.html#setvalidators">setValidators</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L131">Blueprint/Field.ts:131</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L131">Blueprint/Field.ts:131</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -550,13 +624,13 @@
 					<a name="validate" class="tsd-anchor"></a>
 					<h3>validate</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">validate<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_validate_types_validatorresult_.validatorresult.html" class="tsd-signature-type">ValidatorResult</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">validate<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>effect<span class="tsd-signature-symbol">: </span><a href="../interfaces/_effect_types_effect_.effect.html" class="tsd-signature-type">Effect</a><span class="tsd-signature-symbol">; </span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_validate_types_validatorresult_.validatorresult.html" class="tsd-signature-type">ValidatorResult</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Field.ts#L170">Blueprint/Field.ts:170</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Field.ts#L170">Blueprint/Field.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -567,8 +641,14 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">object</span></h5>
+									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>effect<span class="tsd-signature-symbol">: </span><a href="../interfaces/_effect_types_effect_.effect.html" class="tsd-signature-type">Effect</a><span class="tsd-signature-symbol">; </span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></h5>
 									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5>effect<span class="tsd-signature-symbol">: </span><a href="../interfaces/_effect_types_effect_.effect.html" class="tsd-signature-type">Effect</a></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
+										</li>
 									</ul>
 								</li>
 							</ul>
@@ -584,8 +664,8 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class="current tsd-kind-external-module">
-						<a href="../modules/_blueprint_field_.html">"<wbr>Blueprint/<wbr>Field"</a>
+					<li class="current tsd-kind-module">
+						<a href="../modules/_blueprint_field_.html">&quot;<wbr>Blueprint/<wbr>Field&quot;</a>
 					</li>
 				</ul>
 			</nav>
@@ -593,7 +673,7 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+					<li class="current tsd-kind-class tsd-parent-kind-module">
 						<a href="_blueprint_field_.field.html" class="tsd-kind-icon">Field</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
@@ -682,62 +762,24 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 			</ul>
 		</div>
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

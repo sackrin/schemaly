@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Fields | schemaly</title>
-	<meta name="description" content="">
+	<meta name="description" content="Documentation for schemaly">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -121,13 +121,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Fields<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_blueprint_fields_.fields.html" class="tsd-signature-type">Fields</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Fields<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>blueprints<span class="tsd-signature-symbol">: </span><a href="../interfaces/_blueprint_types_blueprint_.blueprint.html" class="tsd-signature-type">Blueprint</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>parent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_blueprint_types_blueprint_.blueprint.html" class="tsd-signature-type">Blueprint</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_blueprint_fields_.fields.html" class="tsd-signature-type">Fields</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Fields.ts#L11">Blueprint/Fields.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Fields.ts#L11">Blueprint/Fields.ts:11</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -135,8 +135,19 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">object</span></h5>
+									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>blueprints<span class="tsd-signature-symbol">: </span><a href="../interfaces/_blueprint_types_blueprint_.blueprint.html" class="tsd-signature-type">Blueprint</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>parent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_blueprint_types_blueprint_.blueprint.html" class="tsd-signature-type">Blueprint</a><span class="tsd-signature-symbol"> }</span></h5>
 									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5>blueprints<span class="tsd-signature-symbol">: </span><a href="../interfaces/_blueprint_types_blueprint_.blueprint.html" class="tsd-signature-type">Blueprint</a><span class="tsd-signature-symbol">[]</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
+											<div class="tsd-comment tsd-typography">
+											</div>
+										</li>
+										<li class="tsd-parameter">
+											<h5>parent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_blueprint_types_blueprint_.blueprint.html" class="tsd-signature-type">Blueprint</a></h5>
+										</li>
 									</ul>
 								</li>
 							</ul>
@@ -150,11 +161,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="blueprints" class="tsd-anchor"></a>
 					<h3>blueprints</h3>
-					<div class="tsd-signature tsd-kind-icon">blueprints<span class="tsd-signature-symbol">:</span> <a href="../modules/_blueprint_types_blueprintstype_.html#blueprintstype" class="tsd-signature-type">BlueprintsType</a><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">blueprints<span class="tsd-signature-symbol">:</span> <a href="../modules/_blueprint_types_blueprintstype_.html#blueprintstype" class="tsd-signature-type">BlueprintsType</a><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprints_.blueprints.html">Blueprints</a>.<a href="../interfaces/_blueprint_types_blueprints_.blueprints.html#blueprints">blueprints</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Fields.ts#L7">Blueprint/Fields.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Fields.ts#L7">Blueprint/Fields.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -165,7 +176,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprints_.blueprints.html">Blueprints</a>.<a href="../interfaces/_blueprint_types_blueprints_.blueprints.html#options">options</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Fields.ts#L11">Blueprint/Fields.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Fields.ts#L11">Blueprint/Fields.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -176,7 +187,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_blueprint_types_blueprints_.blueprints.html">Blueprints</a>.<a href="../interfaces/_blueprint_types_blueprints_.blueprints.html#parent">parent</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Fields.ts#L9">Blueprint/Fields.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Fields.ts#L9">Blueprint/Fields.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -194,7 +205,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_blueprint_types_blueprints_.blueprints.html">Blueprints</a>.<a href="../interfaces/_blueprint_types_blueprints_.blueprints.html#all">all</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Fields.ts#L28">Blueprint/Fields.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Fields.ts#L28">Blueprint/Fields.ts:28</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/_blueprint_types_blueprintstype_.html#blueprintstype" class="tsd-signature-type">BlueprintsType</a></h4>
@@ -212,7 +223,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_blueprint_types_blueprints_.blueprints.html">Blueprints</a>.<a href="../interfaces/_blueprint_types_blueprints_.blueprints.html#resolve">resolve</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Fields.ts#L30">Blueprint/Fields.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Fields.ts#L30">Blueprint/Fields.ts:30</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -236,7 +247,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_blueprint_types_blueprints_.blueprints.html">Blueprints</a>.<a href="../interfaces/_blueprint_types_blueprints_.blueprints.html#setparent">setParent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/8425524/src/Blueprint/Fields.ts#L24">Blueprint/Fields.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/sackrin/schemaly/blob/551b15c/src/Blueprint/Fields.ts#L24">Blueprint/Fields.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -257,8 +268,8 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class="current tsd-kind-external-module">
-						<a href="../modules/_blueprint_fields_.html">"<wbr>Blueprint/<wbr>Fields"</a>
+					<li class="current tsd-kind-module">
+						<a href="../modules/_blueprint_fields_.html">&quot;<wbr>Blueprint/<wbr>Fields&quot;</a>
 					</li>
 				</ul>
 			</nav>
@@ -266,7 +277,7 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+					<li class="current tsd-kind-class tsd-parent-kind-module">
 						<a href="_blueprint_fields_.fields.html" class="tsd-kind-icon">Fields</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
@@ -304,62 +315,24 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 			</ul>
 		</div>
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
