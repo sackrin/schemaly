@@ -72,7 +72,7 @@ export class Collision implements Collider {
     return {
       valid: Object.values(validated).reduce(
         (curr: boolean, result: ValidatorResult) =>
-          result.valid === false ? false : result.valid,
+          !result.valid ? false : result.valid,
         true
       ),
       results: validated

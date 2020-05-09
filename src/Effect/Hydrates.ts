@@ -1,9 +1,9 @@
-import _ from "lodash";
-import { Collider } from "../Interact/Types";
-import { Blueprints } from "../Blueprint/Types";
-import { Effect, Effects } from "./Types";
-import Hydrate from "./Hydrate";
-import { ValidatorResult } from "../Validate/Types";
+import _ from 'lodash';
+import { Collider } from '../Interact/Types';
+import { Blueprints } from '../Blueprint/Types';
+import { Effect, Effects } from './Types';
+import Hydrate from './Hydrate';
+import { ValidatorResult } from '../Validate/Types';
 
 interface EffectsArgs {
   parent: Effect | Collider;
@@ -26,7 +26,13 @@ export class Hydrates implements Effects {
 
   public options?: any = {};
 
-  constructor({ parent, collider, blueprints, values, options = {} }: EffectsArgs) {
+  constructor({
+    parent,
+    collider,
+    blueprints,
+    values,
+    options = {},
+  }: EffectsArgs) {
     this.collider = collider;
     this.parent = parent;
     this.blueprints = blueprints;
@@ -45,12 +51,19 @@ export class Hydrates implements Effects {
   public hydrate = async (options: any = {}): Promise<void> => {
     const { collider, blueprints, effects, values } = this;
     await Promise.all(
-      blueprints.all().map(async blueprint => {
-        const value = _.get(values, blueprint.machine) !== undefined ? _.get(values, blueprint.machine) : await blueprint.getDefault();
+      blueprints.all().map(async (blueprint) => {
+        const value =
+          _.get(values, blueprint.machine) !== undefined
+            ? _.get(values, blueprint.machine)
+            : await blueprint.getDefault();
         const effect = Hydrate({ collider, blueprint, value, parent: this });
         await effect.sanitize({ ...this.options, ...options });
         const grantCheck = await effect.grant({ ...this.options, ...options });
-        if (grantCheck) {
+        const presenceCheck = await effect.presence({
+          ...this.options,
+          ...options,
+        });
+        if (grantCheck && presenceCheck) {
           await effect.hydrate({ ...this.options, ...options });
           effects.push(effect);
         }
@@ -65,7 +78,7 @@ export class Hydrates implements Effects {
       effects.map(async (effect: Effect) => {
         validations[`${effect.blueprint.machine}`] = await effect.validate({
           ...this.options,
-          ...options
+          ...options,
         });
       })
     );
@@ -75,7 +88,7 @@ export class Hydrates implements Effects {
   public sanitize = async (options: any = {}): Promise<void> => {
     const { effects } = this;
     await Promise.all(
-      effects.map(async effect => {
+      effects.map(async (effect) => {
         await effect.sanitize({ ...this.options, ...options });
       })
     );
@@ -89,7 +102,7 @@ export class Hydrates implements Effects {
       const dumped: any = { ...(await curr) };
       dumped[effect.blueprint.machine] = await effect.dump({
         ...this.options,
-        ...options
+        ...options,
       });
       return dumped;
     }, Promise.resolve({}));

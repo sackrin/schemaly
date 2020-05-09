@@ -16,7 +16,7 @@ export interface Conditions {
     collider: Collider;
     blueprint: Blueprint;
     hydrate: Effect;
-    options: any;
+    options?: any;
   }): Promise<boolean>;
 }
 
