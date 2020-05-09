@@ -56,7 +56,7 @@ export class Depends implements Condition {
     collider: Collider;
     blueprint: Blueprint;
     hydrate: Effect;
-    options: any;
+    options?: any;
   }): Promise<boolean> => {
     // Ensure that this condition is valid
     this.verify();
