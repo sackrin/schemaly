@@ -44,7 +44,7 @@ export class LookForAll implements Conditions {
     collider: Collider;
     blueprint: Blueprint;
     hydrate: Effect;
-    options: any;
+    options?: any;
   }): Promise<boolean> => {
     // If there are no conditions return truthy
     if (this.conditions.length === 0) {
