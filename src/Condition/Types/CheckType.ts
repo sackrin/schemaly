@@ -1,3 +1,3 @@
-export type CheckType = string | Function;
+export type CheckType = Function;
 
 export default CheckType;

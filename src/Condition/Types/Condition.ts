@@ -6,6 +6,7 @@ import { Effect } from '../../Effect/Types';
 export interface Condition {
   checks: ChecksType;
   options: Object;
+  verify(): void;
   check({
     collider,
     blueprint,
