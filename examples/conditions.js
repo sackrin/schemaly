@@ -12,7 +12,7 @@ import {
 } from '../lib';
 
 const onlyForMr = (collider, blueprint, hydrate, options) => {
-  console.log(collider);
+  // Use the collider to retrieve values of other fields
   return collider.values.name.title === 'Mr';
 };
 
@@ -50,6 +50,9 @@ const profile = Schema({
           machine: 'surname',
           label: 'Surname',
           context: STRING,
+          validators: ValidateAll([
+            SimpleValidator({ rules: ['required|alpha'] }),
+          ]),
         }),
       ]),
     }),
@@ -66,7 +69,7 @@ collider
   .with({
     // Name data can now be passed inside a name property
     name: {
-      title: 'Mr',
+      title: 'Mrs',
       // first_name: 'Johnny',
       surname: 'Smith',
     },
@@ -83,6 +86,6 @@ collider
   })
   .then(collider.dump)
   .then((values) => {
-    // Returns { name: { title: 'Mr', first_name: 'Johnny', surname: 'Smith' } }
+    // Returns { name: { title: 'Mr', surname: 'Smith' } }
     console.log(values);
   });

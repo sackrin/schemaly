@@ -64,5 +64,5 @@ collider
     // { emails:
     //    [ { address: 'johnny@example.com', is_primary: false },
     //        { address: 'johnny@work.com', is_primary: true } ] }
-    console.log(values);
+    // console.log(values);
   });
