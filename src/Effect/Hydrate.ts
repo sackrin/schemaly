@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import { Collider } from "../Interact/Types";
-import { Effect, EffectArgs, Effects } from "./Types";
-import { ValidatorResult } from "../Validate/Types";
-import { Hydrates } from "./";
-import { Context } from "../Blueprint/Context/Types";
-import { Blueprint } from "../Blueprint/Types";
+import { Collider } from '../Interact/Types';
+import { Effect, EffectArgs, Effects } from './Types';
+import { ValidatorResult } from '../Validate/Types';
+import { Hydrates } from './';
+import { Context } from '../Blueprint/Context/Types';
+import { Blueprint } from '../Blueprint/Types';
 import { Options } from '../Common';
 
 /**
@@ -23,7 +23,13 @@ export class Hydrate implements Effect {
 
   public options: Options = {};
 
-  constructor({ parent, collider, blueprint, value, options = {} }: EffectArgs) {
+  constructor({
+    parent,
+    collider,
+    blueprint,
+    value,
+    options = {},
+  }: EffectArgs) {
     this.collider = collider;
     this.blueprint = blueprint;
     this.parent = parent;
@@ -51,13 +57,13 @@ export class Hydrate implements Effect {
     const { applyGetters } = this.blueprint;
     return applyGetters({
       effect: this,
-      options: { ...this.options, ...options }
+      options: { ...this.options, ...options },
     });
   };
 
   public setValue = async ({
     value,
-    options = {}
+    options = {},
   }: {
     value: any;
     options: any;
@@ -69,13 +75,10 @@ export class Hydrate implements Effect {
   };
 
   public find = (criteria: Object | Function): Effect | undefined => {
-    return this.children.reduce(
-      (found: Effect | undefined, item: Effects) => {
-        const search = item.find(criteria);
-        return !found && search ? search : found;
-      },
-      undefined
-    );
+    return this.children.reduce((found: Effect | undefined, item: Effects) => {
+      const search = item.find(criteria);
+      return !found && search ? search : found;
+    }, undefined);
   };
 
   public filter = (criteria: Object | Function): Effect[] => {
@@ -91,15 +94,22 @@ export class Hydrate implements Effect {
     return grant({
       scope,
       roles,
-      options: { ...this.options, ...options }
+      options: { ...this.options, ...options },
     });
   };
+
+  public presence = async (options = {}): Promise<boolean> =>
+    this.blueprint.presence({
+      collider: this.collider,
+      hydrate: this,
+      ...options,
+    });
 
   public hydrate = async (options = {}): Promise<void> => {
     const {
       collider,
       blueprint: { context, blueprints },
-      value
+      value,
     } = this;
 
     if ((context.children || context.repeater) && !blueprints) {
@@ -114,8 +124,8 @@ export class Hydrate implements Effect {
         values: value,
         options: {
           ...this.options,
-          ...options
-        }
+          ...options,
+        },
       });
       await hydrate.hydrate({ ...this.options, ...options });
       hydrated.push(hydrate);
@@ -129,8 +139,8 @@ export class Hydrate implements Effect {
             values: childValue,
             options: {
               ...this.options,
-              ...options
-            }
+              ...options,
+            },
           });
           await hydrate.hydrate({ ...this.options, ...options });
           hydrated.push(hydrate);
@@ -145,11 +155,11 @@ export class Hydrate implements Effect {
     this.value = await blueprint.sanitize({
       value: this.value,
       effect: this,
-      options: { ...this.options, ...options }
+      options: { ...this.options, ...options },
     });
     if (blueprint.context.children || blueprint.context.repeater) {
       await Promise.all(
-        children.map(async effects =>
+        children.map(async (effects) =>
           effects.sanitize({ ...this.options, ...options })
         )
       );
@@ -163,21 +173,20 @@ export class Hydrate implements Effect {
       effect: this,
       options: {
         ...this.options,
-        ...options
-      }
+        ...options,
+      },
     });
     const result: ValidatorResult = { ...validated, machine, context, label };
     if (context.children) {
       result.children = await Promise.all(
-        children.map(async effects =>
+        children.map(async (effects) =>
           effects.validate({ ...this.options, ...options })
         )
       );
       result.valid = result.children.reduce(
         (curr, groupResult) =>
           Object.values(groupResult).reduce(
-            (isValid, childResult) =>
-              childResult.valid !== true ? false : isValid,
+            (isValid, childResult) => (!childResult.valid ? false : isValid),
             curr
           ),
         result.valid
@@ -189,7 +198,7 @@ export class Hydrate implements Effect {
   public dump = async (options: any = {}): Promise<any> => {
     const {
       blueprint: { context },
-      children
+      children,
     } = this;
     if (context.children && !context.repeater) {
       return children.length > 0
@@ -197,7 +206,7 @@ export class Hydrate implements Effect {
         : {};
     } else if (context.children && context.repeater) {
       return Promise.all(
-        children.map(async effects =>
+        children.map(async (effects) =>
           effects.dump({ ...this.options, ...options })
         )
       );

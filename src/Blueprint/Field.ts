@@ -1,17 +1,20 @@
-import _ from "lodash";
-import { GrantAll, PolicyGrantArgs, Policies } from "../Policy";
-import Fields from "./Fields";
-import { Context } from "./Context";
-import { Blueprint, Blueprints, BlueprintArgs, Polymorphic } from "./Types";
-import { Sanitizers, SanitizeAll, SanitizerApplyArgs } from "../Sanitize";
+import _ from 'lodash';
+import { GrantAll, PolicyGrantArgs, Policies } from '../Policy';
+import Fields from './Fields';
+import { Context } from './Context';
+import { Blueprint, Blueprints, BlueprintArgs, Polymorphic } from './Types';
+import { Sanitizers, SanitizeAll, SanitizerApplyArgs } from '../Sanitize';
 import {
   ValidateAll,
   ValidatorResult,
   Validators,
-  ValidatorValidateArgs
-} from "../Validate";
-import { Effect } from "../Effect/Types";
+  ValidatorValidateArgs,
+} from '../Validate';
+import { Effect } from '../Effect/Types';
 import { Options } from '../Common';
+import Conditions from '../Condition/Types/Conditions';
+import { LookForAll } from '../Condition';
+import { Collider } from '../Interact/Types';
 
 /**
  * A base implementation of the Blueprint field.
@@ -29,6 +32,8 @@ export class Field implements Blueprint {
   public defaultValue: any;
 
   public blueprints: Blueprints | Polymorphic = Fields([]);
+
+  public conditions: Conditions = LookForAll([]);
 
   public policies: Policies = GrantAll([]);
 
@@ -60,6 +65,7 @@ export class Field implements Blueprint {
    * @param {Function[]} getters
    * @param {Function[]} setters
    * @param {Policies} policies
+   * @param {Conditions} conditions
    * @param {Sanitizers} sanitizers
    * @param {Validators} validators
    * @param {any} options
@@ -76,9 +82,10 @@ export class Field implements Blueprint {
     getters,
     setters,
     policies,
+    conditions,
     sanitizers,
     validators,
-    options = {}
+    options = {},
   }: BlueprintArgs) {
     this.context = context;
     this.machine = machine;
@@ -91,6 +98,9 @@ export class Field implements Blueprint {
     }
     if (policies) {
       this.policies = policies;
+    }
+    if (conditions) {
+      this.conditions = conditions;
     }
     if (getters) {
       this.getters = getters;
@@ -112,7 +122,7 @@ export class Field implements Blueprint {
     }
     const { children, repeater } = this.context;
     if (!children && !repeater) {
-      throw new Error("CANNOT_HAVE_CHILDREN");
+      throw new Error('CANNOT_HAVE_CHILDREN');
     }
     blueprints.setParent(this);
     this.blueprints = blueprints;
@@ -139,7 +149,9 @@ export class Field implements Blueprint {
   };
 
   public getDefault = async (options = {}): Promise<any> => {
-    return _.isFunction(this.defaultValue) ? this.defaultValue() : this.defaultValue ;
+    return _.isFunction(this.defaultValue)
+      ? this.defaultValue()
+      : this.defaultValue;
   };
 
   /**
@@ -152,13 +164,44 @@ export class Field implements Blueprint {
   public grant = async ({
     scope,
     roles,
-    options = {}
+    options = {},
   }: PolicyGrantArgs): Promise<boolean> => {
     const { policies } = this;
     if (!policies) {
       return true;
     }
     return policies.grant({ scope, roles, options });
+  };
+
+  /**
+   * Determine Field Presence
+   * @param collider
+   * @param blueprint
+   * @param hydrate
+   * @param options
+   */
+  public presence = async ({
+    collider,
+    hydrate,
+    ...options
+  }: {
+    collider: Collider;
+    hydrate: Effect;
+    options?: any;
+  }): Promise<boolean> => {
+    const { conditions } = this;
+    // If there are no conditions
+    // Return true as there is no need to
+    if (!conditions) {
+      return true;
+    }
+    // Otherwise run our conditions check and return the result
+    return conditions.check({
+      collider,
+      blueprint: this,
+      hydrate,
+      ...options,
+    });
   };
 
   /**
@@ -169,7 +212,7 @@ export class Field implements Blueprint {
    */
   public validate = async ({
     effect,
-    options = {}
+    options = {},
   }: ValidatorValidateArgs): Promise<ValidatorResult> => {
     const { validators } = this;
     return validators
@@ -188,7 +231,7 @@ export class Field implements Blueprint {
   public sanitize = async ({
     value,
     effect,
-    options = {}
+    options = {},
   }: SanitizerApplyArgs): Promise<any> => {
     const { sanitizers } = this;
     return sanitizers
@@ -206,7 +249,7 @@ export class Field implements Blueprint {
    */
   public applyGetters = async ({
     effect,
-    options = {}
+    options = {},
   }: {
     effect: Effect;
     options?: any;
@@ -232,7 +275,7 @@ export class Field implements Blueprint {
    */
   public applySetters = async ({
     effect,
-    options = {}
+    options = {},
   }: {
     effect: Effect;
     options?: any;
