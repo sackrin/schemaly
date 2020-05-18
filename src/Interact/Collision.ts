@@ -1,10 +1,10 @@
-import { Collider, ColliderArgs } from "./Types";
-import { Effects } from "../Effect/Types";
-import { RolesType, ScopesType } from "../Policy/Types";
-import { Model } from "../Model/Types";
-import { uniqMerge } from "../Utils";
-import { Hydrates } from "../Effect";
-import { ValidatorResult } from "../Validate/Types";
+import { Collider, ColliderArgs } from './Types';
+import { Effects } from '../Effect/Types';
+import { RolesType, ScopesType } from '../Policy/Types';
+import { Model } from '../Model/Types';
+import { uniqMerge } from '../Utils';
+import { getFlattenedEffects, Hydrates } from '../Effect';
+import { ValidatorResult } from '../Validate/Types';
 
 export class Collision implements Collider {
   public model: Model;
@@ -33,7 +33,7 @@ export class Collision implements Collider {
 
   public and = ({
     values,
-    ids = []
+    ids = [],
   }: {
     values: any;
     ids?: string[];
@@ -48,7 +48,7 @@ export class Collision implements Collider {
       parent: this,
       collider: this,
       blueprints: model.blueprints,
-      values
+      values,
     });
     await this.effects.hydrate(options);
     return this;
@@ -56,7 +56,7 @@ export class Collision implements Collider {
 
   public sanitize = async (options: any = {}): Promise<this> => {
     if (!this.effects) {
-      throw new Error("BLUEPRINTS_REQUIRED");
+      throw new Error('BLUEPRINTS_REQUIRED');
     }
     await this.effects.sanitize(options);
     return this;
@@ -66,7 +66,7 @@ export class Collision implements Collider {
     options: any = {}
   ): Promise<{ valid: boolean; results: { [s: string]: ValidatorResult } }> => {
     if (!this.effects) {
-      throw new Error("BLUEPRINTS_REQUIRED");
+      throw new Error('BLUEPRINTS_REQUIRED');
     }
     const validated = await this.effects.validate(options);
     return {
@@ -75,13 +75,20 @@ export class Collision implements Collider {
           !result.valid ? false : result.valid,
         true
       ),
-      results: validated
+      results: validated,
     };
+  };
+
+  public flatten = () => {
+    if (!this.effects) {
+      throw new Error('BLUEPRINTS_REQUIRED');
+    }
+    return getFlattenedEffects(this.effects, '', {});
   };
 
   public dump = async (options: any = {}): Promise<any> => {
     if (!this.effects) {
-      throw new Error("BLUEPRINTS_REQUIRED");
+      throw new Error('BLUEPRINTS_REQUIRED');
     }
     return this.effects.dump(options);
   };
