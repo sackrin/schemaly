@@ -5,6 +5,7 @@ import { Model } from '../Model/Types';
 import { uniqMerge } from '../Utils';
 import { getFlattenedEffects, Hydrates } from '../Effect';
 import { ValidatorResult } from '../Validate/Types';
+import { getFlattenedValidated } from '../Validate/Helpers';
 
 export class Collision implements Collider {
   public model: Model;
@@ -64,7 +65,13 @@ export class Collision implements Collider {
 
   public validate = async (
     options: any = {}
-  ): Promise<{ valid: boolean; results: { [s: string]: ValidatorResult } }> => {
+  ): Promise<{
+    valid: boolean;
+    results: { [s: string]: ValidatorResult };
+    flatten: () => {
+      [key: string]: ValidatorResult | { [s: string]: ValidatorResult };
+    };
+  }> => {
     if (!this.effects) {
       throw new Error('BLUEPRINTS_REQUIRED');
     }
@@ -75,6 +82,7 @@ export class Collision implements Collider {
           !result.valid ? false : result.valid,
         true
       ),
+      flatten: () => getFlattenedValidated(validated, '', {}),
       results: validated,
     };
   };
