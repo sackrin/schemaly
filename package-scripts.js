@@ -13,6 +13,7 @@ module.exports = {
       simple: "npx babel-node ./examples/simple.js",
       conditions: "npx babel-node ./examples/conditions.js",
       container: "npx babel-node ./examples/container.js",
+      flatten: "npx babel-node ./examples/flatten.js",
       collection: "npx babel-node ./examples/collection.js",
       policy: "npx babel-node ./examples/policy.js",
       validation: "npx babel-node ./examples/validation.js",

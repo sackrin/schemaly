@@ -1,7 +1,7 @@
-import { RolesType, ScopesType } from "../../Policy/Types";
-import { Model } from "../../Model/Types";
-import { Effects } from "../../Effect/Types";
-import { ValidatorResult } from "../../Validate/Types";
+import { RolesType, ScopesType } from '../../Policy/Types';
+import { Model } from '../../Model/Types';
+import { Effect, Effects } from '../../Effect/Types';
+import { ValidatorResult } from '../../Validate/Types';
 import { Options } from '../../Common/Types';
 
 export interface Collider {
@@ -18,6 +18,7 @@ export interface Collider {
   validate(
     options: Options
   ): Promise<{ valid: boolean; results: { [s: string]: ValidatorResult } }>;
+  flatten(): { [key: string]: Effect | Effects } | void;
   dump(): Promise<any>;
 }
 
