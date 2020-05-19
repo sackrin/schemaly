@@ -17,7 +17,13 @@ export interface Collider {
   sanitize(options: Options): Promise<this>;
   validate(
     options: Options
-  ): Promise<{ valid: boolean; results: { [s: string]: ValidatorResult } }>;
+  ): Promise<{
+    valid: boolean;
+    results: { [s: string]: ValidatorResult };
+    flatten: () => {
+      [key: string]: ValidatorResult | { [s: string]: ValidatorResult };
+    };
+  }>;
   flatten(): { [key: string]: Effect | Effects } | void;
   dump(): Promise<any>;
 }
