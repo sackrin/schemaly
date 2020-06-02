@@ -59,16 +59,24 @@ export class Hydrates implements Effects {
         const effect = Hydrate({ collider, blueprint, value, parent: this });
         await effect.sanitize({ ...this.options, ...options });
         const grantCheck = await effect.grant({ ...this.options, ...options });
-        const presenceCheck = await effect.presence({
-          ...this.options,
-          ...options,
-        });
-        if (grantCheck && presenceCheck) {
+        if (grantCheck) {
           await effect.hydrate({ ...this.options, ...options });
           effects.push(effect);
         }
       })
     );
+  };
+
+  public refine = async (options: any = {}): Promise<void> => {
+    this.effects = await this.effects.reduce(async (curr, effect) => {
+      const _curr = await curr;
+      const _check = await effect.presence({
+        ...this.options,
+        ...options,
+      });
+      await effect.refine(options)
+      return _check ? [..._curr, await effect.refine(options)] : _curr;
+    }, Promise.all([]));
   };
 
   public validate = async (options: any = {}): Promise<any> => {

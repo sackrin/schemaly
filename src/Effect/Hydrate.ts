@@ -111,7 +111,6 @@ export class Hydrate implements Effect {
       blueprint: { context, blueprints },
       value,
     } = this;
-
     if ((context.children || context.repeater) && !blueprints) {
       return;
     }
@@ -148,6 +147,23 @@ export class Hydrate implements Effect {
       );
     }
     this.children = hydrated;
+  };
+
+  public refine = async (options: any = {}): Promise<void> => {
+    const {
+      collider,
+      blueprint: { context, blueprints },
+      value,
+    } = this;
+    if ((context.children || context.repeater) && !blueprints) {
+      return;
+    }
+    const hydrated: Effects[] = [];
+    if (context.children && !context.repeater) {
+
+    } else if (context.children && context.repeater && _.isArray(value)) {
+
+    }
   };
 
   public sanitize = async (options: any = {}): Promise<void> => {

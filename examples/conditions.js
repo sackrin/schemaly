@@ -75,6 +75,7 @@ collider
     },
   })
   .collide()
+  .then(collider.refine)
   .then(collider.validate)
   .then(({ valid, results }) => {
     // Returns a boolean if validation was successful or not

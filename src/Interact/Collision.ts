@@ -6,6 +6,7 @@ import { uniqMerge } from '../Utils';
 import { getFlattenedEffects, Hydrates } from '../Effect';
 import { ValidatorResult } from '../Validate/Types';
 import { getFlattenedValidated } from '../Validate/Helpers';
+import ColliderValidated from './Types/ColliderValidated';
 
 export class Collision implements Collider {
   public model: Model;
@@ -55,6 +56,14 @@ export class Collision implements Collider {
     return this;
   };
 
+  public refine = async (options: any = {}): Promise<this> => {
+    if (!this.effects) {
+      throw new Error('BLUEPRINTS_REQUIRED');
+    }
+    await this.effects.refine(options);
+    return this;
+  };
+
   public sanitize = async (options: any = {}): Promise<this> => {
     if (!this.effects) {
       throw new Error('BLUEPRINTS_REQUIRED');
@@ -63,15 +72,7 @@ export class Collision implements Collider {
     return this;
   };
 
-  public validate = async (
-    options: any = {}
-  ): Promise<{
-    valid: boolean;
-    results: { [s: string]: ValidatorResult };
-    flatten: () => {
-      [key: string]: ValidatorResult | { [s: string]: ValidatorResult };
-    };
-  }> => {
+  public validate = async (options: any = {}): Promise<ColliderValidated> => {
     if (!this.effects) {
       throw new Error('BLUEPRINTS_REQUIRED');
     }
