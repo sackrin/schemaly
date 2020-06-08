@@ -111,7 +111,6 @@ export class Hydrate implements Effect {
       blueprint: { context, blueprints },
       value,
     } = this;
-
     if ((context.children || context.repeater) && !blueprints) {
       return;
     }
@@ -148,6 +147,22 @@ export class Hydrate implements Effect {
       );
     }
     this.children = hydrated;
+  };
+
+  public refine = async (options: any = {}): Promise<void> => {
+    const {
+      blueprint: { context, blueprints }
+    } = this;
+    if ((context.children || context.repeater) && !blueprints) {
+      return;
+    }
+    if (context.children) {
+      this.children = await this.children.reduce(async (curr, hydrates) => {
+        const _curr = await curr;
+        await hydrates.refine(options);
+        return [ ..._curr, hydrates ];
+      }, Promise.all([]));
+    }
   };
 
   public sanitize = async (options: any = {}): Promise<void> => {
