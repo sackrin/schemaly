@@ -74,8 +74,8 @@ export class Hydrates implements Effects {
         ...this.options,
         ...options,
       });
-      await effect.refine(options)
-      return _check ? [..._curr, await effect.refine(options)] : _curr;
+      await effect.refine(options);
+      return _check ? [..._curr, effect] : _curr;
     }, Promise.all([]));
   };
 

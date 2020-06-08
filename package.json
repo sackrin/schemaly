@@ -1,6 +1,6 @@
 {
   "name": "schemaly",
-  "version": "1.7.2",
+  "version": "1.8.1",
   "description": "A simple to use and extendable policy driven JS object schema library",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

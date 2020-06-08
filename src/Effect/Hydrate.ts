@@ -151,18 +151,17 @@ export class Hydrate implements Effect {
 
   public refine = async (options: any = {}): Promise<void> => {
     const {
-      collider,
-      blueprint: { context, blueprints },
-      value,
+      blueprint: { context, blueprints }
     } = this;
     if ((context.children || context.repeater) && !blueprints) {
       return;
     }
-    const hydrated: Effects[] = [];
-    if (context.children && !context.repeater) {
-
-    } else if (context.children && context.repeater && _.isArray(value)) {
-
+    if (context.children) {
+      this.children = await this.children.reduce(async (curr, hydrates) => {
+        const _curr = await curr;
+        await hydrates.refine(options);
+        return [ ..._curr, hydrates ];
+      }, Promise.all([]));
     }
   };
 

@@ -1,19 +1,20 @@
-import _ from "lodash";
-import { getMixedResult } from "../Utils";
+import _ from 'lodash';
+import { getMixedResult } from '../Utils';
 import {
   floatFilter,
   intFilter,
   lowerCaseFilter,
   stringFilter,
+  stringArrayFilter,
   trimFilter,
-  upperCaseFilter
-} from "./Filter";
+  upperCaseFilter,
+} from './Filter';
 import {
   FiltersType,
   Sanitizer,
   SanitizerApplyArgs,
-  SanitizerArgs
-} from "./Types";
+  SanitizerArgs,
+} from './Types';
 
 /**
  * Provides a simple sanitizer with commonly used sanitizers
@@ -40,9 +41,10 @@ export class SimpleSanitizer implements Sanitizer {
    * @returns {Promise<string>}
    */
   public getFilters = async (options: any = {}): Promise<string> => {
-    return getMixedResult(this.filters, { ...this.options, ...options }).then(
-      built => built.join("|")
-    );
+    return getMixedResult(this.filters, {
+      ...this.options,
+      ...options,
+    }).then((built) => built.join('|'));
   };
 
   /**
@@ -55,28 +57,31 @@ export class SimpleSanitizer implements Sanitizer {
   public apply = async ({
     value,
     effect,
-    options
+    options,
   }: SanitizerApplyArgs): Promise<any> => {
     const filters: string = await this.getFilters(options);
     const unsanitized: any = _.isFunction(value) ? await value(options) : value;
-    return filters.split("|").reduce((filtered: any, filter: string) => {
+    return filters.split('|').reduce((filtered: any, filter: string) => {
       switch (filter.toLowerCase()) {
-        case "string": {
+        case 'string': {
           return stringFilter(filtered);
         }
-        case "float": {
+        case 'string_array': {
+          return stringArrayFilter(filtered);
+        }
+        case 'float': {
           return floatFilter(filtered);
         }
-        case "int": {
+        case 'int': {
           return intFilter(filtered);
         }
-        case "trim": {
+        case 'trim': {
           return trimFilter(filtered);
         }
-        case "upper_case": {
+        case 'upper_case': {
           return upperCaseFilter(filtered);
         }
-        case "lower_case": {
+        case 'lower_case': {
           return lowerCaseFilter(filtered);
         }
         default: {

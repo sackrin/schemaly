@@ -1,13 +1,4 @@
-import { Schema, Fields, Field, STRING, Collision } from '../lib';
-import { SimpleValidator } from '../src/Validate';
-
-const ARRAY = {
-  code: "array",
-  children: false,
-  repeater: false,
-  sanitizers: [],
-  validators: []
-};
+import { Schema, Fields, Field, STRING_ARRAY, Collision } from '../lib';
 
 // Create your data schema
 // This is a simple example with only one ARRAY field
@@ -23,11 +14,10 @@ const profile = Schema({
     Field({
       machine: 'tags',
       label: 'Tags',
-      context: ARRAY,
+      context: STRING_ARRAY,
     }),
   ]),
 });
-
 // Create a collider to handle applying data to the schema
 const collider = Collision({
   // Add the profile we are colliding with
@@ -37,7 +27,6 @@ const collider = Collision({
   // Add the roles for this collide
   roles: ['guest'],
 });
-
 // Apply the data to the schema and dump the values
 collider
   .with({
