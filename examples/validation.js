@@ -3,8 +3,10 @@ import {
   Fields,
   Field,
   STRING,
+  INT,
   ValidateAll,
   SimpleValidator,
+  FunctionalValidator,
   Collision,
 } from '../lib';
 
@@ -23,6 +25,30 @@ const profile = Schema({
         // SimpleValidator uses the skaterdav85/validatorjs library
         // You can create your own or stack multiple validators here
         SimpleValidator({ rules: ['required|alpha'] }),
+      ]),
+    }),
+    Field({
+      machine: 'phone',
+      label: 'Phone Number',
+      context: INT,
+      validators: ValidateAll([
+        // FunctionalValidator allows you to implement more complex validation
+        // using custom functions.
+        FunctionalValidator([
+          (value) => {
+            if (`${value}`.length !== 8) {
+              return {
+                valid: false,
+                message: ['Phone numbers must be exactly 8 digits long'],
+              };
+            } else {
+              return {
+                valid: true,
+                message: [],
+              };
+            }
+          },
+        ]),
       ]),
     }),
   ]),

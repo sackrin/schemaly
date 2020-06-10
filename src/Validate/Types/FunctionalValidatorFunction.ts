@@ -6,5 +6,5 @@ interface FunctionalValidationResult {
 }
 
 export type FunctionalValidatorFunction = (
-  value: string
+  value: any
 ) => FunctionalValidationResult;
