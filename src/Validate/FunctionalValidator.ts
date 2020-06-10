@@ -5,7 +5,7 @@ import {
   ValidatorResult,
 } from './Types';
 import _ from 'lodash';
-import { FunctionalValidatorFunction } from './Types/FunctionalValidatorFunction';
+import { FunctionalValidatorFunction } from './Types/FunctionalValidator';
 
 type FunctionalValidatorArgs = FunctionalValidatorFunction[];
 
