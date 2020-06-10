@@ -5,8 +5,6 @@ interface FunctionalValidatorResult {
   messages: FunctionalValidatorResultMessage[];
 }
 
-export type FunctionalValidatorFunction = (
-  value: any
-) => FunctionalValidatorResult;
+type FunctionalValidatorFunction = (value: any) => FunctionalValidatorResult;
 
-export type TestFunc = (value: any) => FunctionalValidatorResult;
+export default FunctionalValidatorFunction;
