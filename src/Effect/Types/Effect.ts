@@ -10,6 +10,7 @@ export interface Effect {
   parent?: Effects;
   value: any;
   children: Effects[];
+  refined?: void | Effects[];
   options: any;
   machine: string;
   context: Context;
@@ -17,11 +18,13 @@ export interface Effect {
   tags?: string[];
   getValue(options?: any): Promise<any>;
   setValue({ value, options }: { value: any; options?: any }): Promise<any>;
+  getChildren(): Effects[];
   find(criteria: Object | Function): Effect | undefined;
   filter(criteria: Object | Function): Effect[];
   grant(options?: any): Promise<boolean>;
   presence(options?: any): Promise<boolean>;
   hydrate(options?: any): Promise<void>;
+  update(value: any, options?: any): Promise<void>;
   refine(options?: any): Promise<void>;
   sanitize(options?: any): Promise<void>;
   validate(options?: any): Promise<ValidatorResult>;

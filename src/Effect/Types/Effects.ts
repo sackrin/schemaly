@@ -12,6 +12,7 @@ export interface Effects {
   options?: any;
   find(criteria: Function | Object): Effect;
   filter(criteria: Function | Object): Effect[];
+  update(values: any, options: any): Promise<void>;
   hydrate(options: any): Promise<void>;
   refine(options: any): Promise<void>;
   validate(options: any): Promise<{ [s: string]: ValidatorResult }>;

@@ -32,7 +32,7 @@ export class OneOfValidator implements Validator {
    * @param options
    */
   public getRules = async (options: any = {}): Promise<string> => {
-    return getMixedResult(this.rules, { ...this.options, ...options }).then(
+    return getMixedResult(this.rules, options).then(
       built => built.join('|')
     );
   };
@@ -55,7 +55,6 @@ export class OneOfValidator implements Validator {
       : await value({
           effect,
           options: {
-            ...this.options,
             ...options,
             effect
           }

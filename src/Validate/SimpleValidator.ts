@@ -60,8 +60,7 @@ export class SimpleValidator implements Validator {
       : await value({
           effect,
           options: {
-            ...this.options,
-            ...options,
+            options,
             effect
           }
         });

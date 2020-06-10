@@ -15,7 +15,7 @@ const getFlattenedEffects: GetFlattenedEffects = (
   return (hydrates.effects || []).reduce((curr, hydrate) => {
     const flat = { ...curr, [path + hydrate.machine]: hydrate };
     if (hydrate.context.children && hydrate.context.repeater) {
-      return hydrate.children.reduce((_curr, _hydrates, idx) => {
+      return hydrate.getChildren().reduce((_curr, _hydrates, idx) => {
         const _flat = { ..._curr, [`${path}${hydrate.machine}[${idx}]`]: _hydrates };
         return getFlattenedEffects(
           _hydrates,
@@ -24,7 +24,7 @@ const getFlattenedEffects: GetFlattenedEffects = (
         );
       }, flat);
     } else if (hydrate.context.children) {
-      return hydrate.children.reduce((_curr, _hydrates) => {
+      return hydrate.getChildren().reduce((_curr, _hydrates) => {
         return getFlattenedEffects(
           _hydrates,
           `${path}${hydrate.machine}.`,

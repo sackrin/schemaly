@@ -49,7 +49,7 @@ export class Allow implements Policy {
    * @returns {Promise<string[]>}
    */
   public getRoles = async (options: Options = {}): Promise<string[]> => {
-    return getMixedResult(this.roles, { ...this.options, ...options });
+    return getMixedResult(this.roles, options);
   };
 
   /**
@@ -58,7 +58,7 @@ export class Allow implements Policy {
    * @returns {Promise<string[]>}
    */
   public getScope = async (options: Options = {}): Promise<string[]> => {
-    return getMixedResult(this.scope, { ...this.options, ...options });
+    return getMixedResult(this.scope, options);
   };
 
   /**

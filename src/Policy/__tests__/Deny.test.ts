@@ -80,11 +80,15 @@ describe("Policy/Deny", (): void => {
       }
     });
     return denyRule
-      .getRoles()
+      .getRoles({
+        inject: ["test"]
+      })
       .then(roles => {
         expect(roles).to.deep.equal(["user", "admin", "test", "handler"]);
       })
-      .then(() => denyRule.getScope())
+      .then(() => denyRule.getScope({
+        inject: ["test"]
+      }))
       .then(scope => {
         expect(scope).to.deep.equal(["read", "write", "test", "blocked"]);
       })

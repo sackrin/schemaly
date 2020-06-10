@@ -56,6 +56,11 @@ export class Collision implements Collider {
     return this;
   };
 
+  public update = async (path: string, options: any = {}): Promise<this> => {
+
+    return this;
+  };
+
   public refine = async (options: any = {}): Promise<this> => {
     if (!this.effects) {
       throw new Error('BLUEPRINTS_REQUIRED');

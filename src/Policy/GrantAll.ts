@@ -52,7 +52,7 @@ export class GrantAll implements Policies {
         return (await policy.grant({
           roles: builtRoles,
           scope: builtScope,
-          options: { ...this.options, ...options }
+          options
         }))
           ? curr
           : false;

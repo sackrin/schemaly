@@ -41,10 +41,7 @@ export class SimpleSanitizer implements Sanitizer {
    * @returns {Promise<string>}
    */
   public getFilters = async (options: any = {}): Promise<string> => {
-    return getMixedResult(this.filters, {
-      ...this.options,
-      ...options,
-    }).then((built) => built.join('|'));
+    return getMixedResult(this.filters, options).then((built) => built.join('|'));
   };
 
   /**

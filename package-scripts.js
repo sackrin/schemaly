@@ -11,6 +11,7 @@ module.exports = {
     examples: {
       default: 'npx nps examples.simple',
       simple: "npx babel-node ./examples/simple.js",
+      update: "npx babel-node ./examples/update.js",
       arrays: "npx babel-node ./examples/arrays.js",
       conditions: "npx babel-node ./examples/conditions.js",
       container: "npx babel-node ./examples/container.js",

@@ -74,15 +74,14 @@ describe("Policy/Allow", (): void => {
       });
     const allowRule: Allow = AllowPolicy({
       roles: [rolesPromise, "handler"],
-      scope: [scopePromise, "blocked"],
-      options: { inject: ["test"] }
+      scope: [scopePromise, "blocked"]
     });
     return allowRule
-      .getRoles()
+      .getRoles({ inject: ["test"] })
       .then((roles: string[]) => {
         expect(roles).to.deep.equal(["user", "admin", "test", "handler"]);
       })
-      .then(() => allowRule.getScope())
+      .then(() => allowRule.getScope({ inject: ["test"] }))
       .then((scope: string[]) => {
         expect(scope).to.deep.equal(["read", "write", "test", "blocked"]);
       })
