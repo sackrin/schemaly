@@ -15,6 +15,7 @@ export const uniqMerge = (
       const addedOrUpdated = mergeValue.map(child => {
         const existing = _.find(originalValue, itm => {
           return ids.reduce(
+            // @ts-ignore
             (curr, id) => (itm[id] === child[id] ? true : curr),
             false
           );
@@ -24,6 +25,7 @@ export const uniqMerge = (
       const filtered = _.filter(originalValue, child => {
         return !_.find(addedOrUpdated, itm => {
           return ids.reduce(
+            // @ts-ignore
             (curr, id) => (itm[id] === child[id] ? true : curr),
             false
           );

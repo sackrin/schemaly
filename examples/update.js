@@ -45,6 +45,7 @@ collider
     },
   })
   .collide()
+  .then(collider.refine)
   .then(collider.dump)
   .then(() => {
     // Returns a flattened list of hydrated fields

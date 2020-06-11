@@ -24,7 +24,7 @@ export interface Effect {
   grant(options?: any): Promise<boolean>;
   presence(options?: any): Promise<boolean>;
   hydrate(options?: any): Promise<void>;
-  update(value: any, options?: any): Promise<void>;
+  update(value: any, options?: any): void;
   refine(options?: any): Promise<void>;
   sanitize(options?: any): Promise<void>;
   validate(options?: any): Promise<ValidatorResult>;

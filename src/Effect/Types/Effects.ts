@@ -9,6 +9,7 @@ export interface Effects {
   values: any;
   parent: Effect | Collider;
   effects: Effect[];
+  refined?: void | Effect[];
   options?: any;
   find(criteria: Function | Object): Effect;
   filter(criteria: Function | Object): Effect[];

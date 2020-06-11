@@ -24,6 +24,8 @@ export class Hydrates implements Effects {
 
   public effects: Effect[] = [];
 
+  public refined?: void | Effect[];
+
   public options?: any = {};
 
   constructor({
@@ -40,12 +42,16 @@ export class Hydrates implements Effects {
     this.options = options;
   }
 
+  public getEffects = (): Effect[] => {
+    return this.refined ? this.refined : this.effects;
+  };
+
   public find = (criteria: Function | Object): Effect => {
-    return _.find(this.effects, criteria) as Effect;
+    return _.find(this.getEffects(), criteria) as Effect;
   };
 
   public filter = (criteria: Function | Object): Effect[] => {
-    return _.filter(this.effects, criteria) as Effect[];
+    return _.filter(this.getEffects(), criteria) as Effect[];
   };
 
   public hydrate = async (options: any = {}): Promise<void> => {
@@ -68,6 +74,8 @@ export class Hydrates implements Effects {
   };
 
   public update = async (values: any, options: any = {}): Promise<void> => {
+    // tslint:disable-next-line:no-console
+    console.log('RAH2');
     await Promise.all(
       // If an effect has been removed we will need to manage that here?
       this.effects.map(async (effect) => {
@@ -79,7 +87,7 @@ export class Hydrates implements Effects {
   };
 
   public refine = async (options: any = {}): Promise<void> => {
-    this.effects = await this.effects.reduce(async (curr, effect) => {
+    this.refined = await this.effects.reduce(async (curr, effect) => {
       const _curr: Effect[] = await curr;
       const _check = await effect.presence(options);
       await effect.refine(options);
@@ -93,7 +101,7 @@ export class Hydrates implements Effects {
   };
 
   public validate = async (options: any = {}): Promise<any> => {
-    const { effects } = this;
+    const effects = this.getEffects();
     const validations: any = {};
     await Promise.all(
       effects.map(async (effect: Effect) => {
@@ -104,7 +112,7 @@ export class Hydrates implements Effects {
   };
 
   public sanitize = async (options: any = {}): Promise<void> => {
-    const { effects } = this;
+    const effects = this.getEffects();
     await Promise.all(
       effects.map(async (effect) => {
         await effect.sanitize(options);
@@ -115,7 +123,7 @@ export class Hydrates implements Effects {
   public dump = async (
     options: any = {}
   ): Promise<{ [s: string]: ValidatorResult }> => {
-    const { effects } = this;
+    const effects = this.getEffects();
     return effects.reduce(async (curr: Promise<any>, effect: Effect) => {
       const dumped: any = await curr;
       dumped[effect.blueprint.machine] = await effect.dump(options);

@@ -149,8 +149,10 @@ export class Hydrate implements Effect {
     this.children = hydrated;
   };
 
-  public update = async (value: any, options?: any): Promise<void> => {
-    await this.setValue(value);
+  public update = (value: any, options?: any): void => {
+    // await this.setValue(value);
+    // tslint:disable-next-line:no-console
+    console.log('HMM');
   }
 
   public refine = async (options: any = {}): Promise<void> => {
