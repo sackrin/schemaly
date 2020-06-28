@@ -1,0 +1,9 @@
+.idea
+node_modules
+package-lock.json
+yarn.lock
+yarn-error.log
+.nyc_output
+dev
+.DS_Store
+lib
