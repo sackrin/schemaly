@@ -9,26 +9,30 @@ module.exports = {
       unit: 'npx mocha -r ts-node/register ./src/**/*.test.ts',
     },
     examples: {
-      default: 'npx nps examples.simple',
-      simple: "npx babel-node ./examples/simple.js",
-      arrays: "npx babel-node ./examples/arrays.js",
-      conditions: "npx babel-node ./examples/conditions.js",
-      container: "npx babel-node ./examples/container.js",
-      flatten: "npx babel-node ./examples/flatten.js",
-      collection: "npx babel-node ./examples/collection.js",
-      policy: "npx babel-node ./examples/policy.js",
-      validation: "npx babel-node ./examples/validation.js",
-      sanitization: "npx babel-node ./examples/sanitization.js",
+      async: {
+        default: 'npx nps examples.simple',
+        simple: "npx babel-node ./examples/simple.js",
+        arrays: "npx babel-node ./examples/arrays.js",
+        conditions: "npx babel-node ./examples/conditions.js",
+        container: "npx babel-node ./examples/container.js",
+        flatten: "npx babel-node ./examples/flatten.js",
+        collection: "npx babel-node ./examples/collection.js",
+        policy: "npx babel-node ./examples/policy.js",
+        validation: "npx babel-node ./examples/validation.js",
+        sanitization: "npx babel-node ./examples/sanitization.js",
+      },
+      sync: {
+
+      }
     },
     build: {
       description: 'Builds library for deployment',
-      default: series('npx nps clean', 'npx nps build.library', 'npx nps build.docs'),
-      library: `npx tsc`,
-      docs: `npx typedoc --options ./typedoc.js ./src`,
+      default: series('npx nps clean', 'npx nps build.library'),
+      library: `npx tsc --noEmit`
     },
     clean: {
       description: 'Deletes the various generated folders',
-      script: series(rimraf('./lib'), rimraf('./docs')),
+      script: series(rimraf('./lib')),
     },
   },
 };
